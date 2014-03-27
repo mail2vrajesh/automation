@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="45012" started-at="2014-03-27T11:41:36Z" finished-at="2014-03-27T11:42:21Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="45012" started-at="2014-03-27T11:41:36Z" finished-at="2014-03-27T11:42:21Z">
+      <class name="ethos.volumedata.S12">
+        <test-method status="PASS" signature="startSelenium()[pri:0, instance:ethos.volumedata.S12@e60e128]" name="startSelenium" is-config="true" duration-ms="11465" started-at="2014-03-27T11:41:36Z" finished-at="2014-03-27T11:41:47Z">
+        </test-method> <!-- startSelenium -->
+        <test-method status="PASS" signature="test7()[pri:0, instance:ethos.volumedata.S12@e60e128]" name="test7" duration-ms="32481" started-at="2014-03-27T11:41:47Z" finished-at="2014-03-27T11:42:20Z">
+        </test-method> <!-- test7 -->
+        <test-method status="PASS" signature="closeSelenium()[pri:0, instance:ethos.volumedata.S12@e60e128]" name="closeSelenium" is-config="true" duration-ms="1055" started-at="2014-03-27T11:42:20Z" finished-at="2014-03-27T11:42:21Z">
+        </test-method> <!-- closeSelenium -->
+      </class> <!-- ethos.volumedata.S12 -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

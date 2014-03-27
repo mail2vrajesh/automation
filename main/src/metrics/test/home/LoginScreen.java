@@ -1,0 +1,122 @@
+	/*
+	 * This scenarios deals with the problem statement as - One Way, Direct ,Account Cancellation ,SPICEJET flights , Full cancellation of PAX , Auto Cancellation
+	 */
+	
+	package metrics.test.home;
+	
+	import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.common.ErrorPageException;
+import com.domain.MetricsDomainWraper;
+public class LoginScreen extends MetricsDomainWraper {
+	
+		public RemoteWebDriver driver = null;
+	
+	
+		@BeforeClass
+		public void startSelenium() throws Exception {	
+			File file = new File("exe\\IEDriverServer.exe");
+			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
+			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
+			//driver = new InternetExplorerDriver(capability);
+			driver.manage().deleteAllCookies();
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
+		}
+		@DataProvider
+		public Object [ ][ ] users() {
+			return new Object [ ] [ ] {{ "metrics", "metrics"},{ "Metrics", "Metrics"} };
+		}
+	
+		@Test(dataProvider="users")
+		public void metricSignin(String username, String password) throws Exception {
+			getApp(driver,cachedProperties.value("Metrics_url"),"Login");
+		
+			metricsLogin(driver,username,password);	
+			if(username.equals("Metrics")){
+				elementPresent(driver, By.xpath("//div[@id='divList']/div/div/div[2]/div[4]/div"), 60); 
+			}else{
+				elementPresent(driver, By.cssSelector("div.msg.errorMsg"), 60); 
+			}
+		} 
+	
+		@DataProvider
+		public Object [ ][ ] Menulist() {
+			return new Object [ ] [ ] {{ "Home"},{ "Library"},{"Contracts"},{"Data Admin"},{"Reporting"},{"System Admin"},{"About"} };
+		}
+	
+		@Test(dataProvider="Menulist", dependsOnMethods={"metricSignin"})
+		public void Menu(String item) throws InterruptedException, ErrorPageException {
+			elementPresent(driver, By.linkText(item), 3); 
+	
+		}
+		
+		
+		@DataProvider
+		public Object [ ][ ] subMenulist() {
+            return new Object [ ] [ ] { 
+            		
+            		      //  { "//a[text()='Home']","//a[text()='Home']","Login"},
+            		      //  { "//a[text()='Home']","//a[text()='Test page']","Test page"},
+            		        { "//a[text()='Library']","//a[text()='Library Settings']","Library Settings"},
+                            { "//a[text()='Library']","//a[text()='Look Up Tables']","Look Up Settings"},
+                            { "//a[text()='Library']","//a[text()='Timeband Settings']","Timeband Templates"},                            
+                            { "//a[text()='Library']","//a[text()='Tariff Templates']","Tariff Templates"},
+                            
+                            
+                            { "//a[text()='Contracts']","//a[text()='Apply Template']","Allocate Template"},
+                            { "//a[text()='Contracts']","//a[text()='Site Setup']","Site Setup"},
+                            
+                            { "//a[text()='Data Admin']","//a[text()='Site Setup']","Site Setup"},
+                            { "//a[text()='Data Admin']","//a[text()='Consumption & Invoices']","Consumption & Invoices"},
+                            
+                            { "//a[text()='Reporting']","//a[text()='Internal Test']","Internal Test"},
+                            { "//a[text()='Reporting']","//a[text()='Template to Site']","Template to Site"},
+                            { "//a[text()='Reporting']","//a[text()='Meter Info']","Meter Info"},
+                            { "//a[text()='Reporting']","//a[text()='Reports']","Reports"},
+                            
+
+                            { "//a[text()='System Admin']","//a[text()='Access Control']","User Management"},
+                            { "//a[text()='System Admin']","//a[text()='Bureau Role Permission']","Bureau Role Permission"},
+                            { "//a[text()='System Admin']","//a[text()='DW Role Permission']","DW Role Permission"},
+                            { "//a[text()='System Admin']","//a[text()='Log Messages']","Log Messages"},
+                            
+
+                            { "//a[text()='About']","//a[text()='About']","About"},
+                            { "//a[text()='About']","//*[@id='nav']/li[7]/ul/li[2]/a","What's New"}
+                            };
+    }
+		@Test(dataProvider="subMenulist",dependsOnMethods={"metricSignin"})
+		public void subMenu(String menu, String subMenu,String title) throws Exception {
+			driver.findElement(By.xpath(menu));
+			gotoSubMenu(driver,menu,subMenu,title );
+	
+		}
+		@AfterClass
+		public void closeSelenium() throws Exception {
+			driver.close();
+			driver.quit();
+		}
+		@AfterMethod (alwaysRun = true)
+		public void takeScreenshot(ITestResult _result) throws Exception{
+			if(screenshot){
+				screenshot(_result, driver);
+			}
+			screenshot(_result, driver);
+		}
+	
+	
+	
+	}

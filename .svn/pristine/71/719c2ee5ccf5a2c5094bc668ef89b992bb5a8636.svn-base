@@ -1,0 +1,12 @@
+#### Start LoginPage ####
+login_page_userid;input[type=\"text\"]
+login_page_password_css;input[type=\"password\"]
+login_page_signinbutton_xpath;//div[@id='divList']/div[3]/div/div[2]/div[7]/div/span
+login_page_signoutbutton_xpath;//div[@id='divList']/div/div/div[2]/div[4]/div
+login_page_invaliduser_css;div.msg.errorMsg
+#### End LoginPage  ####
+#### Start Header ####
+header_library_menu_xpath;//a[text()='Library']
+header_library_submenu_library_settings_xpath;//a[text()='Library Settings']
+#### End Header ####
+

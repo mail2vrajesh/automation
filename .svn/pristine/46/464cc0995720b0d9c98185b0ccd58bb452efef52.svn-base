@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="HQAutomation" basedir="." default="build">
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="lib/ant-contrib-1.0b3/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+
+	<target name="init" description="All the targets need to depend on this target for properties and classpath initilization.">
+		<var name="app.name" value="seleniumtests" />
+		<dirname property="project.dir" file="${ant.file.seleniumtests}" />
+		<echo message="${ant.file.seleniumtests}" />
+		<var name="build.dir" value="${project.dir}/build" />
+		<var name="resources.dir" value="${project.dir}\resources" />
+		<var name="reports.dir" value="${project.dir}/reports" />
+		<var name="src.dir" value="${project.dir}\main\src" />
+		<var name="ScreenShots.dir" value="ScreenShots" />
+		<var file="${project.dir}/classpath.properties" />
+			<property environment="cruise" />
+		<path id="build.classpath">
+			<pathelement path="${build.classpath}" />
+		</path>
+		<path id="runtime.classpath">
+			<pathelement path="${runtime.classpath}" />
+		</path>
+		<taskdef resource="testngtasks" classpath="${testng.jar}" />
+	</target>
+	
+	<target name="clean" depends="init" description="Deletes dist and test-reports">
+		<delete dir="${build.dir}" quiet="true" includeemptydirs="true" />
+		<delete dir="${ScreenShots.dir}" quiet="true" includeemptydirs="true" />
+	</target>
+
+	<target name="prepare" depends="clean" description="creates build, dist, dist/WEB-INF, and test-reports directories.">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${ScreenShots.dir}"/>
+	</target>
+		
+	
+	<target name="build" depends="prepare" description="Compile main source tree java files">
+		<javac destdir="${build.dir}" debug="true" deprecation="false" optimize="false" failonerror="true">
+			<src path="${src.dir}" />
+			<classpath refid="build.classpath" />
+		</javac>
+		<copy todir="${build.dir}">
+			<fileset dir="${resources.dir}" />
+		</copy>
+	</target>
+
+	<target name="clean.sanity" depends="init" description="Deletes dist and test-reports">
+		<delete dir="${reports.dir}" quiet="true" includeemptydirs="true" />
+		<mkdir dir="${reports.dir}" />
+	</target>
+	
+
+	<target name="ui.hq" depends="clean.sanity" description="Runs selenium test suite from TestNG">
+		<testng classpathref="runtime.classpath" outputDir="${reports.dir}" haltOnfailure="true">
+			<classpath>
+				<pathelement path="${build.dir}" />
+			</classpath>
+			<xmlfileset dir="${project.dir}" includes="GO_HQAUTOMATION.xml" />
+		</testng>
+	</target>
+	
+
+</project>
