@@ -110,4 +110,15 @@ public class CommonUtils extends FrameworkCommon {
 		selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
 		waitForPageLoaded(driver);
 	}
+	public void fillDropDownsForGas()
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+		waitForPageLoaded(driver);
+		selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "Actual");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
+		waitForPageLoaded(driver);
+	}
 }

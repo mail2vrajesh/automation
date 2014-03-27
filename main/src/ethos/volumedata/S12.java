@@ -16,24 +16,22 @@ import org.testng.annotations.Test;
 
 import com.common.FrameworkCommon;
 
-public class S12 extends FrameworkCommon{
+public class S12 extends CommonUtils{
 
-	public RemoteWebDriver driver = null;
-	public CommonUtils utils=new CommonUtils();
 
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		driver=(RemoteWebDriver) utils.getDriver();
-		utils.openUrl(cachedProperties.value("Ethos_url"));
-		utils.login( "madhva", "madhva");
-		utils.goToSummaryData();
+		driver=(RemoteWebDriver) getDriver();
+		openUrl(cachedProperties.value("Ethos_url"));
+		login( "madhva", "madhva");
+		goToSummaryData();
 	}
 	
 	@Test
 	public void test1() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
-		ArrayList<String> actProducts=utils.getOptionsDropdown(By.xpath("//select[contains(@id,'ddlProductGroup')]"));
+		ArrayList<String> actProducts=getOptionsDropdown(By.xpath("//select[contains(@id,'ddlProductGroup')]"));
 		for(String product:productGrps)
 			Assert.assertTrue(actProducts.contains(product), product +"doesn't contain in the drop down");
 		
@@ -50,9 +48,9 @@ public class S12 extends FrameworkCommon{
 			prdGrpProdMap.put("Oil",new String[]{"Diesel","Gas Oil","Heavy Fuel Oil","Kerosene","Medium Fuel Oil","Unleaded"});
 			for(String prdGrp:prdGrpProdMap.keySet())
 			{
-				utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
+				selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
 				waitForPageLoaded(driver);
-				ArrayList<String> actProducts=utils.getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProduct"));
+				ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProduct"));
 				for(String actPrd:actProducts)
 					assertTrue("Product "+actPrd+"is shown in products drop down even though not part of prdgroup", Arrays.asList(prdGrpProdMap.get(prdGrp)).contains(actPrd));
 			}
@@ -67,9 +65,9 @@ public class S12 extends FrameworkCommon{
 			prdGrpDataTypeMap.put("Oil",new String[]{"Average Load Size (Litres)","Estimated Annual Consumption"});
 			for(String prdGrp:prdGrpDataTypeMap.keySet())
 			{
-				utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
+				selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
 				waitForPageLoaded(driver);
-				ArrayList<String> actDataTypes=utils.getOptionsDropdown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"));
+				ArrayList<String> actDataTypes=getOptionsDropdown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"));
 				for(String actDataType:actDataTypes)
 					assertTrue("Product "+actDataType+"is shown in products drop down even though not part of prdgroup"+prdGrp, Arrays.asList(prdGrpDataTypeMap.get(prdGrp)).contains(actDataType));
 			}
@@ -84,19 +82,42 @@ public class S12 extends FrameworkCommon{
 			prdGrpUnitBaseMap.put("Oil",new String[]{"barrel","litre","Percentage","tonne"});
 			for(String prdGrp:prdGrpUnitBaseMap.keySet())
 			{
-				utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
+				selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
 				waitForPageLoaded(driver);
-				ArrayList<String> actDataTypes=utils.getOptionsDropdown(By.id("ctl00_cphMainContent_ddlUnitBasis"));
+				ArrayList<String> actDataTypes=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlUnitBasis"));
 				for(String actUnitType:actDataTypes)
 					assertTrue("unitType "+actUnitType+"is shown in products drop down even though not part of prdgroup"+prdGrp, Arrays.asList(prdGrpUnitBaseMap.get(prdGrp)).contains(actUnitType));
 			}
 	}
-	
+	@Test
+	public void test5() throws Exception
+	{
+		fillDropDownsForGas();
+		//selecting site
+		safeClick(driver, By.id("ctl00_cphMainContent_RdoDataLoadLevel_1"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'043 - ICI')]"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'043DDC - Dulux Decorator Centres')]"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'003 - Edinburgh (Gas Supply)')]"));
+		assertFalse("Delivery Point is allowed to select even though site is selected",elementPresent(driver, By.xpath("//span[text()='8820875008']/preceding-sibling::input"), 2));
+	}
+
+	@Test
+	public void test6() throws Exception
+	{
+		fillDropDownsForGas();
+		//selecting site
+		safeClick(driver, By.id("ctl00_cphMainContent_RdoDataLoadLevel_0"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'Expand 017 - Greene King Brewing & Retailing Ltd')]"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'GK - Greene King')]"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'0115 - PE11 1BE (Gas Supply)')]"));
+		assertTrue("Delivery Point is not allowed to select even though DP is selected",elementPresent(driver, By.xpath("//span[text()='1234567890456']/preceding-sibling::input"), 3));
+	}
+
 	@Test
 	public void test7() throws Exception
 	{
-		utils.goToSummaryData();
-		utils.fillDropDownsVolumeSummaryData();
+		goToSummaryData();
+		fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -124,8 +145,8 @@ public class S12 extends FrameworkCommon{
 	@Test
 	public void test8() throws Exception
 	{
-		utils.goToSummaryData();
-		utils.fillDropDownsVolumeSummaryData();
+		goToSummaryData();
+		fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -146,9 +167,9 @@ public class S12 extends FrameworkCommon{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnSave"));
 		
 		assertTrue("Successful save mesg not present", textPresent(driver,"Volume summary data was updated successfully",4));
-		utils.goToSummaryData();
+		goToSummaryData();
 		
-		utils.fillDropDownsVolumeSummaryData();
+		fillDropDownsVolumeSummaryData();
 		
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -171,8 +192,8 @@ public class S12 extends FrameworkCommon{
 
 	public void test9() throws Exception
 	{
-		utils.goToSummaryData();
-		utils.fillDropDownsVolumeSummaryData();
+		goToSummaryData();
+		fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -189,8 +210,8 @@ public class S12 extends FrameworkCommon{
 	@Test
 	public void test11() throws Exception
 	{
-		utils.goToSummaryData();
-		utils.fillDropDownsVolumeSummaryData();
+		goToSummaryData();
+		fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.linkText("Load from sheet"));
 		
 		driver.findElement(By.xpath("//input[@id='ctl00_cphMainContent_DPTreeControl1_FileUpload1' and @type ='file']")).sendKeys(new java.io.File( "." ).getCanonicalPath()+"\\resources\\metricsdata\\Metrics_Data.xls");
@@ -203,8 +224,8 @@ public class S12 extends FrameworkCommon{
 	@Test
 	public void test13() throws Exception
 	{
-		utils.goToSummaryData();
-		utils.fillDropDownsVolumeSummaryData();
+		goToSummaryData();
+		fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
 		assertTrue("Reset button didn't reset the values",new Select(driver.findElement(By.xpath("//select[contains(@id,'ddlProductGroup')]"))).getFirstSelectedOption().getText().contains("Select Product Group"));
 	}
