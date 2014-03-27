@@ -192,7 +192,6 @@ public class S12 extends FrameworkCommon{
 	public void test9() throws Exception
 	{
 		utils.goToSummaryData();
-		utils.goToSummaryData();
 		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
 		waitForPageLoaded(driver);
 		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
@@ -212,7 +211,28 @@ public class S12 extends FrameworkCommon{
 		
 		safeClick(driver, By.id("ctl00_cphMainContent_btnCancel"));
 		assertTrue("Didn't move back after clicking cancel button",elementPresent(driver,By.id("ctl00_cphMainContent_ddlUnitBasis"),5));
+		//sendKeys(new java.io.File( "." ).getCanonicalPath()+"\\"+filename);
+	}
+	
+	@Test
+	public void test11() throws Exception
+	{
+		//utils.goToSummaryData();
+		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
+		waitForPageLoaded(driver);
+		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
+		waitForPageLoaded(driver);
+		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "BTMonthlyRawData");
+		waitForPageLoaded(driver);
+		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
+		waitForPageLoaded(driver);
+		safeClick(driver, By.linkText("Load from sheet"));
 		
+		driver.findElement(By.xpath("//input[@id='ctl00_cphMainContent_DPTreeControl1_FileUpload1' and @type ='file']")).sendKeys(new java.io.File( "." ).getCanonicalPath()+"\\resources\\metricsdata\\Metrics_Data.xls");
+		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtRow"), "1");
+		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtColumn"), "1");
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnOKPopup"));
+		assertTrue("Wrong excel format erro not thrown",textPresent(driver, "Failed to read spreadsheet:", 3));
 	}
 	
 	@AfterClass
