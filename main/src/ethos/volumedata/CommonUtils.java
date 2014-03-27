@@ -15,7 +15,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import com.common.ErrorPageException;
 import com.common.FrameworkCommon;
 
 public class CommonUtils extends FrameworkCommon {
@@ -34,6 +33,7 @@ public class CommonUtils extends FrameworkCommon {
 			driver = new InternetExplorerDriver(capability);
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//	driver=new FirefoxDriver();
 		}
 
 		return driver;
@@ -92,5 +92,22 @@ public class CommonUtils extends FrameworkCommon {
 	public void selectDropDown(By locator,String visibleText)
 	{
 		new Select(driver.findElement(locator)).selectByVisibleText(visibleText);
+	}
+
+	public void jsClick(By locator)
+	{
+		
+	}
+	
+	public void fillDropDownsVolumeSummaryData()
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
+		waitForPageLoaded(driver);
+		selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "BTMonthlyRawData");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
+		waitForPageLoaded(driver);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -95,14 +96,7 @@ public class S12 extends FrameworkCommon{
 	public void test7() throws Exception
 	{
 		utils.goToSummaryData();
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "BTMonthlyRawData");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
-		waitForPageLoaded(driver);
+		utils.fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -131,14 +125,7 @@ public class S12 extends FrameworkCommon{
 	public void test8() throws Exception
 	{
 		utils.goToSummaryData();
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "BTMonthlyRawData");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
-		waitForPageLoaded(driver);
+		utils.fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -161,14 +148,7 @@ public class S12 extends FrameworkCommon{
 		assertTrue("Successful save mesg not present", textPresent(driver,"Volume summary data was updated successfully",4));
 		utils.goToSummaryData();
 		
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "BTMonthlyRawData");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
-		waitForPageLoaded(driver);
+		utils.fillDropDownsVolumeSummaryData();
 		
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -192,14 +172,7 @@ public class S12 extends FrameworkCommon{
 	public void test9() throws Exception
 	{
 		utils.goToSummaryData();
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "BTMonthlyRawData");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
-		waitForPageLoaded(driver);
+		utils.fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
@@ -211,21 +184,13 @@ public class S12 extends FrameworkCommon{
 		
 		safeClick(driver, By.id("ctl00_cphMainContent_btnCancel"));
 		assertTrue("Didn't move back after clicking cancel button",elementPresent(driver,By.id("ctl00_cphMainContent_ddlUnitBasis"),5));
-		//sendKeys(new java.io.File( "." ).getCanonicalPath()+"\\"+filename);
 	}
 	
 	@Test
 	public void test11() throws Exception
 	{
-		//utils.goToSummaryData();
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"), "BTMonthlyRawData");
-		waitForPageLoaded(driver);
-		utils.selectDropDown(By.id("ctl00_cphMainContent_ddlUnitBasis"), "kWh");
-		waitForPageLoaded(driver);
+		utils.goToSummaryData();
+		utils.fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.linkText("Load from sheet"));
 		
 		driver.findElement(By.xpath("//input[@id='ctl00_cphMainContent_DPTreeControl1_FileUpload1' and @type ='file']")).sendKeys(new java.io.File( "." ).getCanonicalPath()+"\\resources\\metricsdata\\Metrics_Data.xls");
@@ -235,9 +200,18 @@ public class S12 extends FrameworkCommon{
 		assertTrue("Wrong excel format erro not thrown",textPresent(driver, "Failed to read spreadsheet:", 3));
 	}
 	
+	@Test
+	public void test13() throws Exception
+	{
+		utils.goToSummaryData();
+		utils.fillDropDownsVolumeSummaryData();
+		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
+		assertTrue("Reset button didn't reset the values",new Select(driver.findElement(By.xpath("//select[contains(@id,'ddlProductGroup')]"))).getFirstSelectedOption().getText().contains("Select Product Group"));
+	}
 	@AfterClass
 	public void closeSelenium() throws Exception {
 		driver.close();
 		driver.quit();
 	}
+
 }
