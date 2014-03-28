@@ -23,7 +23,7 @@
     <div class="top-banner-root">
       <span class="top-banner-title-font">Test results</span>
       <br/>
-      <span class="top-banner-font-1">1 suite</span>
+      <span class="top-banner-font-1">1 suite, 1 failed test</span>
     </div> <!-- top-banner-root -->
     <div class="navigator-root">
       <div class="navigator-suite-header">
@@ -37,7 +37,7 @@
         <div class="rounded-window">
           <div class="suite-header light-rounded-window-top">
             <a href="#" class="navigator-link" panel-name="suite-Default_suite">
-              <span class="suite-name border-passed">Default suite</span>
+              <span class="suite-name border-failed">Default suite</span>
             </a> <!-- navigator-link -->
           </div> <!-- suite-header light-rounded-window-top -->
           <div class="navigator-suite-content">
@@ -48,7 +48,7 @@
               <ul>
                 <li>
                   <a href="#" class="navigator-link " panel-name="test-xml-Default_suite">
-                    <span>C:\Users\rajesh.vemula\AppData\Local\Temp\testng-eclipse--926446231\testng-customsuite.xml</span>
+                    <span>C:\Users\rajesh.vemula\AppData\Local\Temp\testng-eclipse--970510240\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -90,7 +90,21 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method,   1 passed</span>
+                    <span class="method-stats">8 methods, 1 failed,   7 passed</span>
+                  </li>
+                  <li>
+                    <span class="method-list-title failed">Failed methods</span>
+                    <span class="show-or-hide-methods failed">
+                      <a href="#" panel-name="suite-Default_suite" class="hide-methods failed suite-Default_suite"> (hide)</a> <!-- hide-methods failed suite-Default_suite -->
+                      <a href="#" panel-name="suite-Default_suite" class="show-methods failed suite-Default_suite"> (show)</a> <!-- show-methods failed suite-Default_suite -->
+                    </span>
+                    <div class="method-list-content failed suite-Default_suite">
+                      <span>
+                        <img width="3%" src="failed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="chkResetBtn">chkResetBtn</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                    </div> <!-- method-list-content failed suite-Default_suite -->
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -101,7 +115,37 @@
                     <div class="method-list-content passed suite-Default_suite">
                       <span>
                         <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.volumedata.S12" hash-for-method="test7">test7</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="chkInactive">chkInactive</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="findDeliveryPoint">findDeliveryPoint</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="intervalDataShapeOutputGrid">intervalDataShapeOutputGrid</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="intervalDataShapeOutputMeter">intervalDataShapeOutputMeter</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="tickAllUntickAll">tickAllUntickAll</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="verifyProductGrp">verifyProductGrp</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="ethos.test.VolumeShapeOutput" hash-for-method="verifyProductInProdGrps">verifyProductInProdGrps</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Default_suite -->
@@ -116,17 +160,76 @@
     <div class="wrapper">
       <div class="main-panel-root">
         <div panel-name="suite-Default_suite" class="panel Default_suite">
-          <div class="suite-Default_suite-class-passed">
+          <div class="suite-Default_suite-class-failed">
             <div class="main-panel-header rounded-window-top">
-              <img src="passed.png"/>
-              <span class="class-name">ethos.volumedata.S12</span>
+              <img src="failed.png"/>
+              <span class="class-name">ethos.test.VolumeShapeOutput</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="test7">
-                  </a> <!-- test7 -->
-                  <span class="method-name">test7</span>
+                  <a name="chkResetBtn">
+                  </a> <!-- chkResetBtn -->
+                  <span class="method-name">chkResetBtn</span>
+                  <div class="stack-trace"><b>"Reset button didn't reset the values"</b><br>com.thoughtworks.selenium.SeleneseTestBase.fail(SeleneseTestBase.java:391)<br>com.thoughtworks.selenium.SeleneseTestBase.assertTrue(SeleneseTestBase.java:395)<br>ethos.test.VolumeShapeOutput.chkResetBtn(VolumeShapeOutput.java:81)<br>sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br>sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)<br>sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)<br>java.lang.reflect.Method.invoke(Unknown Source)<br>org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)<br>org.testng.internal.Invoker.invokeMethod(Invoker.java:702)<br>org.testng.internal.Invoker.invokeTestMethod(Invoker.java:894)<br>org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1219)<br>org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)<br>org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)<br>org.testng.TestRunner.privateRun(TestRunner.java:767)<br>org.testng.TestRunner.run(TestRunner.java:617)<br>org.testng.SuiteRunner.runTest(SuiteRunner.java:334)<br>org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)<br>org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)<br>org.testng.SuiteRunner.run(SuiteRunner.java:240)<br>org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)<br>org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:87)<br>org.testng.TestNG.runSuitesSequentially(TestNG.java:1197)<br>org.testng.TestNG.runSuitesLocally(TestNG.java:1122)<br>org.testng.TestNG.run(TestNG.java:1030)<br>org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:111)<br>org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:204)<br>org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:175)<br>
+</div> <!-- stack-trace -->
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-Default_suite-class-failed -->
+          <div class="suite-Default_suite-class-passed">
+            <div class="main-panel-header rounded-window-top">
+              <img src="passed.png"/>
+              <span class="class-name">ethos.test.VolumeShapeOutput</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="chkInactive">
+                  </a> <!-- chkInactive -->
+                  <span class="method-name">chkInactive</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="findDeliveryPoint">
+                  </a> <!-- findDeliveryPoint -->
+                  <span class="method-name">findDeliveryPoint</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="intervalDataShapeOutputGrid">
+                  </a> <!-- intervalDataShapeOutputGrid -->
+                  <span class="method-name">intervalDataShapeOutputGrid</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="intervalDataShapeOutputMeter">
+                  </a> <!-- intervalDataShapeOutputMeter -->
+                  <span class="method-name">intervalDataShapeOutputMeter</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="tickAllUntickAll">
+                  </a> <!-- tickAllUntickAll -->
+                  <span class="method-name">tickAllUntickAll</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="verifyProductGrp">
+                  </a> <!-- verifyProductGrp -->
+                  <span class="method-name">verifyProductGrp</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="verifyProductInProdGrps">
+                  </a> <!-- verifyProductInProdGrps -->
+                  <span class="method-name">verifyProductInProdGrps</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -134,7 +237,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\rajesh.vemula\AppData\Local\Temp\testng-eclipse--926446231\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\rajesh.vemula\AppData\Local\Temp\testng-eclipse--970510240\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -143,11 +246,7 @@
 &lt;suite name=&quot;Default suite&quot;&gt;
   &lt;test verbose=&quot;2&quot; name=&quot;Default test&quot; preserve-order=&quot;true&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;ethos.volumedata.S12&quot;&gt;
-        &lt;methods&gt;
-          &lt;include name=&quot;test7&quot;/&gt;
-        &lt;/methods&gt;
-      &lt;/class&gt; &lt;!-- ethos.volumedata.S12 --&gt;
+      &lt;class name=&quot;ethos.test.VolumeShapeOutput&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Default test --&gt;
 &lt;/suite&gt; &lt;!-- Default suite --&gt;
@@ -187,16 +286,44 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(1);
+data.addRows(8);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'test7')
-data.setCell(0, 2, 'ethos.volumedata.S12')
-data.setCell(0, 3, 32481);
+data.setCell(0, 1, 'chkInactive')
+data.setCell(0, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(0, 3, 26749);
+data.setCell(1, 0, 1)
+data.setCell(1, 1, 'tickAllUntickAll')
+data.setCell(1, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(1, 3, 19564);
+data.setCell(2, 0, 2)
+data.setCell(2, 1, 'findDeliveryPoint')
+data.setCell(2, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(2, 3, 15440);
+data.setCell(3, 0, 3)
+data.setCell(3, 1, 'chkResetBtn')
+data.setCell(3, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(3, 3, 13855);
+data.setCell(4, 0, 4)
+data.setCell(4, 1, 'verifyProductInProdGrps')
+data.setCell(4, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(4, 3, 10738);
+data.setCell(5, 0, 5)
+data.setCell(5, 1, 'intervalDataShapeOutputGrid')
+data.setCell(5, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(5, 3, 10215);
+data.setCell(6, 0, 6)
+data.setCell(6, 1, 'intervalDataShapeOutputMeter')
+data.setCell(6, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(6, 3, 8827);
+data.setCell(7, 0, 7)
+data.setCell(7, 1, 'verifyProductGrp')
+data.setCell(7, 2, 'ethos.test.VolumeShapeOutput')
+data.setCell(7, 3, 515);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 32 seconds</span>
+              <span class="suite-total-time">Total running time: 1 minutes</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -211,24 +338,9 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">5 ignored methods</span>
+            <span class="header-content">0 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
-            <div class="ignored-class-div">
-              <span class="ignored-class-name">ethos.volumedata.S12</span>
-              <div class="ignored-methods-div">
-                <span class="ignored-method-name">test8</span>
-                <br/>
-                <span class="ignored-method-name">test2</span>
-                <br/>
-                <span class="ignored-method-name">test4</span>
-                <br/>
-                <span class="ignored-method-name">test3</span>
-                <br/>
-                <span class="ignored-method-name">test1</span>
-                <br/>
-              </div> <!-- ignored-methods-div -->
-            </div> <!-- ignored-class-div -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
         <div panel-name="chronological-Default_suite" class="panel">
@@ -237,18 +349,84 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">ethos.volumedata.S12</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">ethos.test.VolumeShapeOutput</div> <!-- chronological-class-name -->
               <div class="configuration-class before">
-                <span class="method-name">startSelenium</span>
+                <span class="method-name">initClass</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-class before -->
+              <div class="configuration-class before">
+                <span class="method-name">startBrowser</span>
+                <span class="method-start">61936 ms</span>
+              </div> <!-- configuration-class before -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">64159 ms</span>
+              </div> <!-- configuration-method before -->
               <div class="test-method">
-                <span class="method-name">test7</span>
-                <span class="method-start">11467 ms</span>
+                <span class="method-name">chkInactive</span>
+                <span class="method-start">65353 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">92103 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">chkResetBtn</span>
+                <span class="method-start">93147 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">107004 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">findDeliveryPoint</span>
+                <span class="method-start">108062 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">123504 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">intervalDataShapeOutputGrid</span>
+                <span class="method-start">124468 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">134685 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">intervalDataShapeOutputMeter</span>
+                <span class="method-start">137427 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">146255 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">tickAllUntickAll</span>
+                <span class="method-start">147253 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">166818 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">verifyProductGrp</span>
+                <span class="method-start">169594 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">test1</span>
+                <span class="method-start">170111 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">verifyProductInProdGrps</span>
+                <span class="method-start">172916 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-class after">
-                <span class="method-name">closeSelenium</span>
-                <span class="method-start">43949 ms</span>
+                <span class="method-name">destroyClass</span>
+                <span class="method-start">183655 ms</span>
               </div> <!-- configuration-class after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

@@ -3,13 +3,15 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)" preserve-order="true">
     <classes>
-      <class name="ethos.volumedata.S12">
+      <class name="ethos.test.VolumeShapeOutput">
         <methods>
-          <include name="test7"/>
-          <include name="startSelenium"/>
-          <include name="closeSelenium"/>
+          <include name="initClass"/>
+          <include name="startBrowser"/>
+          <include name="test1"/>
+          <include name="destroyClass"/>
+          <include name="chkResetBtn"/>
         </methods>
-      </class> <!-- ethos.volumedata.S12 -->
+      </class> <!-- ethos.test.VolumeShapeOutput -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -1,0 +1,157 @@
+	
+package ethos.test;
+	
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.common.ErrorPageException;
+import com.domain.ETHOSDomainWraper;
+
+public class IntervalDataRules extends ETHOSDomainWraper {
+	
+		public RemoteWebDriver driver = null;
+	
+		@BeforeClass
+		public void startSelenium() throws Exception {	
+			File file = new File("exe\\IEDriverServer.exe");
+			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
+			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
+			driver = new FirefoxDriver();
+			driver.manage().deleteAllCookies();
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
+		}
+		
+		@DataProvider
+		public Object [ ][ ] users() {
+			return new Object [ ] [ ] {{"madhva","madhva"} };
+		}
+	
+		@Test(dataProvider="users")
+		public void ethosSignin(String username, String password) throws Exception {
+			getApp(driver,cachedProperties.value("Ethos_url"),"ETHOS Login");
+		    ethosLogin(driver,username,password);
+		    
+			if(username.equals("madhva") || username.equals("sachin")){
+				waitTitle(driver, "ETHOS Main Page", 10);
+				elementPresent(driver, By.id("ctl00_btnLogout"), 10); 
+			}else{
+				textPresent(driver, "Your login attempt was not successful. Invalid User Name", 10);
+			}
+		}
+		
+		@DataProvider
+		public Object [ ][ ] IntervalDataRulesList() {
+			return new Object [ ] [ ] {{ "System"}};
+		}
+		
+		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"ethosSignin"})
+		public void verifyAddingNewIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
+			
+			try {
+				navigateToIntervalDataRules(driver);
+				
+				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCountry"), "IE - Ireland");
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlDefaultReadFrequency"), "Daily");
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCalculationBasis"), "Highest");
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlTimeBasis"), "Clock Time (base with daylight saving)");
+				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnSave"));
+				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnToList"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"ethosSignin"})
+		public void verifyEditingIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
+			Thread.sleep(1000);
+			
+			try {
+				navigateToIntervalDataRules(driver);
+				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_gvDetailedVolumeRule>tbody>tr:nth-child(3)>td>a"));
+				safeClick(driver,By.cssSelector("#ctl00_cphMainContent__btnEdit"));
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCountry"), "CH - Switzerland");
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlDefaultReadFrequency"), "Monthly");
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCalculationBasis"), "Average");
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnSave"));
+				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnToList"));
+				
+				Thread.sleep(1000);
+				selenium.keyPressNative("13");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"ethosSignin"})
+		public void verifyDeletingIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
+			Thread.sleep(1000);
+			
+			try {
+				navigateToIntervalDataRules(driver);
+				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_gvDetailedVolumeRule_ctl03_lnkDelete"));
+				acceptAlert(driver,"Are you sure you want to delete Interval Data Rule for IE ?");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"ethosSignin"})
+		public void verifyCountryFilterIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
+			Thread.sleep(1000);
+			String returnText="";
+			try {
+				navigateToIntervalDataRules(driver);
+				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCountry"), "CH - Switzerland");
+				Thread.sleep(1000);
+				returnText = safeGetText(driver, By.cssSelector("#ctl00_cphMainContent_gvDetailedVolumeRule>tbody>tr>td:nth-child(2)"));
+				safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlCountry"), "(Select Country/Region)");
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			assertEquals(returnText,"CH");
+		}
+		
+		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"ethosSignin"})
+		public void verifyExportFactorIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
+			
+			try {
+				navigateToIntervalDataRules(driver);
+				eDownloader(driver, ".grid-pager>a");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@AfterClass
+		public void closeSelenium() throws Exception {
+			driver.close();
+			driver.quit();
+		}
+		@AfterMethod (alwaysRun = true)
+		public void takeScreenshot(ITestResult _result) throws Exception{
+			if(screenshot){
+				screenshot(_result, driver);
+			}
+			screenshot(_result, driver);
+		}
+	
+	
+	
+	}

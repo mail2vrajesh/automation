@@ -1,19 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="1" passed="1">
+<testng-results skipped="0" failed="1" total="8" passed="7">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="45012" started-at="2014-03-27T11:41:36Z" finished-at="2014-03-27T11:42:21Z">
+  <suite name="Default suite" duration-ms="183858" started-at="2014-03-29T00:42:29Z" finished-at="2014-03-29T00:45:33Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="45012" started-at="2014-03-27T11:41:36Z" finished-at="2014-03-27T11:42:21Z">
-      <class name="ethos.volumedata.S12">
-        <test-method status="PASS" signature="startSelenium()[pri:0, instance:ethos.volumedata.S12@e60e128]" name="startSelenium" is-config="true" duration-ms="11465" started-at="2014-03-27T11:41:36Z" finished-at="2014-03-27T11:41:47Z">
-        </test-method> <!-- startSelenium -->
-        <test-method status="PASS" signature="test7()[pri:0, instance:ethos.volumedata.S12@e60e128]" name="test7" duration-ms="32481" started-at="2014-03-27T11:41:47Z" finished-at="2014-03-27T11:42:20Z">
-        </test-method> <!-- test7 -->
-        <test-method status="PASS" signature="closeSelenium()[pri:0, instance:ethos.volumedata.S12@e60e128]" name="closeSelenium" is-config="true" duration-ms="1055" started-at="2014-03-27T11:42:20Z" finished-at="2014-03-27T11:42:21Z">
-        </test-method> <!-- closeSelenium -->
-      </class> <!-- ethos.volumedata.S12 -->
+    <test name="Default test" duration-ms="183858" started-at="2014-03-29T00:42:29Z" finished-at="2014-03-29T00:45:33Z">
+      <class name="ethos.test.VolumeShapeOutput">
+        <test-method status="PASS" signature="initClass()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="initClass" is-config="true" duration-ms="61936" started-at="2014-03-29T00:42:29Z" finished-at="2014-03-29T00:43:31Z">
+        </test-method> <!-- initClass -->
+        <test-method status="PASS" signature="startBrowser()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="startBrowser" is-config="true" duration-ms="2221" started-at="2014-03-29T00:43:31Z" finished-at="2014-03-29T00:43:33Z">
+        </test-method> <!-- startBrowser -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="1194" started-at="2014-03-29T00:43:33Z" finished-at="2014-03-29T00:43:34Z">
+        </test-method> <!-- test1 -->
+        <test-method status="PASS" signature="chkInactive()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="chkInactive" duration-ms="26749" started-at="2014-03-29T00:43:34Z" finished-at="2014-03-29T00:44:01Z">
+        </test-method> <!-- chkInactive -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="1044" started-at="2014-03-29T00:44:01Z" finished-at="2014-03-29T00:44:02Z">
+        </test-method> <!-- test1 -->
+        <test-method status="FAIL" signature="chkResetBtn()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="chkResetBtn" duration-ms="13855" started-at="2014-03-29T00:44:02Z" finished-at="2014-03-29T00:44:16Z">
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[Reset button didn't reset the values]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.AssertionError: Reset button didn't reset the values
+	at com.thoughtworks.selenium.SeleneseTestBase.fail(SeleneseTestBase.java:391)
+	at com.thoughtworks.selenium.SeleneseTestBase.assertTrue(SeleneseTestBase.java:395)
+	at ethos.test.VolumeShapeOutput.chkResetBtn(VolumeShapeOutput.java:81)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:702)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:894)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1219)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
+	at org.testng.TestRunner.privateRun(TestRunner.java:767)
+	at org.testng.TestRunner.run(TestRunner.java:617)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:87)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1197)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1122)
+	at org.testng.TestNG.run(TestNG.java:1030)
+	at org.testng.remote.RemoteTestNG.run(RemoteTestNG.java:111)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:204)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:175)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.AssertionError -->
+        </test-method> <!-- chkResetBtn -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="1058" started-at="2014-03-29T00:44:16Z" finished-at="2014-03-29T00:44:17Z">
+        </test-method> <!-- test1 -->
+        <test-method status="PASS" signature="findDeliveryPoint()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="findDeliveryPoint" duration-ms="15440" started-at="2014-03-29T00:44:17Z" finished-at="2014-03-29T00:44:33Z">
+        </test-method> <!-- findDeliveryPoint -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="964" started-at="2014-03-29T00:44:33Z" finished-at="2014-03-29T00:44:34Z">
+        </test-method> <!-- test1 -->
+        <test-method status="PASS" signature="intervalDataShapeOutputGrid()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="intervalDataShapeOutputGrid" duration-ms="10215" started-at="2014-03-29T00:44:34Z" finished-at="2014-03-29T00:44:44Z">
+        </test-method> <!-- intervalDataShapeOutputGrid -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="2742" started-at="2014-03-29T00:44:44Z" finished-at="2014-03-29T00:44:47Z">
+        </test-method> <!-- test1 -->
+        <test-method status="PASS" signature="intervalDataShapeOutputMeter()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="intervalDataShapeOutputMeter" duration-ms="8827" started-at="2014-03-29T00:44:47Z" finished-at="2014-03-29T00:44:55Z">
+        </test-method> <!-- intervalDataShapeOutputMeter -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="998" started-at="2014-03-29T00:44:55Z" finished-at="2014-03-29T00:44:56Z">
+        </test-method> <!-- test1 -->
+        <test-method status="PASS" signature="tickAllUntickAll()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="tickAllUntickAll" duration-ms="19564" started-at="2014-03-29T00:44:56Z" finished-at="2014-03-29T00:45:16Z">
+        </test-method> <!-- tickAllUntickAll -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="2776" started-at="2014-03-29T00:45:16Z" finished-at="2014-03-29T00:45:19Z">
+        </test-method> <!-- test1 -->
+        <test-method status="PASS" signature="verifyProductGrp()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="verifyProductGrp" duration-ms="515" started-at="2014-03-29T00:45:19Z" finished-at="2014-03-29T00:45:19Z">
+        </test-method> <!-- verifyProductGrp -->
+        <test-method status="PASS" signature="test1()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="test1" is-config="true" duration-ms="2805" started-at="2014-03-29T00:45:19Z" finished-at="2014-03-29T00:45:22Z">
+        </test-method> <!-- test1 -->
+        <test-method status="PASS" signature="verifyProductInProdGrps()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="verifyProductInProdGrps" duration-ms="10738" started-at="2014-03-29T00:45:22Z" finished-at="2014-03-29T00:45:33Z">
+        </test-method> <!-- verifyProductInProdGrps -->
+        <test-method status="PASS" signature="destroyClass()[pri:0, instance:ethos.test.VolumeShapeOutput@45db05b2]" name="destroyClass" is-config="true" duration-ms="191" started-at="2014-03-29T00:45:33Z" finished-at="2014-03-29T00:45:33Z">
+        </test-method> <!-- destroyClass -->
+      </class> <!-- ethos.test.VolumeShapeOutput -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

@@ -1,5 +1,8 @@
 package ethos.test;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.BeforeClass;
@@ -11,7 +14,7 @@ public class Countries extends CommonUtils{
 	public void startSelenium() throws Exception {	
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
-		goToCountries();
+		goToCountriesPage();
 	}
 	
 	@Test
@@ -32,34 +35,34 @@ public class Countries extends CommonUtils{
 	@Test
 	public void verifyStatusDropDown() throws Exception
 	{
-		elementVisible(driver, By.id("ctl00_cphMainContent_ddlRegionActivityStatus"), 3);
-		elementVisible(driver, By.id("ctl00_cphMainContent_ddlCountryActivityStatus"), 3);
+		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_ddlRegionActivityStatus"), 3));
+		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_ddlCountryActivityStatus"), 3));
 	}
 	
 	@Test
 	public void verifyResetButn() throws Exception
 	{
-		elementVisible(driver, By.id("ctl00_cphMainContent_btnResetFilter"), 3);
-		elementVisible(driver, By.id("ctl00_cphMainContent_Button1"), 3);
+		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_btnResetFilter"), 3));
+		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_Button1"), 3));
 	}
 	@Test
 	public void verifyRegionTable() throws Exception
 	{
-		elementVisible(driver, By.id("ctl00_cphMainContent_gvRegion"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Name']"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Country ID']"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Geographic Region Type']"), 1);
+		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_gvRegion"), 1));
+		assertTrue(elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Name']"), 1));
+		assertTrue(elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Country ID']"), 1));
+		assertTrue(elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Geographic Region Type']"), 1));
 	}
 	@Test
 	public void verifyCountryTable() throws Exception
 	{
-		elementVisible(driver, By.id("ctl00_cphMainContent_gvCountry"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Name']"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Country ID']"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Region']"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Geographic Region Type']"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Currency']"), 1);
-		elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Time Zone']"), 1);
+		assertTrue("country table not available",elementVisible(driver, By.id("ctl00_cphMainContent_gvCountry"), 1));
+		assertTrue("Name column not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Name']"), 1));
+		assertTrue("CountryId not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Country ID']"), 1));
+		assertTrue("Region not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Region']"), 1));
+		assertTrue("Geography info not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Geographic Region Type']"), 1));
+		assertTrue("Currency not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Currency']"), 1));
+		assertTrue("Timezone not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Time Zone']"), 1));
 		
 		
 	}
@@ -67,14 +70,28 @@ public class Countries extends CommonUtils{
 	@Test
 	public void verifySelectLink() throws Exception
 	{
+		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
-			elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//tr["+(i+1)+"]//td["+i+"]/a[text()='Select']"), 1);
+			assertTrue("Select not available at "+ i,elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//tr[1]//td["+i+"]/a[text()='Select']"), 1));
 	}
 	
 	@Test
 	public void verifyExportLink() throws Exception
 	{
-		for(int i=1;i<=10;i++)
-			elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//tr["+(i+1)+"]//td["+i+"]/a[text()='Export']"), 1);
+		safeClick(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//a[text()='Export']"));
+		Thread.sleep(2000);
+		Robot robot=new Robot();			
+		robot.keyPress(KeyEvent.VK_ENTER);
 	}
+	
+	@Test
+	public void verifyAddNewBtn() throws Exception
+	{
+		safeClick(driver, By.id("ctl00_cphMainContent_btnCountry"));
+		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));
+		safeClick(driver, By.id("ctl00_cphMainContent__btnCancel"));
+	}
+
+
+
 }

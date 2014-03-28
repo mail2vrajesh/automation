@@ -33,9 +33,10 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import com.google.common.base.Function;
-//import com.sun.media.sound.InvalidFormatException;
 
 public class FrameworkCommon extends FrameworkDeclaration {
+	
+	WebDriverWait wd;
 public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
 				.withTimeout(30, TimeUnit.SECONDS)
@@ -73,11 +74,14 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 	public void safeClick(RemoteWebDriver driver, By by) throws Exception {
 		boolean element = elementPresent(driver, by, 10);
 		WebElement we = driver.findElement(by);
+		
+		
 		if (element) {
 			//if(elementPresent(driver, by, 100))
+				
 				we.click();
-		} else {
-			Reporter.log("Element "+by+"is mot displayed in "+driver.getCurrentUrl());
+				} else {
+			Reporter.log("Element "+by+"is not displayed in "+driver.getCurrentUrl());
 		}
 	}
 
@@ -106,9 +110,12 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		int second = 0;
 		for (second = 0; second < Time; second++) {
 			try {
+				
 				WebElement we = driver.findElement(by);
 				if (we != null) {
 					element_withDelay = true;
+					
+				
 					return element_withDelay;
 				}
 			} catch (NoSuchElementException e) {
@@ -118,6 +125,7 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 				Thread.sleep(1000);
 			}
 		}
+	
 		return element_withDelay;
 	}
 
@@ -141,6 +149,18 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		if (elementPresent(driver, by, 50)) {
 			Select select = new Select(driver.findElement(by));
 			select.selectByValue(value);
+		} else {
+			Reporter.log("Unable to select expected option");
+			assertTrue(false);
+		}
+	}
+	
+	public void safeSelectByText(RemoteWebDriver driver, By by, String value)
+			throws NoSuchElementException, InterruptedException,
+			ErrorPageException {
+		if (elementPresent(driver, by, 50)) {
+			Select select = new Select(driver.findElement(by));
+			select.selectByVisibleText(value);
 		} else {
 			Reporter.log("Unable to select expected option");
 			assertTrue(false);
@@ -210,7 +230,7 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		}
 	}
 
-	public void clickLink(RemoteWebDriver driver, String linkText) {
+	public void clickLink(RemoteWebDriver driver, String linkText) throws Exception {
 
 		try {
 			safeClick(driver, By.linkText(linkText));
@@ -227,17 +247,10 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		if (Status == 2) {
 			File file = new File(".");
 			String filename = testName + putLogDate() + ".png";
-			if(System.getProperty("os.name").equalsIgnoreCase("LINUX")) {
-				filepath = file.getCanonicalPath() + "/ScreenShots/" + filename;
-				System.out.println("Test status : "+testName+" is " + Status);
-			}
-			else {
+			
 				filepath =file.getCanonicalPath() + "\\ScreenShots\\" + filename;
 				System.out.println("Test status of "+testName+" is " + Status);
-			}
-			WebDriver augmentedDriver = new Augmenter().augment(driver);
-			File screenshotFile = ((TakesScreenshot) augmentedDriver)
-					.getScreenshotAs(OutputType.FILE);
+			File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(screenshotFile, new File(filepath));
 			Reporter.log("<a href'" + filepath + "'>screenshot</a>");
 			Reporter.log("Screenshot Name :" + filename);
@@ -258,25 +271,11 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		Reporter.log("Snapshot Name : " + fileName);
 	}
 
-	
-
-	
-
-	
-
-	
-
 	public String logURL(RemoteWebDriver driver) {
 		String url = driver.getCurrentUrl();
 		Reporter.log(url);
 		return url;
 	}
-	
-	
-	
-
-	
-
 	
 	public static String cancelPopupMessageBox(final WebDriver driver) {
 		String message = null;
@@ -296,10 +295,6 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		return message;
 	}
 
-
-	
-	
-	
 	public boolean isElementPresent(RemoteWebDriver driver,By by) {
 	    try {
 	      driver.findElement(by);
@@ -348,10 +343,45 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 					}
 					return builder.toString();
 			}
+	
+	
+	public String getFile(String Startwith) {
+		
+	File folder = new File("outputData\\");
+	File[] listOfFiles = folder.listFiles();
+
+	    for (int i = 0; i < listOfFiles.length; i++) {
+	      if (listOfFiles[i].isFile()) {
+	    	  
+	    	  String file =listOfFiles[i].getName();
+	    	   if(file.startsWith(Startwith)){
+	    		  return file;
+	    	   }
+
+	      } 
+	    }
+		return null;
+	
+}
 
 	public  void Downloader(RemoteWebDriver driver, String locator)
 			throws InterruptedException, AWTException {
 					driver.findElement(By.id(locator)).click();			
+					Thread.sleep(2000);
+					Robot robot=new Robot();			
+					robot.keyPress(KeyEvent.VK_LEFT);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					robot.delay(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					robot.delay(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					robot.delay(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+				}
+	
+	public  void eDownloader(RemoteWebDriver driver, String locator)
+			throws InterruptedException, AWTException {
+					driver.findElement(By.cssSelector(locator)).click();			
 					Thread.sleep(2000);
 					Robot robot=new Robot();			
 					robot.keyPress(KeyEvent.VK_LEFT);
@@ -397,10 +427,107 @@ public Boolean fluentWait(RemoteWebDriver driver, final By locator) {
 		}
 	}
 	
+	public void acceptAlert(RemoteWebDriver driver,String AlertMessage) throws InterruptedException {
+		Thread.sleep(1000);
+		for(int i=1;i<=10;i++){
+			 Alert alert= driver.switchTo().alert();
+			 String alertText=alert.getText();
+			 if(alertText.contains(AlertMessage)){
+				 System.out.println(alertText);
+				  alert.accept();
+				  break;
+			 }else{
+				 System.out.println("Alert not displayed");
+			 } 
+		 }
+	}
+	
+	public void dismissAlert(RemoteWebDriver driver,String AlertMessage) throws InterruptedException {
+		Thread.sleep(1000);
+		for(int i=1;i<=10;i++){
+			 Alert alert= driver.switchTo().alert();
+			 String alertText=alert.getText();
+			 if(alertText.contains(AlertMessage)){
+				 System.out.println(alertText);
+				 alert.dismiss();
+				  break;
+			 }else{
+				 System.out.println("Alert not displayed");
+			 } 
+		 }
+	}
+
 	public static void importXL(RemoteWebDriver driver, String filePath) {
 				driver.findElement(By.id("ctl08_ctl05_fileImport_fileImportNewFactor")).sendKeys(filePath);//"C:\\Users\\Balaraman\\Desktop\\Metrics\\excels\\Upload_Client_Blank.xlsx"
 				driver.findElement(By.id("ctl08_ctl05_fileImport_lbnImportNewFactors")).click();
 			}
 	
+	public static void importXLLookup(RemoteWebDriver driver, String filePath) {
+		driver.findElement(By.id("ctl08_ctl03_fileImport_fileImportNewFactor")).sendKeys(filePath);//"C:\\Users\\Balaraman\\Desktop\\Metrics\\excels\\Upload_Client_Blank.xlsx"
+		driver.findElement(By.id("ctl08_ctl03_fileImport_lbnImportNewFactors")).click();
+	}
 	
+	public String safeGetSelectedValue(RemoteWebDriver driver, By by) throws Exception {
+		boolean element = elementVisible(driver, by, 10);
+		if (element) {
+			Select combobox = new Select(driver.findElement(by));
+			String getSelectedValue = combobox.getFirstSelectedOption().getText();
+			return getSelectedValue;
+		}
+		return null;
+	}
+	
+	 //Bharath
+		public boolean waitForPagetoLoad_Element(WebDriver driver, int timeout, By by)
+		{
+			wd = new WebDriverWait(driver, timeout);		
+			WebElement element = driver.findElement(by);		
+			return true;
+		}
+		
+		public void PopUpWindowHandle(WebDriver driver,By pop_value ) throws IOException
+		{
+			String basewindow = driver.getWindowHandle();
+		    try {
+				safeClick((RemoteWebDriver) driver,By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[4]/td[4]/a"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				waitTitle((RemoteWebDriver) driver, " ETHOS ", 10);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    String popup = null;			
+			java.util.Set<String> windowIterator = driver.getWindowHandles();
+			if (windowIterator.size() == 2)
+			{
+			 	for (String WindowHandle : windowIterator)
+			 	{
+			 		if (!WindowHandle.equals(basewindow))		
+			 		{
+			 			popup = WindowHandle;
+			 			driver.switchTo().window(popup);
+			 		} 
+			 	}
+			}
+		
+		}
+		public boolean dismissAlert(RemoteWebDriver driver) throws InterruptedException {
+			Thread.sleep(1000);
+			for(int i=1;i<=10;i++){
+				 Alert alert= driver.switchTo().alert();
+				 String alertText=alert.getText();
+				 if(alertText.contains("Message")){
+					 System.out.println(alertText);
+					 alert.dismiss();
+					  break;
+				 }else{
+					 System.out.println("Alert not displayed");
+				 } 
+			 }
+			return true;
+		}
 }
