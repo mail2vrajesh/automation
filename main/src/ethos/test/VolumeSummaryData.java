@@ -26,7 +26,7 @@ public class VolumeSummaryData extends CommonUtils{
 	public void verifyProductGrp() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
-		ArrayList<String> actProducts=getOptionsDropdown(By.xpath("//select[contains(@id,'ddlProductGroup')]"));
+		ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProductGroup"));
 		for(String product:productGrps)
 			Assert.assertTrue(actProducts.contains(product), product +"doesn't contain in the drop down");
 		
@@ -43,7 +43,7 @@ public class VolumeSummaryData extends CommonUtils{
 			prdGrpProdMap.put("Oil",new String[]{"Diesel","Gas Oil","Heavy Fuel Oil","Kerosene","Medium Fuel Oil","Unleaded"});
 			for(String prdGrp:prdGrpProdMap.keySet())
 			{
-				selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
+				selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), prdGrp);
 				waitForPageLoaded(driver);
 				ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProduct"));
 				for(String actPrd:actProducts)
@@ -222,7 +222,8 @@ public class VolumeSummaryData extends CommonUtils{
 		goToSummaryData();
 		fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
-		assertTrue("Reset button didn't reset the values",new Select(driver.findElement(By.xpath("//select[contains(@id,'ddlProductGroup')]"))).getFirstSelectedOption().getText().contains("Select Product Group"));
+		assertTrue("Reset button didn't reset the values",new Select(driver.findElement(By.id("ctl00_cphMainContent_ddlProductGroup"))).getFirstSelectedOption().getText().contains("Select Product Group"));
 	}
 
+	
 }

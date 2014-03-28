@@ -1,14 +1,18 @@
 package ethos.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
@@ -42,8 +46,8 @@ public class CommonUtils extends FrameworkCommon {
 					.setCapability(
 							InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,
 							true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
-			driver = new InternetExplorerDriver(capability);
+			System.setProperty("webdriver.ie.driver", file.getAbsolutePath());*/
+			/*driver = new InternetExplorerDriver(capability);
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);*/
 			driver=new FirefoxDriver();
@@ -100,7 +104,35 @@ public class CommonUtils extends FrameworkCommon {
 		safeClick(driver, By.linkText("Add"));
 		
 	}
+	public void goToCountriesPage() throws Exception
+	{
+		mouseMoveTo(By.linkText("System"));
+		mouseMoveTo(By.linkText("Country"));
+		mouseMoveTo(By.linkText("Countries"));
+		safeClick(driver, By.linkText("Countries"));
+				
+	}
 	
+	public void goToCountryZonesPage() throws Exception
+	{
+		mouseMoveTo(By.linkText("System"));
+		mouseMoveTo(By.linkText("Country"));
+		mouseMoveTo(By.linkText("Countries"));
+		mouseMoveTo(By.linkText("Zone"));
+		mouseMoveTo(By.linkText("Zones"));
+		safeClick(driver, By.linkText("Zones"));
+	}
+	
+	public void goToVolumeDataShapeOut() throws Exception
+	{
+		mouseMoveTo(By.linkText("Client"));
+		mouseMoveTo(By.linkText("Volume"));
+		mouseMoveTo(By.linkText("Volume Data Totals"));
+		mouseMoveTo(By.linkText("Interval Data"));
+		mouseMoveTo(By.linkText("Load"));
+		mouseMoveTo(By.linkText("Shape Output"));
+		safeClick(driver, By.linkText("Shape Output"));
+	}
 	public void selectDropDown(By locator,String visibleText)
 	{
 		new Select(driver.findElement(locator)).selectByVisibleText(visibleText);
@@ -113,7 +145,7 @@ public class CommonUtils extends FrameworkCommon {
 	
 	public void fillDropDownsVolumeSummaryData()
 	{
-		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Electricity");
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
 		waitForPageLoaded(driver);
@@ -124,7 +156,7 @@ public class CommonUtils extends FrameworkCommon {
 	}
 	public void fillDropDownsForGas()
 	{
-		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Gas");
 		waitForPageLoaded(driver);
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
 		waitForPageLoaded(driver);
@@ -134,12 +166,6 @@ public class CommonUtils extends FrameworkCommon {
 		waitForPageLoaded(driver);
 	}
 	
-	public void goToCountries() throws Exception
-	{
-		mouseMoveTo(By.linkText("System"));
-		mouseMoveTo(By.linkText("Country"));
-		mouseMoveTo(By.linkText("Countries"));
-		safeClick(driver, By.linkText("Countries"));
-				
-	}
+	
+	
 }

@@ -11,17 +11,17 @@ import org.testng.annotations.Test;
 
 import com.common.FrameworkCommon;
 
-public class S11 extends FrameworkCommon{
+import ethos.test.CommonUtils;
 
-	public RemoteWebDriver driver = null;
-	public CommonUtils utils=new CommonUtils();
+public class S11 extends CommonUtils{
+
 
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		driver=(RemoteWebDriver) utils.getDriver();
-		utils.openUrl(cachedProperties.value("Ethos_url"));
-		utils.login( "madhva", "madhva");
-		utils.goToVolumeDataPage();
+		driver=(RemoteWebDriver) getDriver();
+		openUrl(cachedProperties.value("Ethos_url"));
+		login( "madhva", "madhva");
+		goToVolumeDataPage();
 	}
 	
 	
@@ -29,7 +29,7 @@ public class S11 extends FrameworkCommon{
 	public void test1() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
-		ArrayList<String> actProducts=utils.getOptionsDropdown(By.xpath("//select[contains(@id,'ddlProductGroup')]"));
+		ArrayList<String> actProducts=getOptionsDropdown(By.xpath("//select[contains(@id,'ddlProductGroup')]"));
 		for(String product:productGrps)
 			Assert.assertTrue(actProducts.contains(product), product +"doesn't contain in the drop down");
 		
@@ -41,7 +41,7 @@ public class S11 extends FrameworkCommon{
 	public void test2() throws Exception
 	{
 		String[] products={"Half Hourly Electricity","Non Half Hourly Electricity","Gas Supply","Diesel","Gas Oil","Heavy Fuel Oil","Kerosene","Medium Fuel Oil","Unleaded"};
-		ArrayList<String> actProducts=utils.getOptionsDropdown(By.xpath("//select[contains(@id,'ddlProduct')]"));
+		ArrayList<String> actProducts=getOptionsDropdown(By.xpath("//select[contains(@id,'ddlProduct')]"));
 		for(String product:products)
 			Assert.assertTrue(actProducts.contains(product), product +"doesn't contain in the drop down");
 		
