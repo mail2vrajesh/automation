@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class CountryZones extends CommonUtils{
@@ -14,10 +15,12 @@ public class CountryZones extends CommonUtils{
 	public void startBrowser() throws Exception {	
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
+	}
+	@BeforeMethod
+	public void init() throws Exception
+	{
 		goToCountryZonesPage();
 	}
-	
-	
 	@Test
 	public void verifyHeading() throws Exception
 	{

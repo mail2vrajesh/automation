@@ -25,6 +25,8 @@ public class VolumeIntervalDataCheck extends CommonUtils{
 	public void init() throws Exception
 	{
 		goToVolumeDataIntervalCheck();
+		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
+		waitForPageLoaded(driver);
 	}
 	
 	@Test
@@ -108,13 +110,12 @@ public class VolumeIntervalDataCheck extends CommonUtils{
 	public void intervalDataSummaryReportForIntervalData() throws Exception
 	{
 		selectElectricityProducts();
-		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
-			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
 	
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
 		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
 		
-		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeCheck(By.id("ctl00_cphMainContent_chkSummary"));
 		safeClick(driver, By.id("ctl00_cphMainContent_btnGenerate"));
 		for(int i=0;i<18;i++)
 		{
@@ -132,14 +133,14 @@ public class VolumeIntervalDataCheck extends CommonUtils{
 	public void intervalDataSummaryReportForInvoices() throws Exception
 	{
 		selectElectricityProducts();
-		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
-			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+		
+			safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
 	
 	
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
 		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
 		
-		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeCheck(By.id("ctl00_cphMainContent_chkSummary"));
 		safeClick(driver, By.id("ctl00_cphMainContent_rdoSummaryReport_1"));
 		safeClick(driver, By.id("ctl00_cphMainContent_btnGenerate"));
 		for(int i=0;i<18;i++)
@@ -158,13 +159,13 @@ public class VolumeIntervalDataCheck extends CommonUtils{
 	public void intervalDataSummaryReportForBoth() throws Exception
 	{
 		selectElectricityProducts();
-		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
-			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+		
+			safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
 	
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
 		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
 		
-		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeCheck(By.id("ctl00_cphMainContent_chkSummary"));
 		safeClick(driver, By.id("ctl00_cphMainContent_rdoSummaryReport_1"));
 		safeClick(driver, By.id("ctl00_cphMainContent_btnGenerate"));
 		for(int i=0;i<18;i++)
@@ -183,14 +184,14 @@ public class VolumeIntervalDataCheck extends CommonUtils{
 	public void intervalDataSummaryReportForMissing() throws Exception
 	{
 		selectElectricityProducts();
-		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
-			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+		
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
 	
 	
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
 		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
 		
-		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeCheck(By.id("ctl00_cphMainContent_chkSummary"));
 		safeClick(driver, By.id("ctl00_cphMainContent_rdoSummaryReport_1"));
 		
 		//Missing data

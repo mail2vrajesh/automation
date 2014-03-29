@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class VolumeSummaryData extends CommonUtils{
@@ -19,6 +20,10 @@ public class VolumeSummaryData extends CommonUtils{
 	public void startSelenium() throws Exception {	
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
+	}
+	@BeforeMethod
+	public void init() throws Exception
+	{
 		goToSummaryData();
 	}
 	
@@ -111,7 +116,6 @@ public class VolumeSummaryData extends CommonUtils{
 	@Test
 	public void verifyDataDisplay() throws Exception
 	{
-		goToSummaryData();
 		fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
@@ -140,7 +144,6 @@ public class VolumeSummaryData extends CommonUtils{
 	@Test
 	public void verifySaveSummaryData() throws Exception
 	{
-		goToSummaryData();
 		fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
@@ -187,7 +190,6 @@ public class VolumeSummaryData extends CommonUtils{
 
 	public void verifyCancelFunctionality() throws Exception
 	{
-		goToSummaryData();
 		fillDropDownsVolumeSummaryData();
 
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
@@ -205,7 +207,6 @@ public class VolumeSummaryData extends CommonUtils{
 	@Test
 	public void checkingWrongExcelFormat() throws Exception
 	{
-		goToSummaryData();
 		fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.linkText("Load from sheet"));
 		
@@ -219,7 +220,6 @@ public class VolumeSummaryData extends CommonUtils{
 	@Test
 	public void chkResetBtn() throws Exception
 	{
-		goToSummaryData();
 		fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
 		assertTrue("Reset button didn't reset the values",new Select(driver.findElement(By.id("ctl00_cphMainContent_ddlProductGroup"))).getFirstSelectedOption().getText().contains("Select Product Group"));

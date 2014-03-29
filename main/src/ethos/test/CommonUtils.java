@@ -1,6 +1,7 @@
 package ethos.test;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +18,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import com.common.FrameworkCommon;
 
@@ -36,6 +38,11 @@ public class CommonUtils extends FrameworkCommon {
 			driver.close();
 			driver.quit();
 		}
+	}
+	@BeforeMethod
+	public void testSetup(Method method) throws Exception {
+		System.out.println("**************** Starting test: " + method.getName()
+				+ " ****************");
 	}
 	public WebDriver getDriver() {
 		if (driver == null || driver.getSessionId()==null) {
@@ -92,7 +99,13 @@ public class CommonUtils extends FrameworkCommon {
 		 Action move=builder.moveToElement(driver.findElement(locator)).build();
 		 move.perform();
 	}
-	
+
+	public void goToPage(String[] links) throws Exception
+	{
+		for(String link:links)
+			mouseMoveTo(By.linkText(link));
+		safeClick(driver, By.linkText(links[links.length-1]));
+	}
 	public void goToSummaryData() throws Exception
 	{
 		mouseMoveTo(By.linkText("Client"));
@@ -111,6 +124,14 @@ public class CommonUtils extends FrameworkCommon {
 		mouseMoveTo(By.linkText("Countries"));
 		safeClick(driver, By.linkText("Countries"));
 				
+	}
+	public void goToSystemUsersPage() throws Exception
+	{
+		mouseMoveTo(By.linkText("System"));
+		mouseMoveTo(By.linkText("Security"));
+		mouseMoveTo(By.linkText("Users"));
+		safeClick(driver, By.linkText("Users"));
+			
 	}
 	
 	public void goToCountryZonesPage() throws Exception
@@ -154,6 +175,8 @@ public class CommonUtils extends FrameworkCommon {
 		mouseMoveTo(By.linkText("Remove"));
 		safeClick(driver, By.linkText("Remove"));
 	}
+	
+	
 	public void selectDropDown(By locator,String visibleText)
 	{
 		new Select(driver.findElement(locator)).selectByVisibleText(visibleText);
@@ -195,5 +218,10 @@ public class CommonUtils extends FrameworkCommon {
 	}
 	
 	
+	public void safeCheck(By locator)
+	{
+		if(driver.findElement(locator).getAttribute("checked")==null)
+			driver.findElement(locator).click();
 	
+	}
 }

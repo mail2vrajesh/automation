@@ -72,7 +72,7 @@ public class Countries extends CommonUtils{
 	{
 		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
-			assertTrue("Select not available at "+ i,elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//tr[1]//td["+i+"]/a[text()='Select']"), 1));
+			assertTrue("Select not available at "+ i,elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//tr["+(i+1)+"]//td[1]/a[text()='Select']"), 1));
 	}
 	
 	@Test

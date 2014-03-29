@@ -2,24 +2,23 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="false">
 
- <listeners>
-              <listener class-name="org.uncommons.reportng.HTMLReporter" />
-      </listeners>
-  <test name="Test">
-    <classes>
-      <class name="ethos.test.ScheduledTasks"/>
-     
-      <class name="ethos.test.ProductGroupRateType"/>
-      <class name="ethos.test.CostToServe"/>
-      <class name="ethos.test.IntervalDataRules"/>
-      <class name="ethos.test.ConversionFactor"/>
-      <class name="ethos.test.SupplierIndustryRoles"/>
-      <class name="ethos.test.ClientMaintenance"/>
-      <class name="ethos.test.ImportLevelAdjustments"/>
-      <class name="ethos.test.LevelsAndAdjustments"/>
-      <class name="ethos.test.ImportSite"/>
-      <class name="ethos.test.ProductGroup"/>
-      
-    </classes>
-  </test> <!-- Test -->
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+	</listeners>
+	<test name="Test">
+		<classes>
+			<!-- <class name="ethos.test.ScheduledTasks"/> <class name="ethos.test.ProductGroupRateType"/> 
+				<class name="ethos.test.CostToServe"/> <class name="ethos.test.IntervalDataRules"/> 
+				<class name="ethos.test.ConversionFactor"/> <class name="ethos.test.SupplierIndustryRoles"/> 
+				<class name="ethos.test.ClientMaintenance"/> <class name="ethos.test.ImportLevelAdjustments"/> 
+				<class name="ethos.test.LevelsAndAdjustments"/> <class name="ethos.test.ImportSite"/> 
+				<class name="ethos.test.ProductGroup"/> -->
+			<class name="ethos.test.VolumeSummaryData" />
+			<class name="ethos.test.VolumeIntervalDataCheck" />
+			<class name="ethos.test.VolumeIntervalDataRemoval" />
+			<class name="ethos.test.VolumeShapeOutput" />
+			<class name="ethos.test.Countries" />
+			<class name="ethos.test.CountryZones" />
+		</classes>
+	</test> <!-- Test -->
 </suite> <!-- Suite -->
