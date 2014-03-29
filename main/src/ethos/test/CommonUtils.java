@@ -108,72 +108,37 @@ public class CommonUtils extends FrameworkCommon {
 	}
 	public void goToSummaryData() throws Exception
 	{
-		mouseMoveTo(By.linkText("Client"));
-		mouseMoveTo(By.linkText("Volume"));
-		mouseMoveTo(By.linkText("Volume"));
-		mouseMoveTo(By.linkText("Volume Data Totals"));
-		mouseMoveTo(By.linkText("Volume Summary Data"));
-		mouseMoveTo(By.linkText("Add"));
-		safeClick(driver, By.linkText("Add"));
-		
+		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Volume Summary Data","Add"});
+			
 	}
 	public void goToCountriesPage() throws Exception
 	{
-		mouseMoveTo(By.linkText("System"));
-		mouseMoveTo(By.linkText("Country"));
-		mouseMoveTo(By.linkText("Countries"));
-		safeClick(driver, By.linkText("Countries"));
-				
+		goToPage(new String[]{"System","Country","Countries"});
 	}
 	public void goToSystemUsersPage() throws Exception
 	{
-		mouseMoveTo(By.linkText("System"));
-		mouseMoveTo(By.linkText("Security"));
-		mouseMoveTo(By.linkText("Users"));
-		safeClick(driver, By.linkText("Users"));
-			
+		goToPage(new String[]{"System","Security","Users"});
+		
 	}
 	
 	public void goToCountryZonesPage() throws Exception
 	{
-		mouseMoveTo(By.linkText("System"));
-		mouseMoveTo(By.linkText("Country"));
-		mouseMoveTo(By.linkText("Countries"));
-		mouseMoveTo(By.linkText("Zone"));
-		mouseMoveTo(By.linkText("Zones"));
-		safeClick(driver, By.linkText("Zones"));
+		goToPage(new String[]{"System","Country","Countries","Zone","Zones"});
+
 	}
 	
 	public void goToVolumeDataShapeOut() throws Exception
 	{
-		mouseMoveTo(By.linkText("Client"));
-		mouseMoveTo(By.linkText("Volume"));
-		mouseMoveTo(By.linkText("Volume Data Totals"));
-		mouseMoveTo(By.linkText("Interval Data"));
-		mouseMoveTo(By.linkText("Load"));
-		mouseMoveTo(By.linkText("Shape Output"));
-		safeClick(driver, By.linkText("Shape Output"));
+		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Shape Output"});
 	}
 	
 	public void goToVolumeDataIntervalCheck() throws Exception
 	{
-		mouseMoveTo(By.linkText("Client"));
-		mouseMoveTo(By.linkText("Volume"));
-		mouseMoveTo(By.linkText("Volume Data Totals"));
-		mouseMoveTo(By.linkText("Interval Data"));
-		mouseMoveTo(By.linkText("Load"));
-		mouseMoveTo(By.linkText("Check"));
-		safeClick(driver, By.linkText("Check"));
+		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Check"});
 	}
 	public void goToVolumeDataRemoval() throws Exception
 	{
-		mouseMoveTo(By.linkText("Client"));
-		mouseMoveTo(By.linkText("Volume"));
-		mouseMoveTo(By.linkText("Volume Data Totals"));
-		mouseMoveTo(By.linkText("Interval Data"));
-		mouseMoveTo(By.linkText("Load"));
-		mouseMoveTo(By.linkText("Remove"));
-		safeClick(driver, By.linkText("Remove"));
+		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Remove"});
 	}
 	
 	

@@ -33,6 +33,7 @@ public class CountryZones extends CommonUtils{
 		assertTrue("Subheading doesn't contain required text",driver.findElement(By.id("maincontent")).getText().contains("Definitions of zones associating a country with a product group"));
 	}
 	
+	@Test
 	public void verifyDropDownsInZonePage() throws Exception
 	{
 		assertTrue("Zones Drop down not exist",elementVisible(driver, By.id("ctl00_cphMainContent_ddlZone"), 3));		

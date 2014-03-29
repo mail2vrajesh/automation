@@ -110,7 +110,7 @@ public class VolumeSummaryData extends CommonUtils{
 		safeClick(driver, By.xpath("//img[contains(@alt,'Expand 017 - Greene King Brewing & Retailing Ltd')]"));
 		safeClick(driver, By.xpath("//img[contains(@alt,'GK - Greene King')]"));
 		safeClick(driver, By.xpath("//img[contains(@alt,'0115 - PE11 1BE (Gas Supply)')]"));
-		assertTrue("Delivery Point is not allowed to select even though DP is selected",elementPresent(driver, By.xpath("//span[text()='1234567890456']/preceding-sibling::input"), 3));
+		assertTrue("Delivery Point is not allowed to select even though DP is selected",elementPresent(driver, By.xpath("//span[text()='1234567890456']/preceding-sibling::input"), 5));
 	}
 
 	@Test
@@ -187,7 +187,7 @@ public class VolumeSummaryData extends CommonUtils{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnSave"));
 	}
 	
-
+	@Test
 	public void verifyCancelFunctionality() throws Exception
 	{
 		fillDropDownsVolumeSummaryData();
