@@ -120,10 +120,18 @@ public class CommonUtils extends FrameworkCommon {
 		goToPage(new String[]{"System","Security","Users"});
 		
 	}
-	
+	public void goToSystemRolesPage() throws Exception
+	{
+		goToPage(new String[]{"System","Security","Roles"});
+		
+	}
 	public void goToCountryZonesPage() throws Exception
 	{
 		goToPage(new String[]{"System","Country","Countries","Zone","Zones"});
+	}
+	public void goToNHHConfiguration() throws Exception
+	{
+		goToPage(new String[]{"System","NHH Configuration"});
 
 	}
 	
@@ -140,17 +148,17 @@ public class CommonUtils extends FrameworkCommon {
 	{
 		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Remove"});
 	}
-	
+	public void goToVolumeDataIntervalExport() throws Exception
+	{
+		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Export"});
+	}
 	
 	public void selectDropDown(By locator,String visibleText)
 	{
 		new Select(driver.findElement(locator)).selectByVisibleText(visibleText);
 	}
 
-	public void jsClick(By locator)
-	{
-		
-	}
+
 	
 	public void selectElectricityProducts()
 	{

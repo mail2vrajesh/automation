@@ -19,6 +19,7 @@
 			<class name="ethos.test.VolumeShapeOutput" />
 			<class name="ethos.test.Countries" />
 			<class name="ethos.test.CountryZones" />
+			<class name="ethos.test.SystemUsers" />
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->
