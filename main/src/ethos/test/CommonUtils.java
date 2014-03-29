@@ -133,6 +133,27 @@ public class CommonUtils extends FrameworkCommon {
 		mouseMoveTo(By.linkText("Shape Output"));
 		safeClick(driver, By.linkText("Shape Output"));
 	}
+	
+	public void goToVolumeDataIntervalCheck() throws Exception
+	{
+		mouseMoveTo(By.linkText("Client"));
+		mouseMoveTo(By.linkText("Volume"));
+		mouseMoveTo(By.linkText("Volume Data Totals"));
+		mouseMoveTo(By.linkText("Interval Data"));
+		mouseMoveTo(By.linkText("Load"));
+		mouseMoveTo(By.linkText("Check"));
+		safeClick(driver, By.linkText("Check"));
+	}
+	public void goToVolumeDataRemoval() throws Exception
+	{
+		mouseMoveTo(By.linkText("Client"));
+		mouseMoveTo(By.linkText("Volume"));
+		mouseMoveTo(By.linkText("Volume Data Totals"));
+		mouseMoveTo(By.linkText("Interval Data"));
+		mouseMoveTo(By.linkText("Load"));
+		mouseMoveTo(By.linkText("Remove"));
+		safeClick(driver, By.linkText("Remove"));
+	}
 	public void selectDropDown(By locator,String visibleText)
 	{
 		new Select(driver.findElement(locator)).selectByVisibleText(visibleText);
@@ -143,6 +164,13 @@ public class CommonUtils extends FrameworkCommon {
 		
 	}
 	
+	public void selectElectricityProducts()
+	{
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
+		waitForPageLoaded(driver);
+	}
 	public void fillDropDownsVolumeSummaryData()
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");

@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class VolumeShapeOutput extends CommonUtils{
+public class VolumeIntervalDataCheck extends CommonUtils{
 
 	
 	@BeforeClass
@@ -24,8 +24,9 @@ public class VolumeShapeOutput extends CommonUtils{
 	@BeforeMethod()
 	public void init() throws Exception
 	{
-		goToVolumeDataShapeOut();
+		goToVolumeDataIntervalCheck();
 	}
+	
 	@Test
 	public void verifyProductGrp() throws Exception
 	{
@@ -104,29 +105,106 @@ public class VolumeShapeOutput extends CommonUtils{
 	}
 	
 	@Test
-	public void intervalDataShapeOutputGrid() throws Exception
+	public void intervalDataSummaryReportForIntervalData() throws Exception
 	{
 		selectElectricityProducts();
-		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
+			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
 	
-		safeType(driver, By.id("ctl00_cphMainContent_txtFromDate"), "Jan-14");
-		safeType(driver, By.id("ctl00_cphMainContent_txtToDate"), "Feb-14");
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
 		
-		safeClick(driver, By.id("ctl00_cphMainContent_rblDataCalcLevel_0"));
+		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnGenerate"));
+		for(int i=0;i<18;i++)
+		{
+			driver.navigate().refresh();
+			if(textPresent(driver, "Complete", 2))
+				break;
+		}
 		
-		// Generate Output not working so leaving for now...
+		safeClick(driver, By.id("ctl00_cphMainContent_TaskStatusControl1_btnCancel"));
+		//Clicking summary Report here is not working.. once it works we need to add that
+		safeClick(driver, By.id("ctl00_cphMainContent_btnFinish"));
 	}
 	
 	@Test
-	public void intervalDataShapeOutputMeter() throws Exception
+	public void intervalDataSummaryReportForInvoices() throws Exception
 	{
 		selectElectricityProducts();
-		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
+			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
 	
-		safeType(driver, By.id("ctl00_cphMainContent_txtFromDate"), "Jan-14");
-		safeType(driver, By.id("ctl00_cphMainContent_txtToDate"), "Feb-14");
+	
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
 		
+		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeClick(driver, By.id("ctl00_cphMainContent_rdoSummaryReport_1"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnGenerate"));
+		for(int i=0;i<18;i++)
+		{
+			driver.navigate().refresh();
+			if(textPresent(driver, "Complete", 2))
+				break;
+		}
 		
-		// Generate Output not working so leaving for now...
+		safeClick(driver, By.id("ctl00_cphMainContent_TaskStatusControl1_btnCancel"));
+		//Clicking summary Report here is not working.. once it works we need to add that
+		safeClick(driver, By.id("ctl00_cphMainContent_btnFinish"));
+	}
+	
+	@Test
+	public void intervalDataSummaryReportForBoth() throws Exception
+	{
+		selectElectricityProducts();
+		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
+			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+	
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeClick(driver, By.id("ctl00_cphMainContent_rdoSummaryReport_1"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnGenerate"));
+		for(int i=0;i<18;i++)
+		{
+			driver.navigate().refresh();
+			if(textPresent(driver, "Complete", 2))
+				break;
+		}
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_TaskStatusControl1_btnCancel"));
+		//Clicking summary Report here is not working.. once it works we need to add that
+		safeClick(driver, By.id("ctl00_cphMainContent_btnFinish"));
+	}
+	
+	@Test
+	public void intervalDataSummaryReportForMissing() throws Exception
+	{
+		selectElectricityProducts();
+		if(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")!=null)
+			driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
+	
+	
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Mar-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_chkSummary"));
+		safeClick(driver, By.id("ctl00_cphMainContent_rdoSummaryReport_1"));
+		
+		//Missing data
+		safeClick(driver, By.id("ctl00_cphMainContent_chkDetailed"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnGenerate"));
+		for(int i=0;i<18;i++)
+		{
+			driver.navigate().refresh();
+			if(textPresent(driver, "Complete", 2))
+				break;
+		}
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_TaskStatusControl1_btnCancel"));
+		//Clicking summary Report here is not working.. once it works we need to add that
+		safeClick(driver, By.id("ctl00_cphMainContent_btnFinish"));
 	}
 }
