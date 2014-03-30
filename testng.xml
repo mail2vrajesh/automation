@@ -16,10 +16,15 @@
 			<class name="ethos.test.VolumeSummaryData" />
 			<class name="ethos.test.VolumeIntervalDataCheck" />
 			<class name="ethos.test.VolumeIntervalDataRemoval" />
+			<class name="ethos.test.VolumeIntervalDataExport" />
 			<class name="ethos.test.VolumeShapeOutput" />
 			<class name="ethos.test.Countries" />
 			<class name="ethos.test.CountryZones" />
 			<class name="ethos.test.SystemUsers" />
+			<class name="ethos.test.SystemRoles" />
+			<class name="ethos.test.Currencies" />
+			<class name="ethos.test.ExchangeRateTypes" />
+			<class name="ethos.test.NHHConfiguration" />
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->
