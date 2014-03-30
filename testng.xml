@@ -25,6 +25,8 @@
 			<class name="ethos.test.Currencies" />
 			<class name="ethos.test.ExchangeRateTypes" />
 			<class name="ethos.test.NHHConfiguration" />
+			<class name="ethos.test.VolumeIntervalDataSummarise" />
+			
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

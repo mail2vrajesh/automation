@@ -77,6 +77,7 @@ public class CountryZones extends CommonUtils{
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));
+		safeClick(driver, By.id("ctl00_cphMainContent__btnCancel"));
 	}
 
 

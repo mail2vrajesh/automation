@@ -152,6 +152,10 @@ public class CommonUtils extends FrameworkCommon {
 	{
 		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Check"});
 	}
+	public void goToVolumeDataIntervalSummarise() throws Exception
+	{
+		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Summarise"});
+	}
 	public void goToVolumeDataRemoval() throws Exception
 	{
 		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Interval Data","Load","Remove"});

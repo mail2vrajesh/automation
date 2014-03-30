@@ -85,10 +85,11 @@ public class VolumeSummaryData extends CommonUtils{
 				selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
 				waitForPageLoaded(driver);
 				ArrayList<String> actDataTypes=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlUnitBasis"));
-				for(String actUnitType:actDataTypes)
-					assertTrue("unitType "+actUnitType+"is shown in products drop down even though not part of prdgroup"+prdGrp, Arrays.asList(prdGrpUnitBaseMap.get(prdGrp)).contains(actUnitType));
+				for(String unitType:prdGrpUnitBaseMap.get(prdGrp))
+					assertTrue("unitType "+unitType+"is shown in products drop down even though part of prdgroup"+prdGrp, actDataTypes.contains(unitType));
 			}
 	}
+
 	@Test
 	public void verifyDataLoadLevelSite() throws Exception
 	{
