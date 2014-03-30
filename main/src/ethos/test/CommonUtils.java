@@ -115,6 +115,14 @@ public class CommonUtils extends FrameworkCommon {
 	{
 		goToPage(new String[]{"System","Country","Countries"});
 	}
+	public void goToCurrenciesPage() throws Exception
+	{
+		goToPage(new String[]{"System","Currencies"});
+	}
+	public void goToExchangeRateTypes() throws Exception
+	{
+		goToPage(new String[]{"System","Exchange Rate Types"});
+	}
 	public void goToSystemUsersPage() throws Exception
 	{
 		goToPage(new String[]{"System","Security","Users"});
