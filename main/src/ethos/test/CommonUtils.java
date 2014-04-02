@@ -69,6 +69,13 @@ public class CommonUtils extends FrameworkCommon {
 		driver.manage().window().maximize();
 	}
 	
+	public void findDelPoint(String dp) throws Exception
+	{
+		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), dp);
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnFindDP"));
+		waitForPageLoaded(driver);
+		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP")).clear();
+	}
 	public ArrayList<String> getOptionsDropdown(By by)
 	{
 		List<WebElement> l= new Select(driver.findElement(by)).getOptions();
@@ -86,11 +93,8 @@ public class CommonUtils extends FrameworkCommon {
 
 	}
 
-	public void goToVolumeDataPage() throws Exception {
-		
-		safeClick(driver, By.linkText("Client"));
-		safeClick(driver, By.linkText("Volume"));
-		safeClick(driver, By.linkText("Volume Data Totals"));
+	public void goToVolumeDataTotalsPage() throws Exception {
+		goToPage(new String[]{"Client","Volume","Volume Data Totals"});
 	}
 	
 	public void mouseMoveTo(By locator)
@@ -108,7 +112,7 @@ public class CommonUtils extends FrameworkCommon {
 	}
 	public void goToSummaryData() throws Exception
 	{
-		goToPage(new String[]{"Client","Volume","Volume","Volume Data Totals","Volume Summary Data","Add"});
+		goToPage(new String[]{"Client","Volume","Volume Data Totals","Volume Summary Data","Add"});
 			
 	}
 	public void goToCountriesPage() throws Exception
@@ -206,6 +210,12 @@ public class CommonUtils extends FrameworkCommon {
 	public void safeCheck(By locator)
 	{
 		if(driver.findElement(locator).getAttribute("checked")==null)
+			driver.findElement(locator).click();
+	
+	}
+	public void safeUnCheck(By locator)
+	{
+		if(driver.findElement(locator).getAttribute("checked")!=null)
 			driver.findElement(locator).click();
 	
 	}
