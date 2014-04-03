@@ -17,7 +17,7 @@ public class down_Up_XL extends MetricsDomainWraper  {
 
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		File file = new File("exe\\IEDriverServer.exe");
+		File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
 		DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
 		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 

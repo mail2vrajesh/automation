@@ -4,20 +4,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class VolumeSummaryData extends CommonUtils{
+import com.domain.ETHOSDomainWraper;
+
+public class VolumeSummaryData extends ETHOSDomainWraper{
 
 
 	@BeforeClass
-	public void startSelenium() throws Exception {	
+	public void startSelenium() throws Exception {
+		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
 	}
@@ -65,7 +75,7 @@ public class VolumeSummaryData extends CommonUtils{
 			prdGrpDataTypeMap.put("Oil",new String[]{"Average Load Size (Litres)","Estimated Annual Consumption"});
 			for(String prdGrp:prdGrpDataTypeMap.keySet())
 			{
-				selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
+				selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), prdGrp);
 				waitForPageLoaded(driver);
 				ArrayList<String> actDataTypes=getOptionsDropdown(By.xpath("//select[contains(@id,'ddlDataType') or contains(@id,'DdlVolumeType')]"));
 				for(String actDataType:actDataTypes)
@@ -82,7 +92,7 @@ public class VolumeSummaryData extends CommonUtils{
 			prdGrpUnitBaseMap.put("Oil",new String[]{"barrel","litre","Percentage","tonne"});
 			for(String prdGrp:prdGrpUnitBaseMap.keySet())
 			{
-				selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), prdGrp);
+				selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), prdGrp);
 				waitForPageLoaded(driver);
 				ArrayList<String> actDataTypes=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlUnitBasis"));
 				for(String unitType:prdGrpUnitBaseMap.get(prdGrp))
@@ -94,12 +104,14 @@ public class VolumeSummaryData extends CommonUtils{
 	public void verifyDataLoadLevelSite() throws Exception
 	{
 		fillDropDownsForGas();
-		//selecting site
 		safeClick(driver, By.id("ctl00_cphMainContent_RdoDataLoadLevel_1"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'043 - ICI')]"));
+		findDelPoint("8820875008");
+		//selecting site
+		
+		/*safeClick(driver, By.xpath("//img[contains(@alt,'043 - ICI')]"));
 		safeClick(driver, By.xpath("//img[contains(@alt,'043DDC - Dulux Decorator Centres')]"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'003 - Edinburgh (Gas Supply)')]"));
-		assertFalse("Delivery Point is allowed to select even though site is selected",elementPresent(driver, By.xpath("//span[text()='8820875008']/preceding-sibling::input"), 2));
+		safeClick(driver, By.xpath("//img[contains(@alt,'003 - Edinburgh (Gas Supply)')]"));*/
+		assertFalse("Delivery Point is allowed to select even though site is selected",elementPresent(driver, By.xpath("//span[text()='8820875008']/preceding-sibling::input[@type='checkbox']"), 2));
 	}
 
 	@Test
@@ -108,10 +120,13 @@ public class VolumeSummaryData extends CommonUtils{
 		fillDropDownsForGas();
 		//selecting site
 		safeClick(driver, By.id("ctl00_cphMainContent_RdoDataLoadLevel_0"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'Expand 017 - Greene King Brewing & Retailing Ltd')]"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'GK - Greene King')]"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'0115 - PE11 1BE (Gas Supply)')]"));
-		assertTrue("Delivery Point is not allowed to select even though DP is selected",elementPresent(driver, By.xpath("//span[text()='1234567890456']/preceding-sibling::input"), 5));
+		findDelPoint("8820875008");
+		//selecting site
+		
+		/*safeClick(driver, By.xpath("//img[contains(@alt,'043 - ICI')]"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'043DDC - Dulux Decorator Centres')]"));
+		safeClick(driver, By.xpath("//img[contains(@alt,'003 - Edinburgh (Gas Supply)')]"));*/
+		assertTrue("Delivery Point is not allowed to select even though DP is selected",elementPresent(driver, By.xpath("//span[text()='8820875008']/preceding-sibling::input[@type='checkbox']"), 3));
 	}
 
 	@Test
@@ -225,6 +240,16 @@ public class VolumeSummaryData extends CommonUtils{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
 		assertTrue("Reset button didn't reset the values",new Select(driver.findElement(By.id("ctl00_cphMainContent_ddlProductGroup"))).getFirstSelectedOption().getText().contains("Select Product Group"));
 	}
+	@AfterClass
+	public void closeSelenium() throws Exception {
+		driver.close();
+		driver.quit();
+		}
+	@AfterMethod (alwaysRun = true)
+	public void takeScreenshot(ITestResult _result) throws Exception{
+		if(screenshot){
+			screenshot(_result, driver);
+			}
+		}
 
-	
 }

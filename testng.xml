@@ -1,18 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite" parallel="false">
+<suite name="Suite" parallel="none">
 
-	<listeners>
-		<listener class-name="org.uncommons.reportng.HTMLReporter" />
-	</listeners>
-	<test name="Test">
-		<classes>
-			<!-- <class name="ethos.test.ScheduledTasks"/> <class name="ethos.test.ProductGroupRateType"/> 
-				<class name="ethos.test.CostToServe"/> <class name="ethos.test.IntervalDataRules"/> 
-				<class name="ethos.test.ConversionFactor"/> <class name="ethos.test.SupplierIndustryRoles"/> 
-				<class name="ethos.test.ClientMaintenance"/> <class name="ethos.test.ImportLevelAdjustments"/> 
-				<class name="ethos.test.LevelsAndAdjustments"/> <class name="ethos.test.ImportSite"/> 
-				<class name="ethos.test.ProductGroup"/> -->
+ <listeners>
+              <listener class-name="org.uncommons.reportng.HTMLReporter" />
+      </listeners>
+  <test name="Test">
+    <classes>
+
+      <class name="metrics.test.library.Library_Settings_Technical"/>
+      <class name="metrics.test.systemAdmin.BureauRolePermission"/>
+      <class name="metrics.test.library.TimeBand"/>
+      <class name="metrics.test.contracts.Meter_Group"/>
+      <class name="metrics.test.library.Library_Settings_GroupSettings"/>
+      <class name="metrics.test.contracts.Site_Group"/>
+      <class name="metrics.test.library.Library_Settings_ContentAndCancelDownload"/>
+      <class name="metrics.test.contracts.Upload_Client"/>
+      <class name="metrics.test.library.TariffTemplate"/>
+      <class name="metrics.test.dataAdmin.ConsumptionInvoices"/>
+      <class name="metrics.test.contracts.Client_Group"/>
+      <class name="metrics.test.contracts.Account_References"/>
+      <class name="metrics.test.contracts.ApplyTemplate"/>
+      <class name="metrics.test.home.LoginScreen"/>
+      <class name="metrics.test.library.LookUpTable"/>
+      <class name="metrics.test.systemAdmin.RollMangement"/>
+      <class name="metrics.test.systemAdmin.SystemAdmin"/>
+      <class name="metrics.test.contracts.Site"/>
+
+      <class name="ethos.test.ScheduledTasks"/>
+     
+      <class name="ethos.test.ProductGroupRateType"/>
+      <class name="ethos.test.CostToServe"/>
+      <class name="ethos.test.IntervalDataRules"/>
+      <class name="ethos.test.ConversionFactor"/>
+      <class name="ethos.test.SupplierIndustryRoles"/>
+      <class name="ethos.test.ClientMaintenance"/>
+      <class name="ethos.test.ImportLevelAdjustments"/>
+      <class name="ethos.test.LevelsAndAdjustments"/>
+      <class name="ethos.test.ImportSite"/>
+      <class name="ethos.test.ProductGroup"/>
+      
+
 			<class name="ethos.test.VolumeSummaryData" />
 			<class name="ethos.test.VolumeIntervalDataCheck" />
 			<class name="ethos.test.VolumeIntervalDataRemoval" />
@@ -26,7 +54,6 @@
 			<class name="ethos.test.ExchangeRateTypes" />
 			<class name="ethos.test.NHHConfiguration" />
 			<class name="ethos.test.VolumeIntervalDataSummarise" />
-			
-		</classes>
-	</test> <!-- Test -->
+    </classes>
+  </test> <!-- Test -->
 </suite> <!-- Suite -->

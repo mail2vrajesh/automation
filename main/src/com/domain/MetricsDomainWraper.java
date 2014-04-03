@@ -15,24 +15,25 @@ public class MetricsDomainWraper extends FrameworkCommon {
 	 
 	public void metricsLogin(RemoteWebDriver driver, String Username, String Password)
 			throws Exception, InterruptedException, ErrorPageException {
-
-
-
-		safeType(driver, By.cssSelector("input[type=\"text\"]"), Username);
-		safeType(driver, By.cssSelector("input[type=\"password\"]"), Password);
-		safeClick(driver, By.xpath("//span[text()='Sign in']"));
+	     safeType(driver, By.cssSelector("input[type=\"text\"]"), Username);
+		 safeType(driver, By.cssSelector("input[type=\"password\"]"), Password);
+		 safeClick(driver, By.xpath("//span[text()='Sign in']"));
 				
 			}
 
 	public void gotoSubMenu(RemoteWebDriver driver, String menu, String subMenu,
 			String title) throws Exception {
-
-				Actions actions = new Actions(driver);
+		Thread.sleep(1000);
+		//driver.navigate().refresh();
+				    Actions actions = new Actions(driver);
 					WebElement mainmenu = driver.findElement(By.xpath(menu));
 					WebElement submenu = driver.findElement(By.xpath(subMenu));
 			       	actions.moveToElement(mainmenu).moveToElement(submenu).click().build().perform();	
 			       waitTitle(driver, title,20);
 			   	Thread.sleep(1000);
+			   	
+			   
+			   	
 			}
 
 	public void simpleFilter(RemoteWebDriver driver,String filterName, String byText) {
@@ -47,6 +48,7 @@ public class MetricsDomainWraper extends FrameworkCommon {
 		boolean isPresent=isElementPresent(driver,By.xpath("//div [@tabindex='-1']"));
 		if(isPresent==true){
 			Thread.sleep(1000);
+			System.out.println("trace143");
 			String errortest=driver.findElement(By.xpath("//*[@id='dialog-message']/p")).getText(); 
 			driver.findElement(By.xpath("//span [text()='Ok']")).click(); 
 			System.out.println(errortest);
@@ -69,7 +71,6 @@ public class MetricsDomainWraper extends FrameworkCommon {
 							msg="EleementPresent";
 							row.click();
 							Thread.sleep(1000);
-							System.out.println("trace444");
 							row.findElement(By.xpath(Edit)).click();
 								break ;
 							}

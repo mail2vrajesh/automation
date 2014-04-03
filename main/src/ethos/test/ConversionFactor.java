@@ -1,6 +1,4 @@
-	
 package ethos.test;
-	
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -20,16 +18,10 @@ import com.common.ErrorPageException;
 import com.domain.ETHOSDomainWraper;
 
 public class ConversionFactor extends ETHOSDomainWraper {
-	
-		public RemoteWebDriver driver = null;
-	
+	    public RemoteWebDriver driver = null;
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new FirefoxDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}
@@ -61,7 +53,7 @@ public class ConversionFactor extends ETHOSDomainWraper {
 		public void verifyAddingNewConversionFactor(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToConversionFactors(driver);
+				navigateToProductGroup(driver, "ELE", "Conversion Factors");;
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlUnitBasisID"),"kVA");
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCountry"),"AD - Andorra");
@@ -76,11 +68,11 @@ public class ConversionFactor extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "ConversionFactorList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "ConversionFactorList", dependsOnMethods = {"verifyAddingNewConversionFactor"})
 		public void verifyEditConversionFactor(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToConversionFactors(driver);
+				navigateToProductGroup(driver, "ELE", "Conversion Factors");;
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvConversionFactor>tbody>tr:nth-child(4)>td:nth-child(1)>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnEdit"));
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlUnitBasisID"),"kVA");
@@ -96,11 +88,11 @@ public class ConversionFactor extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "ConversionFactorList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "ConversionFactorList", dependsOnMethods = {"verifyEditConversionFactor"})
 		public void verifyDeleteConversionFactor(String item) throws InterruptedException, ErrorPageException {
 			Thread.sleep(1000);
 			try {
-				navigateToConversionFactors(driver);
+				navigateToProductGroup(driver, "ELE", "Conversion Factors");;
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_gvConversionFactor>tbody>tr:nth-child(4)>td:nth-child(8)>a"));
 				acceptAlert(driver,"Are you sure you want to delete");
 			} catch (Exception e) {
@@ -113,7 +105,7 @@ public class ConversionFactor extends ETHOSDomainWraper {
 		public void verifyUnitsFilteringConversionFactor(String item) throws InterruptedException, ErrorPageException {
 			String returnText="";
 			try {
-				navigateToConversionFactors(driver);
+				navigateToProductGroup(driver, "ELE", "Conversion Factors");;
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlUnitBasis"),"kVA");
 				returnText = safeGetText(driver, By.cssSelector("#ctl00_cphMainContent_gvConversionFactor>tbody>tr:nth-child(2)>td:nth-child(2)"));
 			} catch (Exception e) {
@@ -126,7 +118,7 @@ public class ConversionFactor extends ETHOSDomainWraper {
 		public void verifyDisplayFactorConversionFactor(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToConversionFactors(driver);
+				navigateToProductGroup(driver, "ELE", "Conversion Factors");;
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_radioSelect_0"));
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_radioSelect_1"));
 			} catch (Exception e) {
@@ -138,7 +130,7 @@ public class ConversionFactor extends ETHOSDomainWraper {
 		public void verifyExportFactorConversionFactor(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToConversionFactors(driver);
+				navigateToProductGroup(driver, "ELE", "Conversion Factors");;
 				eDownloader(driver, ".grid-pager>a");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -155,7 +147,7 @@ public class ConversionFactor extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

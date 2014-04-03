@@ -24,11 +24,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new FirefoxDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}
@@ -60,7 +56,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyRateTypeForCountry(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlCountry"),"GB - United Kingdom");
@@ -75,7 +71,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyRateTypeForCategory(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlRateCategory"),"Distribution");
@@ -90,7 +86,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyRateTypeForClass(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlRateTypeClass"),"Distribution Loss");
@@ -105,7 +101,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyRateTypeActive(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlActivityStatus"),"Active");
@@ -120,7 +116,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyRateTypeInactive(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlActivityStatus"),"Inactive");
@@ -135,7 +131,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyEditRateTypeSave(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvRateType>tbody>tr:nth-child(4)>td>a"));
@@ -154,7 +150,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyEditRateTypeCancel(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvRateType>tbody>tr:nth-child(4)>td>a"));
@@ -173,7 +169,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyAddNewRateType(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Rate Types");
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
 				
@@ -189,7 +185,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 				safeSelectByText(driver, By.cssSelector("#ctl00_cphMainContent_ddlChargePeriod"),"Month");
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnSave"));
 				
-				if(elementPresent(driver, By.cssSelector("#ctl00_cphMainContent__duplicateValidator"),5))
+				if(elementPresent(driver, By.cssSelector("#ctl00_cphMainContent__duplicateValidator"),1))
 					safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnCancel"));
 				else
 					safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnToList"));
@@ -202,7 +198,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 		public void verifyExportProductGroupRateType(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToProductGroup(driver, "ELE", "Rate Types");
 				eDownloader(driver, ".grid-pager>a");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -219,7 +215,7 @@ public class ProductGroupRateType extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

@@ -24,13 +24,9 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new FirefoxDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
 		}
 		
 		@DataProvider
@@ -60,7 +56,7 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 		public void verifyAddingNewScheduledTasks(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToScheduledTasks(driver);
+				navigateToScreen(driver, "Data Management","Scheduled Tasks");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlTask"), "Get Spectrometer CSV files via FTP and import");
@@ -75,11 +71,11 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"verifyAddingNewScheduledTasks"})
 		public void verifyEditingScheduledTasks(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToScheduledTasks(driver);
+				navigateToScreen(driver, "Data Management","Scheduled Tasks");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvTasks>tbody>tr:nth-child(3)>td:nth-child(1)>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnEdit"));
@@ -95,11 +91,11 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"verifyEditingScheduledTasks"})
 		public void verifyDeletingScheduledTasks(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToScheduledTasks(driver);
+				navigateToScreen(driver, "Data Management","Scheduled Tasks");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvTasks>tbody>tr:nth-child(3)>td:nth-child(9)>a"));
 				acceptAlert(driver,"Delete the scheduled task?");
@@ -109,11 +105,11 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 		}
 		
 		
-		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"verifyAddingNewScheduledTasks"})
 		public void verifyDeactivatingScheduledTasks(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToScheduledTasks(driver);
+				navigateToScreen(driver, "Data Management","Scheduled Tasks");
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvTasks>tbody>tr:nth-child(3)>td:nth-child(1)>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_ctrlActivityStatus_btnToggle"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnToList"));
@@ -122,11 +118,11 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "ScheduledTasksList", dependsOnMethods = {"verifyDeactivatingScheduledTasks"})
 		public void verifyActivatingScheduledTasks(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToScheduledTasks(driver);
+				navigateToScreen(driver, "Data Management","Scheduled Tasks");
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvTasks>tbody>tr:nth-child(3)>td:nth-child(1)>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_ctrlActivityStatus_btnToggle"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnToList"));
@@ -139,7 +135,7 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 		public void verifyActivateDeactivateScheduledTasksMainPage(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToScheduledTasks(driver);
+				navigateToScreen(driver, "Data Management","Scheduled Tasks");
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvTasks_ctl03_ctrlActivityStatus_btnToggle"));
 				Thread.sleep(3000);
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvTasks_ctl03_ctrlActivityStatus_btnToggle"));
@@ -158,7 +154,7 @@ public class ScheduledTasks extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

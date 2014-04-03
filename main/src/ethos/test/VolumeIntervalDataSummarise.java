@@ -1,21 +1,29 @@
 package ethos.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class VolumeIntervalDataSummarise extends CommonUtils{
+import com.domain.ETHOSDomainWraper;
+
+public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
+		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
 		
@@ -51,17 +59,17 @@ public class VolumeIntervalDataSummarise extends CommonUtils{
 		
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Oil");
 		waitForPageLoaded(driver);
-		assertTrue("Site doesn't exist as per product Group",textPresent(driver, "Essex County Counci", 1));
-		assertFalse("Site doesn't exist as per product Group",textPresent(driver, "043 - ICI", 4));
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Diesel");
+		waitForPageLoaded(driver);
+	/*	assertTrue("Site doesn't exist as per product Group",textPresent(driver, "Essex County Counci", 1));*/
+/*		assertFalse("Site doesn't exist as per product Group",textPresent(driver, "043 - ICI", 4));*/
 	}
 
 	@Test
 	public void findDeliveryPoint() throws Exception
 	{
 		selectElectricityProducts();
-		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), "1620000714190");
-		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnFindDP"));
-		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP")).clear();
+		findDelPoint("1620000714190");
 		assertTrue("Find didn't work",textPresent(driver, "1620000714190", 2));
 		//1620000714190
 	}
@@ -98,9 +106,12 @@ public class VolumeIntervalDataSummarise extends CommonUtils{
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
 		waitForPageLoaded(driver);
 		assertTrue(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked").equals("true"));
+		assertTrue(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n4CheckBox")).getAttribute("checked").equals("true"));
+		
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnUntickAll"));
 		waitForPageLoaded(driver);
 		assertTrue(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")==null);
+		assertTrue(driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n4CheckBox")).getAttribute("checked")==null);
 	}
 
 	@Test
@@ -120,8 +131,8 @@ public class VolumeIntervalDataSummarise extends CommonUtils{
 		selectElectricityProducts();
 		//selecting site
 		safeClick(driver, By.xpath("//img[contains(@alt,'043 - ICI')]"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'043DDC - Dulux Decorator Centres')]"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'003 - Edinburgh (Gas Supply)')]"));
+/*		safeClick(driver, By.xpath("//img[contains(@alt,'043DDC - Dulux Decorator Centres')]"));*/
+/*		safeClick(driver, By.xpath("//img[contains(@alt,'003 - Edinburgh (Gas Supply)')]"));*/
 		assertFalse("Delivery Point is allowed to select even though site is selected",elementPresent(driver, By.xpath("//span[text()='8820875008']/preceding-sibling::input"), 2));
 	}
 
@@ -131,10 +142,8 @@ public class VolumeIntervalDataSummarise extends CommonUtils{
 		selectElectricityProducts();
 		//selecting site
 		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_1"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'Expand 017 - Greene King Brewing & Retailing Ltd')]"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'GK - Greene King')]"));
-		safeClick(driver, By.xpath("//img[contains(@alt,'0115 - PE11 1BE (Gas Supply)')]"));
-		assertTrue("Delivery Point is not allowed to select even though DP is selected",elementPresent(driver, By.xpath("//span[text()='1234567890456']/preceding-sibling::input"), 5));
+		findDelPoint("1620000714190");
+		assertTrue("Delivery Point is not allowed to select even though DP is selected",elementPresent(driver, By.xpath("//span[text()='1620000714190']/preceding-sibling::input"), 5));
 	}
 	
 	@Test
@@ -157,5 +166,15 @@ public class VolumeIntervalDataSummarise extends CommonUtils{
 		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
 	}
 	
-
+	@AfterClass
+	public void closeSelenium() throws Exception {
+		driver.close();
+		driver.quit();
+		}
+	@AfterMethod (alwaysRun = true)
+	public void takeScreenshot(ITestResult _result) throws Exception{
+		if(screenshot){
+			screenshot(_result, driver);
+			}
+		}
 }

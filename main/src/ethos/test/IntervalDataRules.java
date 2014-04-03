@@ -25,11 +25,7 @@ public class IntervalDataRules extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new FirefoxDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}
@@ -61,7 +57,7 @@ public class IntervalDataRules extends ETHOSDomainWraper {
 		public void verifyAddingNewIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToIntervalDataRules(driver);
+				navigateToProductGroup(driver, "ELE", "Interval Data Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCountry"), "IE - Ireland");
@@ -75,12 +71,12 @@ public class IntervalDataRules extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"verifyAddingNewIntervalDataRule"})
 		public void verifyEditingIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
 			Thread.sleep(1000);
 			
 			try {
-				navigateToIntervalDataRules(driver);
+				navigateToProductGroup(driver, "ELE", "Interval Data Rules");
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_gvDetailedVolumeRule>tbody>tr:nth-child(3)>td>a"));
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent__btnEdit"));
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCountry"), "CH - Switzerland");
@@ -96,12 +92,12 @@ public class IntervalDataRules extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "IntervalDataRulesList", dependsOnMethods = {"verifyEditingIntervalDataRule"})
 		public void verifyDeletingIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
 			Thread.sleep(1000);
 			
 			try {
-				navigateToIntervalDataRules(driver);
+				navigateToProductGroup(driver, "ELE", "Interval Data Rules");
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_gvDetailedVolumeRule_ctl03_lnkDelete"));
 				acceptAlert(driver,"Are you sure you want to delete Interval Data Rule for IE ?");
 			} catch (Exception e) {
@@ -115,7 +111,7 @@ public class IntervalDataRules extends ETHOSDomainWraper {
 			Thread.sleep(1000);
 			String returnText="";
 			try {
-				navigateToIntervalDataRules(driver);
+				navigateToProductGroup(driver, "ELE", "Interval Data Rules");
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlCountry"), "CH - Switzerland");
 				Thread.sleep(1000);
 				returnText = safeGetText(driver, By.cssSelector("#ctl00_cphMainContent_gvDetailedVolumeRule>tbody>tr>td:nth-child(2)"));
@@ -131,7 +127,7 @@ public class IntervalDataRules extends ETHOSDomainWraper {
 		public void verifyExportFactorIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToIntervalDataRules(driver);
+				navigateToProductGroup(driver, "ELE", "Interval Data Rules");
 				eDownloader(driver, ".grid-pager>a");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -148,7 +144,7 @@ public class IntervalDataRules extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

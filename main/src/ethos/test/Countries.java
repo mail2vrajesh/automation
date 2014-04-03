@@ -2,16 +2,25 @@ package ethos.test;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Countries extends CommonUtils{
+import com.domain.ETHOSDomainWraper;
+
+public class Countries extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
+		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
 		goToCountriesPage();
@@ -92,6 +101,16 @@ public class Countries extends CommonUtils{
 		safeClick(driver, By.id("ctl00_cphMainContent__btnCancel"));
 	}
 
-
+	@AfterClass
+	public void closeSelenium() throws Exception {
+		driver.close();
+		driver.quit();
+		}
+	@AfterMethod (alwaysRun = true)
+	public void takeScreenshot(ITestResult _result) throws Exception{
+		if(screenshot){
+			screenshot(_result, driver);
+			}
+		}
 
 }

@@ -1,21 +1,28 @@
 package ethos.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class VolumeIntervalDataExport extends CommonUtils{
+import com.domain.ETHOSDomainWraper;
+
+public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
+		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
 		
@@ -59,14 +66,12 @@ public class VolumeIntervalDataExport extends CommonUtils{
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
-		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), "1620000714190");
-		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnFindDP"));
-		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP")).clear();
+		findDelPoint("1620000714190");
 		assertTrue("Find didn't work",textPresent(driver, "1620000714190", 2));
 		//1620000714190
 	}
 	
-	@Test
+	/*@Test
 	public void chkResetBtnMainContent() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
@@ -79,7 +84,7 @@ public class VolumeIntervalDataExport extends CommonUtils{
 		assertTrue("Reset button didn't reset the values",safeGetText(driver,By.id("ctl00_cphMainContent_dateTo")).length()<2);
 		assertTrue("Reset button didn't reset the values",safeGetText(driver,By.id("ctl00_cphMainContent_txtExportPath")).length()<2);
 		
-	}
+	}*/
 	
 	@Test
 	public void chkResetBtnSiteDP() throws Exception
@@ -100,9 +105,7 @@ public class VolumeIntervalDataExport extends CommonUtils{
 		waitForPageLoaded(driver);
 		
 		// 1620000714190 shd be shown as it is inactive
-		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), "1620000714190");
-		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnFindDP"));
-		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP")).clear();
+		findDelPoint("1620000714190");
 		assertTrue("Inactive didn'twork",textPresent(driver, "1620000714190", 2));
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_chkShowInactive"));
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
@@ -137,5 +140,17 @@ public class VolumeIntervalDataExport extends CommonUtils{
 		
 		assertTrue(textPresent(driver, "Please specify a folder on the file server", 5));
 	}
+	
+	@AfterClass
+	public void closeSelenium() throws Exception {
+		driver.close();
+		driver.quit();
+		}
+	@AfterMethod (alwaysRun = true)
+	public void takeScreenshot(ITestResult _result) throws Exception{
+		if(screenshot){
+			screenshot(_result, driver);
+			}
+		}
 
 }

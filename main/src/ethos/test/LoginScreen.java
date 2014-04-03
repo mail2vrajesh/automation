@@ -8,6 +8,7 @@
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -26,13 +27,9 @@ public class LoginScreen extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new InternetExplorerDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
 		} 
 		@DataProvider
 		public Object [ ][ ] users() {
@@ -61,7 +58,7 @@ public class LoginScreen extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

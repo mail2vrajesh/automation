@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -23,7 +22,7 @@ public class TimeBand extends MetricsDomainWraper{
 	public RemoteWebDriver driver = null;
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-	File file = new File("exe\\IEDriverServer.exe");
+	File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
 	DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
 	capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 	System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
@@ -32,7 +31,7 @@ public class TimeBand extends MetricsDomainWraper{
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	getApp(driver,cachedProperties.value("Metrics_url"),"Login");
 	driver.manage().window().maximize();
-	metricsLogin(driver,"Metrics1","Metrics1");
+		metricsLogin(driver, cachedProperties.value("Metrics_username"), cachedProperties.value("Metrics_password"));
 	}
 //Navigation to Time Band Template screen									
  @Test
@@ -88,8 +87,13 @@ public class TimeBand extends MetricsDomainWraper{
 	   
 	  
 	   safeType(driver, By.xpath("//input[@name='compnent-name']"),"Working");
+<<<<<<< .mine
+	   safeClick(driver,By.xpath("//div[17]/div[2]/div/span"));
+	   }    
+=======
 	   safeClick(driver,By.xpath("//div[17]/div[2]/div/span"));*/
 	   }   
+
    //Holiday Screen
    @DataProvider
    public Object [ ][ ] HolidayName() throws Exception {

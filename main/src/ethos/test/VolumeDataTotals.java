@@ -4,20 +4,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class VolumeDataTotals extends CommonUtils{
+import com.domain.ETHOSDomainWraper;
+
+public class VolumeDataTotals extends ETHOSDomainWraper{
 
 
 	@BeforeClass
 	public void startSelenium() throws Exception {	
+		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
 	}
@@ -70,6 +80,69 @@ public class VolumeDataTotals extends CommonUtils{
 		assertTrue(textPresent(driver, "There are no items to display", 5));
 		
 	}
+
+	@Test
+	public void verifyRegisteredAQData() throws Exception
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+		waitForPageLoaded(driver);
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	@Test
+	public void verifyMonthlyActualData() throws Exception
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_ChkMonthlyActualId"));
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	@Test
+	public void verifyMonthlyTenderForecast() throws Exception
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_ChkMonthlyTenderId"));
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	@Test
+	public void verifyBilledDataVolData() throws Exception
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_ChkBilledId"));
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
 	
 	@Test
 	public void verifyEmptyVolumeDataTotals() throws Exception
@@ -79,13 +152,15 @@ public class VolumeDataTotals extends CommonUtils{
 		safeCheck(By.id("ctl00_cphMainContent_chkDetailedVolume"));
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
 		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
-		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
 		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
 	
 		assertTrue(textPresent(driver, "There are no items to display", 5));
 		
 	}
 
+	
 	@Test
 	public void verifyDataForMultipleSites() throws Exception
 	{
@@ -100,6 +175,145 @@ public class VolumeDataTotals extends CommonUtils{
 		assertTrue(textPresent(driver, "There are no items to display", 5));
 		
 	}
+	
+	//Need site with monthly data
+	@Test
+	public void verifyVolDataWithSiteMonthlyData() throws Exception
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_ChkBilledId"));
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	//Need site with Daily interval data
+	@Test
+	public void verifyVolDataWithSiteDailyData() throws Exception
+	{
+		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
+		waitForPageLoaded(driver);
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_ChkBilledId"));
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	//Need site with Daily interval data
+	@Test
+	public void verifyVolDataWithSiteHourlyData() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+		
+	@Test
+	public void verifyAggDataSiteLevel() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		//AggregateSite level
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_0"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	@Test
+	public void verifyAggDataSiteLevelForSingleDP() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		//AggregateSite level
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_0"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	@Test
+	public void verifyAggDataSiteLevelForMultipleDP() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		//AggregateSite level
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_0"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	@Test
+	public void verifyDpSelectionNotAllowed() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		//AggregateSite level
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_0"));
+		findDelPoint("1620000714190");
+		assertFalse("Delivery Point is allowed to select even though site is selected",elementPresent(driver, By.xpath("//span[text()='1620000714190']/preceding-sibling::input[@type='checkbox']"), 2));
+	}
+	
+	
+	@Test
+	public void verifyAggDataSiteLevelNo() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		//AggregateSite level
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_1"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
+	
+	@Test
+	public void verifyDpSelectionAllowed() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		//AggregateSite level
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_1"));
+		findDelPoint("1620000714190");
+		assertTrue("Delivery Point is allowed to select even though site is selected",elementPresent(driver, By.xpath("//span[text()='1620000714190']/preceding-sibling::input[@type='checkbox']"), 2));
+	}
+	
 	
 	@Test
 	public void findDeliveryPoint() throws Exception
@@ -178,12 +392,28 @@ public class VolumeDataTotals extends CommonUtils{
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
 		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
 		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
 	
 		assertTrue(textPresent(driver, "There are no items to display", 5));
 		
 	}
 
+	@Test
+	public void verifyChangeInUnitBasis() throws Exception
+	{
+		selectElectricityProducts();
+		
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		//AggregateSite level
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_1"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlUnitBasis"), "MWh");
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	}
 	@Test
 	public void verifyYesToOutputFile() throws Exception
 	{
@@ -223,11 +453,23 @@ public class VolumeDataTotals extends CommonUtils{
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
 		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
 	
-		assertTrue(textPresent(driver, "There are no items to display", 5));
+		//assertTrue(textPresent(driver, "There are no items to display", 5));
 		
-		driver.navigate().back();
+		safeClick(driver, By.id("ctl00_cphMainContent_btnBack"));
 		assertTrue("Back not moved to previous page",elementVisible(driver, By.id("ctl00_cphMainContent_ddlProductGroup"), 5));
 		
 	}
+	
+	@AfterClass
+	public void closeSelenium() throws Exception {
+		driver.close();
+		driver.quit();
+		}
+	@AfterMethod (alwaysRun = true)
+	public void takeScreenshot(ITestResult _result) throws Exception{
+		if(screenshot){
+			screenshot(_result, driver);
+			}
+		}
 
 }

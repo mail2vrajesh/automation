@@ -10,7 +10,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -22,7 +24,7 @@ public class ApplyTemplate extends MetricsDomainWraper{
 	@BeforeClass
 	public void startSelenium() throws Exception {
 	
-	File file = new File("exe\\IEDriverServer.exe");
+	File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
 	DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
 	capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 	System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
@@ -30,7 +32,7 @@ public class ApplyTemplate extends MetricsDomainWraper{
 	driver.manage().deleteAllCookies();
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	getApp(driver,cachedProperties.value("Metrics_url"),"Login");
-	metricsLogin(driver,"Metrics1","Metrics1");
+		metricsLogin(driver, cachedProperties.value("Metrics_username"), cachedProperties.value("Metrics_password"));
 	}
   
 	// Attach Template to Group	
@@ -48,9 +50,10 @@ public void  AttachTemplate(String clientname,String templateName) throws Except
     safeClick(driver, By.xpath("//a[text()='"+clientname+"']"));
     WebElement table=driver.findElement(By.xpath("//ul [@id='ctl08_ctl05_gridGroups_grid']"));
     List<WebElement> rows=driver.findElements(By.tagName("li"));
+    //Thread.sleep(1000);
     for(WebElement row:rows){
-    	String str=row.getText();
-    	System.out.println(str);
+    	//String str=row.getText();
+    	//System.out.println(str);
       }
     Thread.sleep(2000);
     findByList(driver,templateName,"//ul [@id='ctl08_ctl05_gridGroups_grid']","//li/div[3]/span");
@@ -88,5 +91,12 @@ public void sendBackToAttachedTemplet(String allocateTemp,String AllocateTemp1) 
 public void closeSelenium() throws Exception {
 	driver.close();
 	driver.quit();
+}
+
+@AfterMethod (alwaysRun = true)
+public void takeScreenshot(ITestResult _result) throws Exception{
+	if(screenshot){
+		screenshot(_result, driver);
+	}
 }
 }

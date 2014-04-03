@@ -11,7 +11,6 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.domain.MetricsDomainWraper;
@@ -23,7 +22,7 @@ public class Library_Settings_Technical extends MetricsDomainWraper{
 
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		File file = new File("exe\\IEDriverServer.exe");
+		File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
 		DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
 		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
@@ -31,7 +30,7 @@ public class Library_Settings_Technical extends MetricsDomainWraper{
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
 		getApp(driver,cachedProperties.value("Metrics_url"),"Login");
-		metricsLogin(driver, "Metrics", "Metrics");
+		metricsLogin(driver, cachedProperties.value("Metrics_username"), cachedProperties.value("Metrics_password"));
 	}
 
 	

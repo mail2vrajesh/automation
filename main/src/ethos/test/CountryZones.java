@@ -1,7 +1,6 @@
 package ethos.test;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -9,10 +8,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CountryZones extends CommonUtils{
+import com.domain.ETHOSDomainWraper;
+
+public class CountryZones extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
+		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
 		login( "madhva", "madhva");
 	}
@@ -49,7 +53,7 @@ public class CountryZones extends CommonUtils{
 	}
 	
 	
-	@Test
+	@Test (description="ds")
 	public void verifyCountryTable() throws Exception
 	{
 		assertTrue("table not available",elementVisible(driver, By.id("ctl00_cphMainContent_gvZone"), 1));

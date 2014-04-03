@@ -21,15 +21,19 @@ public class LookUpTable extends MetricsDomainWraper{
 	public RemoteWebDriver driver = null;
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-	File file = new File("exe\\IEDriverServer.exe");
+		
+	File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
 	DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
 	capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 	System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
 	driver = new InternetExplorerDriver(capability);
+		
+
+		
 	driver.manage().deleteAllCookies();
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	getApp(driver,cachedProperties.value("Metrics_url"),"Login");
-	metricsLogin(driver,"Metrics1","Metrics1");
+		metricsLogin(driver, cachedProperties.value("Metrics_username"), cachedProperties.value("Metrics_password"));
 	}
 	
 	//Create Lookup Table	
@@ -46,7 +50,7 @@ public class LookUpTable extends MetricsDomainWraper{
         safeClick(driver,By.xpath("//div[3]/span"));
         //verify the admin name added or not
         Thread.sleep(1000);
-        findByList(driver,name,"//ul [@class='table-grid']","//div[3]/span[1]");
+        findByList(driver,name,"//*[@id='divDetail']/div/div[1]/div/div[1]/div/div[1]","//div[3]/span[1]");
         //Click on 'Active the table' button with out creating the Data & Index columns.
         safeClick(driver, By.xpath("//a[text()='Activate Table']"));
         alertBox(driver);
@@ -92,7 +96,8 @@ public class LookUpTable extends MetricsDomainWraper{
         //verify the admin name added or not
         Thread.sleep(1000);
         findByList(driver,name,"//*[@id='ctl08_ctl03_ucFlexTables_gridFlexTables_grid']","//div[3]/span[1]");
-        safeClick(driver, By.xpath("//div[3]/span"));
+        Thread.sleep(2000);
+        safeClick(driver, By.xpath("//li/div[3]/span"));
         Thread.sleep(1000);
         findByList(driver,name,"//*[@id='ctl08_ctl03_ucFlexTables_gridFlexTables_grid']","//div[3]/span[3]");
         boolean isPresent=isElementPresent(driver,By.xpath("//div [@tabindex='-1']"));
@@ -142,7 +147,7 @@ public class LookUpTable extends MetricsDomainWraper{
 	
 	@Test (dependsOnMethods={"downloadLookupTable"})
 	public  void importLookupTable_Blank_dateRegionalSetting() throws Exception{
-		importXLLookup(driver,cachedProperties.value("LSUpload_LookupTable_Blank_dateRegionalSetting"));
+		importXL(driver,cachedProperties.value("LSUpload_LookupTable_Blank_dateRegionalSetting"));
 		Boolean success =textPresent(driver, "Invalid End Date", 10);
 		if(success){
 			safeClick(driver, By.xpath("//span[text()='Ok']"));	
@@ -157,7 +162,7 @@ public class LookUpTable extends MetricsDomainWraper{
 
 	@Test (dependsOnMethods={"importLookupTable_Blank_dateRegionalSetting"})
 	public  void importLookupTable_BlankValid() throws Exception{
-		importXLLookup(driver,cachedProperties.value("LSUpload_LookupTable_Blank_Valid"));
+		importXL(driver,cachedProperties.value("LSUpload_LookupTable_Blank_Valid"));
 		Boolean success =textPresent(driver, "File imported successfully", 10);
 		if(success){
 			safeClick(driver, By.xpath("//span[text()='Ok']"));	
@@ -191,7 +196,7 @@ public class LookUpTable extends MetricsDomainWraper{
 		assertTrue(templatcontains.contains("StartDate"));
 		assertTrue(templatcontains.contains("EndDate"));
 		//import
-		importXLLookup(driver,cachedProperties.value("LSUpload_LookupTable_Blank_Valid_Edit"));
+		importXL(driver,cachedProperties.value("LSUpload_LookupTable_Blank_Valid_Edit"));
 		Boolean success =textPresent(driver, "File imported successfully", 10);
 		if(success){
 			safeClick(driver, By.xpath("//span[text()='Ok']"));	
@@ -220,7 +225,7 @@ public class LookUpTable extends MetricsDomainWraper{
 		assertTrue(templatcontains.contains("StartDate"));
 		assertTrue(templatcontains.contains("EndDate"));
 		//import
-		importXLLookup(driver,cachedProperties.value("LSUpload_LookupTable_Blank_Valid_Delete"));
+		importXL(driver,cachedProperties.value("LSUpload_LookupTable_Blank_Valid_Delete"));
 		Boolean success =textPresent(driver, "File imported successfully", 10);
 		if(success){
 			safeClick(driver, By.xpath("//span[text()='Ok']"));	

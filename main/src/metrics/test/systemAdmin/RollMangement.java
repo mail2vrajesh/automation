@@ -1,17 +1,13 @@
 package metrics.test.systemAdmin;
 import java.io.File;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -24,7 +20,7 @@ public class RollMangement extends MetricsDomainWraper{
 	public RemoteWebDriver driver = null;
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		File file = new File("exe\\IEDriverServer.exe");
+		File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
 		DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
 		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
@@ -32,7 +28,7 @@ public class RollMangement extends MetricsDomainWraper{
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		getApp(driver,cachedProperties.value("Metrics_url"),"Login");
-		metricsLogin(driver,"Metrics","Metrics");
+			metricsLogin(driver, cachedProperties.value("Metrics_username"), cachedProperties.value("Metrics_password"));
 	}
 	
 	//Role management screen

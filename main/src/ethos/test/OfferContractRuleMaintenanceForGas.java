@@ -1,13 +1,9 @@
 
 package ethos.test;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -25,13 +21,9 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new FirefoxDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
 		}
 		
 		@DataProvider
@@ -61,7 +53,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyRulesListingForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlRule"),"Daily Report Delivery Cost");
@@ -76,7 +68,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyRuleTypeListingForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlRuleType"),"Contract");
@@ -91,7 +83,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyActiveListingForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlActivityStatus"),"Active");
@@ -106,7 +98,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyInactiveListingForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlActivityStatus"),"Inactive");
@@ -124,7 +116,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyResetListingForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnResetFilter"));
 				assertEquals(safeGetSelectedValue(driver,By.cssSelector("#ctl00_cphMainContent_ddlRule")),"(Select Rule)");
@@ -139,7 +131,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyAddingRuleTypeForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
 				safeSelectByText(driver, By.cssSelector("#ctl00_cphMainContent_ddlRule"),"Alternative PPR title");
@@ -160,11 +152,11 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		}
 		
 		
-		@Test(dataProvider = "OfferContractMaintenanceList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "OfferContractMaintenanceList", dependsOnMethods = {"verifyAddingRuleTypeForOfferContractMaintenance"})
 		public void verifyEditRuleTypeForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvOfferAndContractRule>tbody>tr:nth-child(2)>td:nth-child(1)>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnEdit"));
@@ -179,11 +171,11 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "OfferContractMaintenanceList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "OfferContractMaintenanceList", dependsOnMethods = {"verifyEditRuleTypeForOfferContractMaintenance"})
 		public void verifyDeleteRuleTypeForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvOfferAndContractRule>tbody>tr:nth-child(2)>td:nth-child(13)>a"));
 				acceptAlert(driver, "Are you sure you want to delete");
@@ -196,8 +188,9 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyCancelEditRuleTypeForOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
 				
+				
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvOfferAndContractRule>tbody>tr:nth-child(2)>td:nth-child(1)>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnEdit"));
 				safeSelectByText(driver, By.cssSelector("#ctl00_cphMainContent_ddlRule"),"Alternative PPR title");
@@ -215,7 +208,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 		public void verifyExportOfferContractMaintenance(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupForGas(driver,"Offer & Contract Rules");
+				navigateToProductGroup(driver, "GAS","Offer & Contract Rules");
 				
 				eDownloader(driver, ".grid-pager>a");
 			} catch (Exception e) {
@@ -233,7 +226,7 @@ public class OfferContractRuleMaintenanceForGas extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

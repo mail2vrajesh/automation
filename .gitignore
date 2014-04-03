@@ -216,3 +216,6 @@ pip-log.txt
 .mr.developer.cfg
 test-output/
 test-output/Default suite/Default test.xml
+.svn/
+inputData/
+outputData/

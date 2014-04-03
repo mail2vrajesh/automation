@@ -18,30 +18,36 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.common.ErrorPageException;
 import com.domain.MetricsDomainWraper;
 public class LoginScreen extends MetricsDomainWraper {
 	
 		public RemoteWebDriver driver = null;
-	
+		DesiredCapabilities capability=null;
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
+			File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
 			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
 			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
 			driver = new InternetExplorerDriver();
+		/*	capability= DesiredCapabilities.internetExplorer();
+			capability.setBrowserName("iexplore");
+			capability.setPlatform(org.openqa.selenium.Platform.WINDOWS);
+			driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);*/
+
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}
 		@DataProvider
 		public Object [ ][ ] users() {
-			return new Object [ ] [ ] {{ "metrics", "metrics"},{ "Metrics", "Metrics"} };
+			return new Object [ ] [ ] {{ "metrics", "metrics"}};
 		}
 	
 		@Test(dataProvider="users")
 		public void metricSignin(String username, String password) throws Exception {
+			
+			
 			getApp(driver,cachedProperties.value("Metrics_url"),"Login");
 		
 			metricsLogin(driver,username,password);	
@@ -52,7 +58,7 @@ public class LoginScreen extends MetricsDomainWraper {
 			}
 		} 
 	
-		@DataProvider
+		/*@DataProvider
 		public Object [ ][ ] Menulist() {
 			return new Object [ ] [ ] {{ "Home"},{ "Library"},{"Contracts"},{"Data Admin"},{"Reporting"},{"System Admin"},{"About"} };
 		}
@@ -103,7 +109,7 @@ public class LoginScreen extends MetricsDomainWraper {
 			driver.findElement(By.xpath(menu));
 			gotoSubMenu(driver,menu,subMenu,title );
 	
-		}
+		}*/
 		@AfterClass
 		public void closeSelenium() throws Exception {
 			driver.close();

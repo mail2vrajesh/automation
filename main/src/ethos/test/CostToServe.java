@@ -1,22 +1,21 @@
 package ethos.test;
 	
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.*;
 
 import com.common.ErrorPageException;
 import com.domain.ETHOSDomainWraper;
@@ -27,11 +26,7 @@ public class CostToServe extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new FirefoxDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}
@@ -63,7 +58,7 @@ public class CostToServe extends ETHOSDomainWraper {
 		public void verifyCostToServeCountryDropDown(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+					navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 					
 				 WebElement table = driver.findElement(By.cssSelector("#ctl00_cphMainContent_ddlCountry"));
 				 List<WebElement> rows = table.findElements(By.tagName("option"));
@@ -77,7 +72,7 @@ public class CostToServe extends ETHOSDomainWraper {
 		public void verifyCostToServeProductGroupDropDown(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				
 				assertEquals(safeGetText(driver,By.cssSelector("#ctl00_cphMainContent_ddlProductGroup>option:nth-child(2)")),"Electricity");
 				assertEquals(safeGetText(driver,By.cssSelector("#ctl00_cphMainContent_ddlProductGroup>option:nth-child(3)")),"Gas");
@@ -92,7 +87,7 @@ public class CostToServe extends ETHOSDomainWraper {
 		public void verifyCostToServeRateTypeDropDown(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlProductGroup"),"Electricity");
 				assertEquals(safeGetText(driver,By.cssSelector("#ctl00_cphMainContent_ddlRateType>option:nth-child(2)")),"AAHEDC");
@@ -112,7 +107,7 @@ public class CostToServe extends ETHOSDomainWraper {
 		public void verifyCostToServeDisplayAllRecords(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlProductGroup"),"Electricity");
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_radioSelect_0"));
 				
@@ -125,7 +120,7 @@ public class CostToServe extends ETHOSDomainWraper {
 		public void verifyCostToServeDisplayRecentRecords(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlProductGroup"),"Electricity");
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_radioSelect_1"));
 				
@@ -138,7 +133,7 @@ public class CostToServe extends ETHOSDomainWraper {
 		public void verifyAddNewCostToServe(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlCountry"),"GB - United Kingdom");
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlProductGroup"), "Electricity");
@@ -147,7 +142,7 @@ public class CostToServe extends ETHOSDomainWraper {
 				safeType(driver, By.cssSelector("#ctl00_cphMainContent_txtDateTo"), "26-Mar-2014");
 				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlCurrency"),"GBP - Pounds, United Kingdom");
 				safeType(driver, By.cssSelector("#ctl00_cphMainContent_txtValue"), "100");
-				safeSelectByText(driver,By.cssSelector("#ctl00_cphMainContent_ddlChargingBasis"),"p/kVA");
+				safeSelectByText(driver,By.name("ctl00$cphMainContent$ddlChargingBasis"),"p/kVA");
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent__btnSave"));
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent__btnToList"));
 			} catch (Exception e) {
@@ -155,11 +150,11 @@ public class CostToServe extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "CostToServeList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "CostToServeList", dependsOnMethods = {"verifyAddNewCostToServe"})
 		public void verifyEditCostToServe(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_gvCostToServeRate>tbody>tr:nth-child(3)>td>a"));
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent__btnEdit"));
@@ -179,11 +174,11 @@ public class CostToServe extends ETHOSDomainWraper {
 		}
 		
 		
-		@Test(dataProvider = "CostToServeList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "CostToServeList", dependsOnMethods = {"verifyEditCostToServe"})
 		public void verifyDeleteCostToServe(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent_gvCostToServeRate>tbody>tr:nth-child(3)>td>a"));
 				safeClick(driver,By.cssSelector("#ctl00_cphMainContent__btnDelete"));
@@ -197,7 +192,7 @@ public class CostToServe extends ETHOSDomainWraper {
 		public void verifyExportFactorIntervalDataRule(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToCostToServe(driver);
+				navigateToScreen(driver, "Data Management","Cost To Serve Rates");
 				eDownloader(driver, ".grid-pager>a");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -214,7 +209,7 @@ public class CostToServe extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

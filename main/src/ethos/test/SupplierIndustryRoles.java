@@ -24,11 +24,7 @@ public class SupplierIndustryRoles extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			File file = new File("exe\\IEDriverServer.exe");
-			DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-			capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-			driver = new FirefoxDriver();
+			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}
@@ -60,7 +56,7 @@ public class SupplierIndustryRoles extends ETHOSDomainWraper {
 		public void verifyAddingNewSupplierRole(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Supplier Industry Roles");
+				navigateToProductGroup(driver, "ELE", "Supplier Industry Roles");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_btnAddNew"));
 				safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlRoleType"), "Supplier");
@@ -79,12 +75,12 @@ public class SupplierIndustryRoles extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "SupplierIndustryRolesList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "SupplierIndustryRolesList", dependsOnMethods = {"verifyAddingNewSupplierRole"})
 		public void verifyEditingSupplierIndustryRole(String item) throws InterruptedException, ErrorPageException {
 			Thread.sleep(1000);
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Supplier Industry Roles");
+				navigateToProductGroup(driver, "ELE", "Supplier Industry Roles");
 				
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvSupplierIndustryRole>tbody>tr:nth-child(4)>td>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnEdit"));
@@ -98,12 +94,12 @@ public class SupplierIndustryRoles extends ETHOSDomainWraper {
 			}
 		}
 		
-		@Test(dataProvider = "SupplierIndustryRolesList", dependsOnMethods = {"ethosSignin"})
+		@Test(dataProvider = "SupplierIndustryRolesList", dependsOnMethods = {"verifyEditingSupplierIndustryRole"})
 		public void verifyDeletingSupplierIndustryRole(String item) throws InterruptedException, ErrorPageException {
 			Thread.sleep(1000);
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Supplier Industry Roles");
+				navigateToProductGroup(driver, "ELE", "Supplier Industry Roles");
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvSupplierIndustryRole>tbody>tr:nth-child(4)>td>a"));
 				safeClick(driver, By.cssSelector("#ctl00_cphMainContent__btnDelete"));
 				acceptAlert(driver,"Are you sure you want to delete this item?");
@@ -117,7 +113,7 @@ public class SupplierIndustryRoles extends ETHOSDomainWraper {
 		public void verifyExportSupplierIndustryRole(String item) throws InterruptedException, ErrorPageException {
 			
 			try {
-				navigateToProductionGroupDestination(driver,"Supplier Industry Roles");
+				navigateToProductGroup(driver, "ELE", "Supplier Industry Roles");
 				eDownloader(driver, ".grid-pager>a");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -134,7 +130,7 @@ public class SupplierIndustryRoles extends ETHOSDomainWraper {
 			if(screenshot){
 				screenshot(_result, driver);
 			}
-			screenshot(_result, driver);
+			
 		}
 	
 	

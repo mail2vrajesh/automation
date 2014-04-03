@@ -1,15 +1,10 @@
 package ethos.test;
 	
 	import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import javax.crypto.SealedObject;
-
-import org.apache.bcel.generic.Select;
 import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -17,7 +12,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.beust.jcommander.converters.IntegerConverter;
 import com.domain.ETHOSDomainWraper;
 
 public class LevelsAndAdjustments extends ETHOSDomainWraper {
@@ -27,11 +21,7 @@ public class LevelsAndAdjustments extends ETHOSDomainWraper {
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		File file = new File("exe\\IEDriverServer.exe");
-		DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
-		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-		System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
-		driver = new InternetExplorerDriver();
+		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		getApp(driver,cachedProperties.value("Ethos_url"),"ETHOS Login");
