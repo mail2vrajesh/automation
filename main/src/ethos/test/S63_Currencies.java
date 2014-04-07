@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class Currencies extends ETHOSDomainWraper{
+public class S63_Currencies extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
@@ -24,26 +24,26 @@ public class Currencies extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S63_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Currency Maintenance"));
 	}
 
 
 	@Test
-	public void verifyStatusDropDown() throws Exception
+	public void S63_2_verifyStatusDropDown() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_ddlActivityStatus"), 3));
 	}
 	
 	@Test
-	public void verifyResetButn() throws Exception
+	public void S63_3_verifyResetButn() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_btnResetFilter"), 3));
 	}
 	
 	@Test
-	public void verifyCurrencyTable() throws Exception
+	public void S63_4_verifyCurrencyTable() throws Exception
 	{
 		assertTrue("currency table not available",elementVisible(driver, By.id("ctl00_cphMainContent_gvCurrency"), 1));
 		assertTrue("Currency ID column not there",elementVisible(driver, By.linkText("Currency ID"), 1));
@@ -55,7 +55,7 @@ public class Currencies extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S63_5_verifySelectLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
@@ -63,7 +63,7 @@ public class Currencies extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S63_6_verifyExportLink() throws Exception
 	{
 		safeClick(driver, By.linkText("Export"));
 		Thread.sleep(2000);
@@ -72,7 +72,7 @@ public class Currencies extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S63_7_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Add Currency"));

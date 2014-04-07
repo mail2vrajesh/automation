@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class GenericLookupItems extends ETHOSDomainWraper{
+public class S65_GenericLookupItems extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
@@ -27,20 +27,20 @@ public class GenericLookupItems extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S65_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Generic Lookup Class Maintenance"));
 	}
 
 	@Test
-	public void verifySubHeadings() throws Exception
+	public void S65_2_verifySubHeadings() throws Exception
 	{
 		driver.getPageSource().contains("Used to maintain the list of high level generic look up classes");
 		
 	}
 
 	@Test
-	public void verifyLookupTable() throws Exception
+	public void S65_3_verifyLookupTable() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_gvGenericLookupClass"), 1));
 		assertTrue(elementVisible(driver, By.linkText("Lookup Class"), 1));
@@ -48,7 +48,7 @@ public class GenericLookupItems extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S65_4_verifySelectLink() throws Exception
 	{
 		for(int i=1;i<=8;i++)
 			assertTrue("Select not available at "+ i,elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvGenericLookupClass']//tr["+(i+1)+"]//td[1]/a[text()='Select']"), 1));		
@@ -58,7 +58,7 @@ public class GenericLookupItems extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyDeleteLink() throws Exception
+	public void S65_5_verifyDeleteLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvDPConfiguration tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=8;i++)
@@ -70,7 +70,7 @@ public class GenericLookupItems extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S65_6_verifyExportLink() throws Exception
 	{
 		safeClick(driver, By.linkText("Export"));
 		Thread.sleep(2000);
@@ -79,7 +79,7 @@ public class GenericLookupItems extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S65_7_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));

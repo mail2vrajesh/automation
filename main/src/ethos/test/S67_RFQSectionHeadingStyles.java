@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class RFQSectionHeadingStyles extends ETHOSDomainWraper{
+public class S67_RFQSectionHeadingStyles extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	

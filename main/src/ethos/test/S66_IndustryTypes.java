@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class IndustryTypes extends ETHOSDomainWraper{
+public class S66_IndustryTypes extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
@@ -28,21 +28,21 @@ public class IndustryTypes extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S66_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Industry Type Maintenance"));
 	}
 
 
 	@Test
-	public void verifyTable() throws Exception
+	public void S66_2_verifyTable() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_gvIndustryType"), 1));
 		assertTrue(elementVisible(driver, By.linkText("Description"), 1));
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S66_3_verifySelectLink() throws Exception
 	{
 		for(int i=1;i<=5;i++)
 			assertTrue("Select not available at "+ i,elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvIndustryType']//tr["+(i+1)+"]//td[1]/a[text()='Select']"), 1));		
@@ -53,7 +53,7 @@ public class IndustryTypes extends ETHOSDomainWraper{
 	
 	
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S66_4_verifyExportLink() throws Exception
 	{
 		safeClick(driver, By.linkText("Export"));
 		Thread.sleep(2000);
@@ -62,7 +62,7 @@ public class IndustryTypes extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S66_5_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));

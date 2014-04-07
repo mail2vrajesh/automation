@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class ExchangeRateTypes extends ETHOSDomainWraper{
+public class S64_ExchangeRateTypes extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
@@ -24,7 +24,7 @@ public class ExchangeRateTypes extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S64_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Exchange Rate Maintenance"));
 	}
@@ -32,7 +32,7 @@ public class ExchangeRateTypes extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyExchangeRateTable() throws Exception
+	public void S64_2_verifyExchangeRateTable() throws Exception
 	{
 		assertTrue("ExchangeRate table not available",elementVisible(driver, By.id("ctl00_cphMainContent_gvExchangeRateType"), 1));
 		assertTrue("Type ID column not there",elementVisible(driver, By.linkText("Type ID"), 1));
@@ -43,7 +43,7 @@ public class ExchangeRateTypes extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S64_3_verifySelectLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=4;i++)
@@ -51,7 +51,7 @@ public class ExchangeRateTypes extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S64_4_verifyExportLink() throws Exception
 	{
 		safeClick(driver, By.linkText("Export"));
 		Thread.sleep(2000);
@@ -60,8 +60,7 @@ public class ExchangeRateTypes extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	
-	public void verifyAddNewBtn() throws Exception
+	public void S64_5_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Add Exchange Rate Type"));
