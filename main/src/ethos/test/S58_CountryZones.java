@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class CountryZones extends ETHOSDomainWraper{
+public class S58_CountryZones extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
@@ -26,19 +26,19 @@ public class CountryZones extends ETHOSDomainWraper{
 		goToCountryZonesPage();
 	}
 	@Test
-	public void verifyHeading() throws Exception
+	public void S58_1_verifyHeading() throws Exception
 	{
 		assertTrue("Heading doesnt contain Zones",driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Zones"));
 	}
 
 	@Test
-	public void verifySubHeading() throws Exception
+	public void S58_2_verifySubHeading() throws Exception
 	{
 		assertTrue("Subheading doesn't contain required text",driver.findElement(By.id("maincontent")).getText().contains("Definitions of zones associating a country with a product group"));
 	}
 	
 	@Test
-	public void verifyDropDownsInZonePage() throws Exception
+	public void S58_3_verifyDropDownsInZonePage() throws Exception
 	{
 		assertTrue("Zones Drop down not exist",elementVisible(driver, By.id("ctl00_cphMainContent_ddlZone"), 3));		
 		assertTrue("Country Drop down not exist",elementVisible(driver, By.id("ctl00_cphMainContent_ddlCountry"), 3));
@@ -47,14 +47,14 @@ public class CountryZones extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyResetButn() throws Exception
+	public void S58_4_verifyResetButn() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_btnResetFilter"), 3));
 	}
 	
 	
 	@Test (description="ds")
-	public void verifyCountryTable() throws Exception
+	public void S58_5_verifyCountryTable() throws Exception
 	{
 		assertTrue("table not available",elementVisible(driver, By.id("ctl00_cphMainContent_gvZone"), 1));
 		assertTrue("Country column not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvZone']//th[@scope='col']/a[text()='Country']"), 1));
@@ -66,7 +66,7 @@ public class CountryZones extends ETHOSDomainWraper{
 	
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S58_6_verifySelectLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
@@ -77,7 +77,7 @@ public class CountryZones extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S58_7_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));

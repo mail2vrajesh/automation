@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class NHHConfiguration extends ETHOSDomainWraper{
+public class S61_NHHConfiguration extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -33,19 +33,31 @@ public class NHHConfiguration extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S61_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Non Half Hourly Meter Configuration for Non Half Hourly Electricity"));
 	}
 
 	@Test
-	public void verifySubHeading() throws Exception
+	public void S61_2_verifySubHeading() throws Exception
 	{
 		assertTrue("Subheading doesn't contain required text",driver.findElement(By.id("maincontent")).getText().contains("Used for storing valid NHH MPAN combinations and for identifying meter type"));
 	}
 	
 	@Test
-	public void verifyTablePresent() throws Exception
+	public void S61_3_verifyDropDowns() throws Exception
+	{
+		assertTrue("Distributor drop down not there",elementVisible(driver,By.id("ctl00_cphMainContent_ddlDistributor"),2));
+		assertTrue("ProfileClass drop down not there",elementVisible(driver,By.id("ctl00_cphMainContent_ddlProfileClass"),2));
+	}
+	
+	@Test
+	public void S61_4_verifyButtons() throws Exception
+	{
+		assertTrue("Reset button not there",elementVisible(driver,By.id("ctl00_cphMainContent_btnResetFilter"),2));
+	}
+	@Test
+	public void S61_5_verifyTablePresent() throws Exception
 	{
 		assertTrue("NHH Table Not available",elementVisible(driver,By.id("ctl00_cphMainContent_gvDPConfiguration"),3));
 		assertTrue("Distributor column not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvDPConfiguration']//th[text()='Distributor']"), 1));
@@ -57,7 +69,7 @@ public class NHHConfiguration extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S61_6_verifySelectLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvDPConfiguration tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
@@ -68,7 +80,7 @@ public class NHHConfiguration extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyDeleteLink() throws Exception
+	public void S61_7_verifyDeleteLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvDPConfiguration tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=8;i++)
@@ -79,7 +91,7 @@ public class NHHConfiguration extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S61_8_verifyExportLink() throws Exception
 	{
 		elementVisible(driver, By.linkText("Export"), 5);
 		//safeClick(driver,By.linkText("Export"));
@@ -87,7 +99,7 @@ public class NHHConfiguration extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S61_9_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));

@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class Countries extends ETHOSDomainWraper{
+public class S57_Countries extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
@@ -27,13 +27,13 @@ public class Countries extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S57_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Countries & Regions"));
 	}
 
 	@Test
-	public void verifySubHeadings() throws Exception
+	public void S57_2_verifySubHeadings() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Countries & Regions"));
 		driver.getPageSource().contains("<h1>Regions</h1>");
@@ -42,20 +42,20 @@ public class Countries extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyStatusDropDown() throws Exception
+	public void S57_3_verifyStatusDropDown() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_ddlRegionActivityStatus"), 3));
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_ddlCountryActivityStatus"), 3));
 	}
 	
 	@Test
-	public void verifyResetButn() throws Exception
+	public void S57_4_verifyResetButn() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_btnResetFilter"), 3));
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_Button1"), 3));
 	}
 	@Test
-	public void verifyRegionTable() throws Exception
+	public void S57_5_verifyRegionTable() throws Exception
 	{
 		assertTrue(elementVisible(driver, By.id("ctl00_cphMainContent_gvRegion"), 1));
 		assertTrue(elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Name']"), 1));
@@ -63,7 +63,7 @@ public class Countries extends ETHOSDomainWraper{
 		assertTrue(elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvRegion']//th[@scope='col']/a[text()='Geographic Region Type']"), 1));
 	}
 	@Test
-	public void verifyCountryTable() throws Exception
+	public void S57_6_verifyCountryTable() throws Exception
 	{
 		assertTrue("country table not available",elementVisible(driver, By.id("ctl00_cphMainContent_gvCountry"), 1));
 		assertTrue("Name column not there",elementVisible(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//th[@scope='col']/a[text()='Name']"), 1));
@@ -77,7 +77,7 @@ public class Countries extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S57_7_verifySelectLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
@@ -85,7 +85,7 @@ public class Countries extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S57_8_verifyExportLink() throws Exception
 	{
 		safeClick(driver, By.xpath("//table[@id='ctl00_cphMainContent_gvCountry']//a[text()='Export']"));
 		Thread.sleep(2000);
@@ -94,7 +94,7 @@ public class Countries extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S57_9_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnCountry"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));

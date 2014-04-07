@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class SystemRoles extends ETHOSDomainWraper{
+public class S60_SystemRoles extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -33,19 +33,19 @@ public class SystemRoles extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S60_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Roles"));
 	}
 
 	@Test
-	public void verifyTablePresent() throws Exception
+	public void S60_2_verifyTablePresent() throws Exception
 	{
 		assertTrue("User Table Not available",elementVisible(driver,By.id("ctl00_cphMainContent_gvRole"),3));
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S60_3_verifySelectLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
@@ -56,7 +56,7 @@ public class SystemRoles extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S60_4_verifyExportLink() throws Exception
 	{
 		elementVisible(driver, By.linkText("Export"), 5);
 		safeClick(driver,By.linkText("Export"));
@@ -66,7 +66,7 @@ public class SystemRoles extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S60_5_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));

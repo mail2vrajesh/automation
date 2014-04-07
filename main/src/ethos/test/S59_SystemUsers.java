@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class SystemUsers extends ETHOSDomainWraper{
+public class S59_SystemUsers extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -36,37 +36,37 @@ public class SystemUsers extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyHeading() throws Exception
+	public void S59_1_verifyHeading() throws Exception
 	{
 		assertTrue(driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Users"));
 	}
 
 	@Test
-	public void verifyRoleDropDown() throws Exception
+	public void S59_2_verifyRoleDropDown() throws Exception
 	{
 		assertTrue("Role Drop down doesn't exist",elementVisible(driver,By.id("ctl00_cphMainContent_ddlRole"),3));
 	}
 	
 	@Test
-	public void verifyUserIdSearch() throws Exception
+	public void S59_3_verifyUserIdSearch() throws Exception
 	{
 		assertTrue("UserId search Not available",elementVisible(driver,By.id("ctl00_cphMainContent_txtUserID"),3));
 	}
 	
 	@Test
-	public void verifyResetBtn() throws Exception
+	public void S59_4_verifyResetBtn() throws Exception
 	{
 		assertTrue("Reset Button Not available",elementVisible(driver,By.id("ctl00_cphMainContent_btnResetFilter"),3));
 	}
 	
 	@Test
-	public void verifyTablePresent() throws Exception
+	public void S59_5_verifyTablePresent() throws Exception
 	{
 		assertTrue("User Table Not available",elementVisible(driver,By.id("ctl00_cphMainContent_gvUser"),3));
 	}
 	
 	@Test
-	public void verifySelectLink() throws Exception
+	public void S59_6_verifySelectLink() throws Exception
 	{
 		//"table#ctl00_cphMainContent_gvCountry tr:nth-of-type("+(i+1)+") td:nth-of-type("+i+") a"
 		for(int i=1;i<=10;i++)
@@ -77,7 +77,7 @@ public class SystemUsers extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyExportLink() throws Exception
+	public void S59_7_verifyExportLink() throws Exception
 	{
 		elementVisible(driver, By.linkText("Export"), 5);
 		safeClick(driver,By.linkText("Export"));
@@ -87,7 +87,7 @@ public class SystemUsers extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAddNewBtn() throws Exception
+	public void S59_8_verifyAddNewBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
 		assertTrue("Popup didn't appear after clicking Add new",elementVisible(driver, By.id("ctl00_pnlMain"), 5));
