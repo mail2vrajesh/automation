@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
+public class S17_VolumeIntervalDataCheck extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -40,7 +40,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyProductGrp() throws Exception
+	public void S17_1_verifyProductGrp() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
 		ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProductGroup"));
@@ -52,7 +52,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyProductInProdGrps() throws Exception
+	public void S17_2_verifyProductInProdGrps() throws Exception
 	{
 			HashMap<String, String[]> prdGrpProdMap=new HashMap<String, String[]>();
 			prdGrpProdMap.put("Electricity",new String[]{"Half Hourly Electricity","Non Half Hourly Electricity"});
@@ -69,7 +69,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void findDeliveryPoint() throws Exception
+	public void S17_3_findDeliveryPoint() throws Exception
 	{
 		selectElectricityProducts();
 		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), "1620000714190");
@@ -80,7 +80,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkResetBtn() throws Exception
+	public void S17_5_chkResetBtn() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
@@ -89,7 +89,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkInactive() throws Exception
+	public void S17_6_chkInactive() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_chkShowInactive"));
@@ -105,7 +105,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void tickAllUntickAll() throws Exception
+	public void S17_7_tickAllUntickAll() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
@@ -117,7 +117,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataSummaryReportForIntervalData() throws Exception
+	public void S17_8_intervalDataSummaryReportForIntervalData() throws Exception
 	{
 		selectElectricityProducts();
 		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
@@ -140,7 +140,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataSummaryReportForInvoices() throws Exception
+	public void S17_9_intervalDataSummaryReportForInvoices() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -166,7 +166,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataSummaryReportForBoth() throws Exception
+	public void S17_10_intervalDataSummaryReportForBoth() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -191,7 +191,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataSummaryReportForMissing() throws Exception
+	public void S17_11_intervalDataSummaryReportForMissing() throws Exception
 	{
 		selectElectricityProducts();
 		
