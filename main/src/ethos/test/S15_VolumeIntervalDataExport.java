@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class VolumeIntervalDataExport extends ETHOSDomainWraper{
+public class S15_VolumeIntervalDataExport extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -35,7 +35,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyProductGrp() throws Exception
+	public void S12_1_verifyProductGrp() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
 		ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProductGroup"));
@@ -47,7 +47,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifySiteAsPerProductGrp() throws Exception
+	public void S12_2_verifySiteAsPerProductGrp() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -62,7 +62,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void findDeliveryPoint() throws Exception
+	public void S12_3_findDeliveryPoint() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -72,7 +72,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	/*@Test
-	public void chkResetBtnMainContent() throws Exception
+	public void S12_5_chkResetBtnMainContent() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -87,7 +87,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}*/
 	
 	@Test
-	public void chkResetBtnSiteDP() throws Exception
+	public void S12_11_chkResetBtnSiteDP() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
 		waitForPageLoaded(driver);
@@ -97,7 +97,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataExport() throws Exception
+	public void S12_7_intervalDataExport() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -115,7 +115,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataExportRowColumn() throws Exception
+	public void S12_8_intervalDataExportRowColumn() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -135,7 +135,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataExportSingleRow() throws Exception
+	public void S12_9_intervalDataExportSingleRow() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -155,7 +155,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void chkInactive() throws Exception
+	public void S12_5_chkInactive() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -170,7 +170,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void tickAllUntickAll() throws Exception
+	public void S12_6_tickAllUntickAll() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);
@@ -183,7 +183,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyErrorForIncorrectData() throws Exception
+	public void S12_10_verifyErrorForIncorrectData() throws Exception
 	{
 		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
 		waitForPageLoaded(driver);

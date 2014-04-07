@@ -12,7 +12,7 @@ public class test {
 	@Test
 	public void test1() throws IOException
 	{
-		File file = new File("./main/src/ethos/test/S12_VolumeDataTotals.java");
+		File file = new File("./main/src/ethos/test/S15_VolumeIntervalDataExport.java");
 		List<String> lines=FileUtils.readLines(file);
 		String scenario="S12_";
 		int tcCount=1;
