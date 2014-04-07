@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
+public class S18_VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -34,7 +34,7 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void findDeliveryPoint() throws Exception
+	public void S18_1_findDeliveryPoint() throws Exception
 	{
 		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), "1620000714190");
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnFindDP"));
@@ -44,7 +44,7 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkResetBtn() throws Exception
+	public void S18_3_chkResetBtn() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
 		waitForPageLoaded(driver);
@@ -54,7 +54,7 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkInactive() throws Exception
+	public void S18_4_chkInactive() throws Exception
 	{
 		
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_chkShowInactive"));
@@ -69,7 +69,7 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void tickAllUntickAll() throws Exception
+	public void S18_5_tickAllUntickAll() throws Exception
 	{
 		
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
@@ -81,7 +81,7 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataRemoval() throws Exception
+	public void S18_6_intervalDataRemoval() throws Exception
 	{
 
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-14");
@@ -104,7 +104,7 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataRemovalCancel() throws Exception
+	public void S18_7_intervalDataRemovalCancel() throws Exception
 	{
 
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-14");

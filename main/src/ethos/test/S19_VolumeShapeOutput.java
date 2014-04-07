@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class VolumeShapeOutput extends ETHOSDomainWraper{
+public class S19_VolumeShapeOutput extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -37,7 +37,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 		goToVolumeDataShapeOut();
 	}
 	@Test
-	public void verifyProductGrp() throws Exception
+	public void S19_1_verifyProductGrp() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
 		ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProductGroup"));
@@ -49,7 +49,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyProductInProdGrps() throws Exception
+	public void S19_2_verifyProductInProdGrps() throws Exception
 	{
 			HashMap<String, String[]> prdGrpProdMap=new HashMap<String, String[]>();
 			prdGrpProdMap.put("Electricity",new String[]{"Half Hourly Electricity","Non Half Hourly Electricity"});
@@ -66,7 +66,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void findDeliveryPoint() throws Exception
+	public void S19_3_findDeliveryPoint() throws Exception
 	{
 		selectElectricityProducts();
 		findDelPoint("1620000714190");
@@ -75,7 +75,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkResetBtn() throws Exception
+	public void S19_5_chkResetBtn() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
@@ -84,7 +84,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkInactive() throws Exception
+	public void S19_6_chkInactive() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_chkShowInactive"));
@@ -100,7 +100,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void tickAllUntickAll() throws Exception
+	public void S19_7_tickAllUntickAll() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
@@ -112,7 +112,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataShapeOutputGrid() throws Exception
+	public void S19_8_intervalDataShapeOutputGrid() throws Exception
 	{
 		selectElectricityProducts();
 		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
@@ -126,7 +126,7 @@ public class VolumeShapeOutput extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void intervalDataShapeOutputMeter() throws Exception
+	public void S19_9_intervalDataShapeOutputMeter() throws Exception
 	{
 		selectElectricityProducts();
 		driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).click();
