@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
+public class S16_VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 
 	
 	@BeforeClass
@@ -38,7 +38,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyProductGrp() throws Exception
+	public void S15_1_verifyProductGrp() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
 		ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProductGroup"));
@@ -50,7 +50,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifySiteAsPerProductGrp() throws Exception
+	public void S15_2_verifySiteAsPerProductGrp() throws Exception
 	{
 		selectElectricityProducts();
 		assertTrue("Site doesn't exist as per product Group",textPresent(driver, "043 - ICI", 4));
@@ -66,7 +66,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void findDeliveryPoint() throws Exception
+	public void S15_3_findDeliveryPoint() throws Exception
 	{
 		selectElectricityProducts();
 		findDelPoint("1620000714190");
@@ -75,7 +75,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkResetBtn() throws Exception
+	public void S15_5_chkResetBtn() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
@@ -84,7 +84,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkInactive() throws Exception
+	public void S15_6_chkInactive() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_chkShowInactive"));
@@ -100,7 +100,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void tickAllUntickAll() throws Exception
+	public void S15_7_tickAllUntickAll() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
@@ -115,7 +115,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void findDeliveryPointNumber() throws Exception
+	public void S15_8_findDeliveryPointNumber() throws Exception
 	{
 		selectElectricityProducts();
 		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), "1620000714190");
@@ -126,7 +126,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyAggregateToSiteLevel() throws Exception
+	public void S15_9_verifyAggregateToSiteLevel() throws Exception
 	{
 		selectElectricityProducts();
 		//selecting site
@@ -137,7 +137,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyDataLoadLevelDP() throws Exception
+	public void S15_10_verifyDataLoadLevelDP() throws Exception
 	{
 		selectElectricityProducts();
 		//selecting site
@@ -147,7 +147,27 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void reportEntirePeriod() throws Exception
+	public void S15_11_reportEntirePeriod() throws Exception
+	{
+		selectElectricityProducts();
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+	
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateFrom"), "01-Dec-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateTo"), "01-Mar-2014");
+		
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSum_1"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioToFile_1"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		textPresent(driver, "Please configure how you want to sum the interval data", 7);
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
+	}
+	
+	@Test
+	public void S15_12_reportMonthlyTotals() throws Exception
 	{
 		selectElectricityProducts();
 		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
@@ -166,9 +186,8 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
 	}
 	
-	
 	@Test
-	public void reportAggSiteWithMultiDPs() throws Exception
+	public void S15_13_reportAggSiteWithMultiDPs() throws Exception
 	{	
 		selectElectricityProducts();
 		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
@@ -189,7 +208,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void reportAggSiteNoWithMultiDPs() throws Exception
+	public void S15_14_reportAggSiteNoWithMultiDPs() throws Exception
 	{	
 		selectElectricityProducts();
 		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
@@ -212,7 +231,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void reportOutPutFileYes() throws Exception
+	public void S15_15_reportOutPutFileYes() throws Exception
 	{	
 		selectElectricityProducts();
 		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
@@ -236,7 +255,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void reportOutPutFileNo() throws Exception
+	public void S15_16_reportOutPutFileNo() throws Exception
 	{	
 		selectElectricityProducts();
 		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));

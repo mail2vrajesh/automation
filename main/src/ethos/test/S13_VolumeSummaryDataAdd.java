@@ -38,7 +38,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void S12_1_verifyProductGrp() throws Exception
+	public void S13_1_verifyProductGrp() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
 		ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProductGroup"));
@@ -50,7 +50,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void S12_2_verifyProductInProdGrps() throws Exception
+	public void S13_2_verifyProductInProdGrps() throws Exception
 	{
 			HashMap<String, String[]> prdGrpProdMap=new HashMap<String, String[]>();
 			prdGrpProdMap.put("Electricity",new String[]{"Half Hourly Electricity","Non Half Hourly Electricity"});
@@ -67,7 +67,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void S12_3_verifyVolTypeList() throws Exception
+	public void S13_3_verifyVolTypeList() throws Exception
 	{
 			HashMap<String, String[]> prdGrpDataTypeMap=new HashMap<String, String[]>();
 			prdGrpDataTypeMap.put("Electricity",new String[]{"BTMonthlyRawData","Capacity Level","Estimated Annual Consumption","Volume Adjustment Figure"});
@@ -84,7 +84,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void S12_4_verifyUnitBasisList() throws Exception
+	public void S13_4_verifyUnitBasisList() throws Exception
 	{
 			HashMap<String, String[]> prdGrpUnitBaseMap=new HashMap<String, String[]>();
 			prdGrpUnitBaseMap.put("Electricity",new String[]{"Factor","kVA","kVArh","kW","kWh","MW","MWh","Percentage","YearMonth"});
@@ -101,7 +101,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void S12_5_verifyDataLoadLevelSite() throws Exception
+	public void S13_5_verifyDataLoadLevelSite() throws Exception
 	{
 		fillDropDownsForGas();
 		safeClick(driver, By.id("ctl00_cphMainContent_RdoDataLoadLevel_1"));
@@ -115,7 +115,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void S12_6_verifyDataLoadLevelDP() throws Exception
+	public void S13_6_verifyDataLoadLevelDP() throws Exception
 	{
 		fillDropDownsForGas();
 		//selecting site
@@ -130,7 +130,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void S12_7_verifyDataDisplay() throws Exception
+	public void S13_7_verifyDataDisplay() throws Exception
 	{
 		fillDropDownsVolumeSummaryData();
 
@@ -158,7 +158,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 		
 	}
 	@Test
-	public void S12_8_verifySaveSummaryData() throws Exception
+	public void S13_8_verifySaveSummaryData() throws Exception
 	{
 		fillDropDownsVolumeSummaryData();
 
@@ -204,7 +204,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void S12_9_verifyCancelFunctionality() throws Exception
+	public void S13_9_verifyCancelFunctionality() throws Exception
 	{
 		fillDropDownsVolumeSummaryData();
 
@@ -221,7 +221,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void S12_11_checkingWrongExcelFormat() throws Exception
+	public void S13_11_checkingWrongExcelFormat() throws Exception
 	{
 		fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.linkText("Load from sheet"));
@@ -234,7 +234,7 @@ public class S13_VolumeSummaryDataAdd extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void S12_13_chkResetBtn() throws Exception
+	public void S13_13_chkResetBtn() throws Exception
 	{
 		fillDropDownsVolumeSummaryData();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
