@@ -34,13 +34,14 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import com.google.common.base.Function;
+//import com.sun.media.sound.InvalidFormatException;
 
 public class FrameworkCommon extends FrameworkDeclaration {
 
 
-	public static RemoteWebDriver driver = null;
 
-	public RemoteWebDriver getDriver(String Browser) {
+
+	public RemoteWebDriver getDriver(RemoteWebDriver driver,String Browser) {
 		if (driver == null) {
 
 			if(Browser.contains("IE")){
@@ -57,6 +58,8 @@ public class FrameworkCommon extends FrameworkDeclaration {
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			}else if (Browser.contains("firefox")){
 				driver=new FirefoxDriver();
+				driver.manage().deleteAllCookies();
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			}else{
 				System.out.println("Chk config Browser");
 			}
@@ -359,9 +362,11 @@ public class FrameworkCommon extends FrameworkDeclaration {
 	// eachrowcount is to get the count of col for given row
 	public  String readDataFromXL(String filename,int col, int row, int eachcolcount)
 			throws FileNotFoundException, IOException,  Exception {
-		FileInputStream fs=new FileInputStream ("outputData\\"+filename);	
+		File file = new File(".");
+		String filepath =file.getCanonicalPath() + "\\outputData\\";
+		FileInputStream fs=new FileInputStream (filepath+filename);
 		Workbook wb = WorkbookFactory.create(fs);
-		int rowCount=getExcelColulmnCount("Sheet1","outputData\\"+filename,eachcolcount);
+		int rowCount=getExcelColulmnCount("Sheet1",filepath+filename,eachcolcount);
 		String[] XLdata =new String[rowCount];		
 		//System.out.println(rowCount);
 		for (int j=col;j<rowCount; j++){
@@ -375,6 +380,28 @@ public class FrameworkCommon extends FrameworkDeclaration {
 		}
 		return builder.toString();
 	}
+	
+	public  String readXLDatafromGivenPath(String folder,String filename,int col, int row, int eachcolcount)
+			throws FileNotFoundException, IOException,  Exception {
+		String path =folder+"\\"+filename;
+		System.out.println(path);
+		FileInputStream fs=new FileInputStream (path);	
+		Workbook wb = WorkbookFactory.create(fs);
+		int rowCount=getExcelColulmnCount("Sheet1",path,eachcolcount);
+		String[] XLdata =new String[rowCount];		
+		//System.out.println(rowCount);
+		for (int j=col;j<rowCount; j++){
+			XLdata[j]=wb.getSheet("Sheet1").getRow(row).getCell(j).getStringCellValue();
+			System.out.println(XLdata[j]);
+		}
+
+		StringBuilder builder = new StringBuilder();
+		for(String s : XLdata) {
+			builder.append(s);
+		}
+		return builder.toString();
+	}
+
 
 
 	public  String readDataFromXLLimitCol(String filename,int col, int row, int eachcolcount, int rowCount)
@@ -396,11 +423,7 @@ public class FrameworkCommon extends FrameworkDeclaration {
 		return builder.toString();
 	}
 
-
-
-
-
-	public String getFile(String Startwith) {
+        public String getFile(String Startwith) {
 
 		File folder = new File("outputData\\");
 		File[] listOfFiles = folder.listFiles();
@@ -423,6 +446,21 @@ public class FrameworkCommon extends FrameworkDeclaration {
 
 			throws InterruptedException, AWTException {
 		driver.findElement(By.id(locator)).click();			
+		Thread.sleep(2000);
+		Robot robot=new Robot();			
+		robot.keyPress(KeyEvent.VK_LEFT);
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.delay(2000);
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.delay(2000);
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.delay(2000);
+		robot.keyPress(KeyEvent.VK_ENTER);
+	}
+	
+	public  void DownloaderDefault(RemoteWebDriver driver)
+
+			throws InterruptedException, AWTException {		
 		Thread.sleep(2000);
 		Robot robot=new Robot();			
 		robot.keyPress(KeyEvent.VK_LEFT);
@@ -539,7 +577,7 @@ public class FrameworkCommon extends FrameworkDeclaration {
 	public static void importXL(WebDriver driver, String filePath) throws InterruptedException, IOException {
 		File file = new File(".");
 		String filepath =file.getCanonicalPath()+"\\inputData\\";
-		System.out.println(filepath);
+		//System.out.println(filepath);
 		driver.findElement(By.id("ctl08_ctl05_fileImport_fileImportNewFactor")).sendKeys(filepath+filePath);
 		driver.findElement(By.id("ctl08_ctl05_fileImport_lbnImportNewFactors")).click();
 	}
@@ -623,28 +661,24 @@ public class FrameworkCommon extends FrameworkDeclaration {
 		return true;
 	}
 
-
-
-	public String getBit()
-	{
-
-		String architecture = "os.arch";
-		String bit =System.getProperty(architecture);
-		System.out.println(bit);
-		return bit;
-	}
-
-
-	public void  killIEInstances() throws IOException
-	{
+	
+	public static void importXLValid(RemoteWebDriver driver, String filePath, String format) throws InterruptedException, IOException {
 		File file = new File(".");
-		String filepath =file.getCanonicalPath()+"\\resources\\";
-		String path="cmd /c start "+filepath+"killIE.bat";
-		Runtime rn=Runtime.getRuntime();
-		Process pr=rn.exec(path);
-		System.out.println(pr);
-
+		String filepath =file.getCanonicalPath()+"\\inputData\\";
+		driver.findElement(By.xpath("//div/div/div/div[2]/div/div/input")).sendKeys(filepath+cachedProperties.value(filePath)+"."+format);
+		driver.findElement(By.xpath("//div[2]/div/a")).click();
 	}
+	
+	public static void importXLValidwithUpdatedData(RemoteWebDriver driver, String filePath) throws InterruptedException, IOException {
+		File file = new File(".");
+		String filepath =file.getCanonicalPath()+"\\outputData\\";
+		driver.findElement(By.xpath("//div/div/div/div[2]/div/div/input")).sendKeys(filepath+filePath);
+		driver.findElement(By.xpath("//div[2]/div/a")).click();
+	}
+
+
+
+	
 
 	public void confirmDeleteOperation(RemoteWebDriver driver) throws Exception {
 

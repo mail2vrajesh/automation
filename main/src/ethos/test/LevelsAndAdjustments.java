@@ -1,12 +1,10 @@
 package ethos.test;
 	
-	import java.io.File;
+	import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,29 +19,30 @@ public class LevelsAndAdjustments extends ETHOSDomainWraper {
 	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		getApp(driver,cachedProperties.value("Ethos_url"),"ETHOS Login");
 	    ethosLogin(driver,"madhva","madhva");
 	    waitTitle(driver, "ETHOS Main Page", 10);
-	    safeClick(driver, By.xpath("//div[2]/ul/li[7]/div/b/a"));
+	    safeClick(driver, By.linkText("Client"));
 	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/ul/li[2]/div/b/a"));
 	    
 	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/ul/li[2]/div/b/a"));
 	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/ul/li[1]/div/b/a"));
 	    
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/ul/li[1]/div/b/a"));
+	    safeClick(driver, By.linkText("Clients"));
 	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[3]/td/input[1]"));
 	   
-	    safeClick(driver, By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[3]/td/input[1]"));//view
+	    safeClick(driver, By.id("ctl00_cphMainContent_btnApply"));//view
 	    waitForPagetoLoad_Element(driver, 20,By.xpath("//div[2]/div[4]/div[2]/div[2]/div/table/tbody/tr[2]/td/a"));
 	    
-	    safeClick(driver, By.xpath("//div[2]/div[4]/div[2]/div[2]/div/table/tbody/tr[2]/td/a"));
+	    safeClick(driver, By.linkText("Select"));
 	    waitForPagetoLoad_Element(driver, 20,By.xpath("//div[2]/div[3]/div/div/span/div/img"));
 	    
-	    safeClick(driver, By.xpath("//div[2]/div[3]/div/div/span/div/img"));
-	    safeClick(driver, By.xpath("//div[2]/div[3]/div/div/span/div[5]/div/a[8]"));//levels and adjustments
+	    safeClick(driver, By.id("ctl00_cphParentContent_ClientGroupHeader1_Repeater1_ctl00_btnOptions"));
+	    safeClick(driver, By.id("ctl00_cphParentContent_ClientGroupHeader1_Repeater1_ctl00_lnkLevAdj"));//levels and adjustments
+	    waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_gvLevAdj"));
 	}
 	
 
@@ -62,6 +61,18 @@ public class LevelsAndAdjustments extends ETHOSDomainWraper {
 	    waitTitle(driver, " ETHOS ", 10);
 	    /*String Valueofproduct= new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"))).toString();*/
 	    assertTrue(elementPresent(driver, By.xpath("//div[2]/div[3]/div/div/span/div[2]/div/span"), 10));//assert client
+	    
+	}
+	//loading page error
+	@Test
+	public void clientMaintenance_VerifyProductGroupList() throws Exception  {
+		
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+	    safeType(driver, By.id("ctl00_cphMainContent_ddlProduct"), "Half Hourly Electricity");
+	    waitTitle(driver, "ETHOS", 10);
+	    safeType(driver, By.id("ctl00_cphMainContent_ddlLevAdjType"), "Uplift Factor: Climate Change Levy");
+	    waitTitle(driver, "ETHOS", 10);
+	    assertTrue("Table is not there", elementPresent(driver, By.id("ctl00_cphMainContent_gvLevAdj"), 10));
 	    
 	}
 	
@@ -215,13 +226,15 @@ public class LevelsAndAdjustments extends ETHOSDomainWraper {
 	    assertTrue(elementPresent(driver, By.xpath("//div[2]/div[4]/div[2]/input"), 10));//add new assert
 	    
 	}
-	/*@Test// Not passed
+	//passed
+	@Test
 	public void clientMaintenance_VerifyExportList() throws Exception  {
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[5]/td/table/tbody/tr/td[5]/a"));
-		safeClick(driver, By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[5]/td/table/tbody/tr/td[5]/a"));//select export	
-		assertTrue(PopupMessageBox(driver));
-		
-	}*/
+		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[5]/td/table/tbody/tr/td[5]/a"));	
+		safeClick(driver, By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[5]/td/table/tbody/tr/td[5]/a"));
+		Thread.sleep(2000);
+		Robot robot=new Robot();			
+		robot.keyPress(KeyEvent.VK_ENTER);
+	}
 	
 	
 }

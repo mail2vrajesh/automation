@@ -18,11 +18,17 @@ public class MetricsDomainWraper extends FrameworkCommon {
 	     safeType(driver, By.cssSelector("input[type=\"text\"]"), Username);
 		 safeType(driver, By.cssSelector("input[type=\"password\"]"), Password);
 		 safeClick(driver, By.xpath("//span[text()='Sign in']"));
+		 
+		 
 				
 			}
 
 	public void gotoSubMenu(RemoteWebDriver driver, String menu, String subMenu,
 			String title) throws Exception {
+		/*while(textPresent(driver, "access permission", 3)){
+			 safeClick(driver, By.xpath("//div[@id='divList']/div/div/div[2]/div[4]/div"));
+				metricsLogin(driver, cachedProperties.value("Metrics_username"), cachedProperties.value("Metrics_password"));
+		 }*/
 		Thread.sleep(1000);
 		//driver.navigate().refresh();
 				    Actions actions = new Actions(driver);
@@ -36,12 +42,29 @@ public class MetricsDomainWraper extends FrameworkCommon {
 			   	
 			}
 
-	public void simpleFilter(RemoteWebDriver driver,String filterName, String byText) {
-		driver.findElement(By.cssSelector("span.ui-icon.ui-icon-plusthick")).click();
-	    driver.findElement(By.xpath("//a[contains(text(),'"+filterName+"')]")).click();
-	    driver.findElement(By.xpath("(//input[@type='text'])[4]")).clear();
-	    driver.findElement(By.xpath("(//input[@type='text'])[4]")).sendKeys(byText);
-	    driver.findElement(By.xpath("//a[contains(text(),'"+byText+"')]")).click();
+	public void simpleFilter(RemoteWebDriver driver,String filterName, String byText) throws Exception {
+	
+		if(elementPresent(driver, By.xpath("//div[contains(@class,'grouptype-box limitWidth')]"), 3)){
+			Actions actions = new Actions(driver);
+			WebElement mainmenu = driver.findElement(By.xpath("//div[contains(@class,'grouptype-box limitWidth')]"));
+			
+	       	actions.moveToElement(mainmenu).build().perform();
+	      //div[@id='ctl08_ctl02_groupfilter']/div/div/div/div[5]/span
+	       /*	WebElement sub = driver.findElement(By.xpath("//div[@id='ctl08_ctl02_groupfilter']/div/div/div/div[5]/span"));
+	       	actions.moveToElement(sub).click();*/
+	       	safeClick(driver, By.xpath("//div[@id='ctl08_ctl02_groupfilter']/div/div/div/div[5]/span"));
+	       	
+	     
+	      	Thread.sleep(5000);	
+		}else{
+		System.out.println("no filter");
+		}
+	
+		safeClick(driver, By.cssSelector("span.ui-icon.ui-icon-plusthick"));
+		safeClick(driver, By.xpath("//a[contains(text(),'"+filterName+"')]"));
+		safeType(driver, By.xpath("(//input[@type='text'])[4]"), byText);
+		safeClick(driver, By.xpath("//a[contains(text(),'"+byText+"')]"));
+
 	}
 	
 	public void alertBox(RemoteWebDriver driver) throws InterruptedException {
@@ -70,7 +93,7 @@ public class MetricsDomainWraper extends FrameworkCommon {
 							//if name is successfully added go and click edit button
 							msg="EleementPresent";
 							row.click();
-							Thread.sleep(1000);
+						
 							row.findElement(By.xpath(Edit)).click();
 								break ;
 							}
@@ -81,6 +104,22 @@ public class MetricsDomainWraper extends FrameworkCommon {
 						}
 					}
 			}
+	
+	
+	public void dateFilter(RemoteWebDriver driver, String fDate, String TDate) throws Exception {
+		safeClick(driver, By.cssSelector("span.ui-icon.ui-icon-triangle-1-s"));
+safeType(driver, By.xpath("//div[2]/div[1]/input"), fDate);
+safeType(driver, By.xpath("//div[2]/input"), TDate);
+safeClick(driver, By.xpath("//a[@id='ctl08_ctl04_lbnSave']/span"));
 
+	}
+	
+	public void getData(RemoteWebDriver driver,String tablepath,String rowpath,String values) {
+		WebElement table=driver.findElement(By.xpath(tablepath));
+		List<WebElement> rows1=table.findElements(By.tagName(rowpath));
+		for(WebElement row:rows1){
+			 values=row.getText();
+		}
+	}
 
 }

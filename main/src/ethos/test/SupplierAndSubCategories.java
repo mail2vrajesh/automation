@@ -2,12 +2,9 @@ package ethos.test;
 	
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -25,7 +22,7 @@ public class SupplierAndSubCategories extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+			driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}

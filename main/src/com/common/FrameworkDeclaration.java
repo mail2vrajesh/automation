@@ -20,6 +20,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -35,10 +37,11 @@ public class FrameworkDeclaration extends SeleneseTestBase {
 
 
 	//public RemoteWebDriver driver;
-	public CachedProperties cachedProperties = instance();
+	public static CachedProperties cachedProperties = instance();
 	public CachedProperties data = dataInstance();
 
 	public boolean screenshot=Boolean.parseBoolean(cachedProperties.value("screenshot"));
+	public boolean gd=Boolean.parseBoolean(cachedProperties.value("GenerateData"));
 
 	public HashMap < String, String > Metrics_readValuesFromCSV() {
 
@@ -205,28 +208,246 @@ public class FrameworkDeclaration extends SeleneseTestBase {
 		}
 	}
 	
-	public String  getStringFromXL(String filePath, int row, int cel) throws FileNotFoundException, IOException,
+	public static String  getStringFromXL(String filePath, String Sheetname,int row, int cel) throws FileNotFoundException, IOException,
 	InvalidFormatException {
 FileInputStream input_document = new FileInputStream(new File(filePath));//"F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xlsx"
 Workbook wb = WorkbookFactory.create(input_document);
    Cell cell = null; 
-   cell = wb.getSheet("Sheet1").getRow(row).getCell(cel);
-   System.out.println( cell.getStringCellValue());	  
+   cell = wb.getSheet(Sheetname).getRow(row).getCell(cel);
    input_document.close();
 return cell.getStringCellValue();
 }
 
 
 
-public int getIntegerFromXL(String filePath, int row, int cel) throws FileNotFoundException, IOException,
+public static int getIntegerFromXL(String filePath, String Sheetname, int row, int cel) throws FileNotFoundException, IOException,
 	InvalidFormatException {
 FileInputStream input_document = new FileInputStream(new File(filePath));//"F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xlsx"
 Workbook wb = WorkbookFactory.create(input_document);
    Cell cell = null; 
-   cell = wb.getSheet("Sheet1").getRow(row).getCell(cel);
-   System.out.println( cell.getNumericCellValue());
+   cell = wb.getSheet(Sheetname).getRow(row).getCell(cel);
    input_document.close();
 return (int) cell.getNumericCellValue();
+}
+public String getBit()
+{
+
+	String architecture = "os.arch";
+	String bit =System.getProperty(architecture);
+	System.out.println(bit);
+	return bit;
+}
+
+
+public void  killIEInstances() throws IOException
+{
+	File file = new File(".");
+	String filepath =file.getCanonicalPath()+"\\resources\\";
+	String path="cmd /c start "+filepath+"killIE.bat";
+	Runtime rn=Runtime.getRuntime();
+	Process pr=rn.exec(path);
+	System.out.println(pr);
+
+}
+
+
+public void dataGenerator() throws FileNotFoundException, IOException,
+		InvalidFormatException {
+	if(gd){
+		
+	
+			FileInputStream input_document = new FileInputStream(new File("F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xls"));
+			   //Access the workbook
+			   HSSFWorkbook my_xls_workbook = new HSSFWorkbook(input_document); 
+			   //Access the worksheet, so that we can update / modify it.
+			   HSSFSheet my_worksheet = my_xls_workbook.getSheetAt(0);
+			   // declare a Cell object
+			   Cell cell = null; 
+			   // Access the cell first to update the value
+			   int raw =Integer.parseInt(cachedProperties.value("Increment"));
+			   String inc=Integer.toString(raw);
+			   String data= cachedProperties.value("ClientName")+inc;
+			   System.out.println(data);
+			   cell = my_worksheet.getRow(1).getCell(0);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(1);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(2).getCell(2);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(2).getCell(3);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(2).getCell(4);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(2).getCell(5);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(6);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(7);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(8); 
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(9);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(10);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(11);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(12);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(13);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(14);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(15);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(16);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(17);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(18);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(19);
+			   cell.setCellValue(data);
+			   cell = my_worksheet.getRow(1).getCell(20);
+			   cell.setCellValue(data);
+			   
+			  String arraydata = "ClientGroupType,SiteGroupType,MeterGroupType,TechParamType,TechParam";
+			  String[] array =arraydata.split(",");
+		
+		
+		
+			  
+			   cell = my_worksheet.getRow(1).getCell(21);
+			   cell.setCellValue(data+array[0]);
+			   cell = my_worksheet.getRow(1).getCell(22);
+			   cell.setCellValue(data+array[1]);
+			   cell = my_worksheet.getRow(1).getCell(23);
+			   cell.setCellValue(data+array[2]);
+			   cell = my_worksheet.getRow(1).getCell(24);
+			   cell.setCellValue(data+array[0]);
+			   cell = my_worksheet.getRow(1).getCell(25);
+			   cell.setCellValue(data+array[1]);
+			   cell = my_worksheet.getRow(1).getCell(26);
+			   cell.setCellValue(data+array[2]);
+			   
+			   cell = my_worksheet.getRow(1).getCell(27);
+			   cell.setCellValue(data+array[3]);
+			   cell = my_worksheet.getRow(1).getCell(28);
+			   cell.setCellValue(data+array[4]);
+			   cell = my_worksheet.getRow(1).getCell(29);
+			   cell.setCellValue(data+"tech1");
+			   // Get current value and then add 5 to it 
+			   //Close the InputStream
+			   
+			   
+			   int raw1 =Integer.parseInt(cachedProperties.value("Increment"))+1;
+			   String inc1=Integer.toString(raw1);
+			   String siteone1= "sOne"+inc;
+			   String siteone2= "sOne"+inc1;
+			   String sitetwo1= "sTwo"+inc;
+			   String sitetwo2= "sTwo"+inc1;
+			   cell = my_worksheet.getRow(10).getCell(2);
+			   cell.setCellValue(siteone1);
+			   cell = my_worksheet.getRow(11).getCell(2);
+			   cell.setCellValue(siteone2);
+			   cell = my_worksheet.getRow(10).getCell(3);
+			   cell.setCellValue(sitetwo1);
+			   cell = my_worksheet.getRow(11).getCell(3);
+			   cell.setCellValue(sitetwo2);
+			   
+			   cell = my_worksheet.getRow(10).getCell(4);
+			   cell.setCellValue(siteone1);
+			   cell = my_worksheet.getRow(11).getCell(4);
+			   cell.setCellValue(siteone2);
+			   cell = my_worksheet.getRow(10).getCell(5);
+			   cell.setCellValue(sitetwo1);
+			   cell = my_worksheet.getRow(11).getCell(5);
+			   cell.setCellValue(sitetwo2);
+			   
+			   
+			   cell = my_worksheet.getRow(3).getCell(6);
+			   cell.setCellValue(siteone1);
+			   cell = my_worksheet.getRow(3).getCell(7);
+			   cell.setCellValue(siteone2);
+			   cell = my_worksheet.getRow(3).getCell(8);
+			   cell.setCellValue(sitetwo1);
+			   cell = my_worksheet.getRow(3).getCell(9);
+			   cell.setCellValue(sitetwo2);
+			   
+			   cell = my_worksheet.getRow(3).getCell(10);
+			   cell.setCellValue(siteone1);
+			   cell = my_worksheet.getRow(3).getCell(11);
+			   cell.setCellValue(siteone2);
+			   cell = my_worksheet.getRow(3).getCell(12);
+			   cell.setCellValue(sitetwo1);
+			   cell = my_worksheet.getRow(3).getCell(13);
+			   cell.setCellValue(sitetwo2);
+			   
+			   String ARsiteone1= "ARsOne"+inc;
+			   String ARsiteone2= "ARsOne"+inc1;
+			   String ARsitetwo1= "ARsTwo"+inc;
+			   String ARsitetwo2= "ARsTwo"+inc1;
+			   cell = my_worksheet.getRow(6).getCell(6);
+			   cell.setCellValue(ARsiteone1);
+			   cell = my_worksheet.getRow(6).getCell(7);
+			   cell.setCellValue(ARsiteone2);
+			   cell = my_worksheet.getRow(6).getCell(8);
+			   cell.setCellValue(ARsitetwo1);
+			   cell = my_worksheet.getRow(6).getCell(9);
+			   cell.setCellValue(ARsitetwo2);
+			   
+			   cell = my_worksheet.getRow(6).getCell(10);
+			   cell.setCellValue(ARsiteone1);
+			   cell = my_worksheet.getRow(6).getCell(11);
+			   cell.setCellValue(ARsiteone2);
+			   cell = my_worksheet.getRow(6).getCell(12);
+			   cell.setCellValue(ARsitetwo1);
+			   cell = my_worksheet.getRow(6).getCell(13);
+			   cell.setCellValue(ARsitetwo2);
+			   
+			   cell = my_worksheet.getRow(3).getCell(17);
+			   cell.setCellValue(ARsiteone1);
+			   cell = my_worksheet.getRow(3).getCell(18);
+			   cell.setCellValue(ARsiteone2);
+			   cell = my_worksheet.getRow(3).getCell(19);
+			   cell.setCellValue(ARsitetwo1);
+			   cell = my_worksheet.getRow(3).getCell(20);
+			   cell.setCellValue(ARsitetwo2);
+			   
+			   
+			   int a= getInteger("F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xls", "Sheet1", 3, 21);
+			   System.out.println(a);
+			   cell = my_worksheet.getRow(3).getCell(21);
+			   cell.setCellValue(a+3);
+			   int b= getInteger("F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xls", "Sheet1", 3, 22);
+			   System.out.println(b);
+			   cell = my_worksheet.getRow(3).getCell(22);
+			   cell.setCellValue(b+3);
+			   int c= getInteger("F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xls", "Sheet1", 3, 23);
+			   System.out.println(c);
+			   cell = my_worksheet.getRow(3).getCell(23);
+			   cell.setCellValue(c+3);
+			   
+			   
+			   
+			   input_document.close();
+			   //Open FileOutputStream to write updates
+			   FileOutputStream output_file =new FileOutputStream(new File("F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xls"));
+			   //write changes
+			   my_xls_workbook.write(output_file);
+			   //close the stream
+			   output_file.close();
+	}
+		}
+
+public static int getInteger(String filePath, String Sheetname, int row, int cel) throws FileNotFoundException, IOException,
+InvalidFormatException {
+	FileInputStream input_document = new FileInputStream(new File(filePath));//"F:\\energyquote\\automation\\resources\\metricsdata\\metricsTemplateDatas.xlsx"
+	Workbook wb = WorkbookFactory.create(input_document);
+	Cell cell = null; 
+	cell = wb.getSheet(Sheetname).getRow(row).getCell(cel);
+	input_document.close();
+	return (int) cell.getNumericCellValue();
 }
 
 

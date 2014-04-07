@@ -23,7 +23,7 @@ public class VolumeIntervalDataCheck extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
-		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));

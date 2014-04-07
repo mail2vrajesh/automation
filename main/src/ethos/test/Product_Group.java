@@ -20,7 +20,7 @@ public class Product_Group extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+			driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}

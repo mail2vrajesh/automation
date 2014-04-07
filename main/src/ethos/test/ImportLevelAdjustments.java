@@ -1,15 +1,28 @@
 package ethos.test;
-	
-	import java.io.File;
+
+
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import bsh.ParseException;
 
 import com.domain.ETHOSDomainWraper;
 
@@ -17,197 +30,346 @@ public class ImportLevelAdjustments extends ETHOSDomainWraper {
 
 	public RemoteWebDriver driver = null;
 	
-	
 	@BeforeClass
 	public void startSelenium() throws Exception {	
-		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		File file;if(getBit().contains("64")){file = new File("exe\\IEDriverServer64.exe");}else{file = new File("exe\\IEDriverServer32.exe");}
+		DesiredCapabilities capability = DesiredCapabilities.internetExplorer();
+		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+		System.setProperty("webdriver.ie.driver", file.getAbsolutePath() ); 
+		driver= new FirefoxDriver();
+		/*driver = new InternetExplorerDriver();*/
 		driver.manage().deleteAllCookies();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		getApp(driver,cachedProperties.value("Ethos_url"),"ETHOS Login");
-	    ethosLogin(driver,"madhva","madhva");
-	    waitTitle(driver, "ETHOS Main Page", 10);
-	    safeClick(driver, By.xpath("//div[2]/ul/li[7]/div/b/a"));
-	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[2]/ul/li[2]/div/b/a"));
-	    
-	    safeClick(driver, By.xpath("//div[2]/ul/li[2]/div/b/a"));
-	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/ul/li[1]/div/b/a"));
-	    
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/ul/li[1]/div/b/a"));
-	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[3]/td/input[1]"));
-	   
-	    safeClick(driver, By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[3]/td/input[1]"));//view
-	    waitForPagetoLoad_Element(driver, 20,By.xpath("//div[2]/div[4]/div[2]/div[2]/div/table/tbody/tr[2]/td/a"));
-	    
-	    safeClick(driver, By.xpath("//div[2]/div[4]/div[2]/div[2]/div/table/tbody/tr[2]/td/a"));
-	    waitForPagetoLoad_Element(driver, 20,By.xpath("//div[2]/div[3]/div/div/span/div/img"));
-	    
-	    safeClick(driver, By.xpath("//div[2]/div[3]/div/div/span/div/img"));
-	    safeClick(driver, By.xpath("//div[2]/div[3]/div/div/span/div[5]/div/a[5]"));//product group
-	    
-	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[2]/td[1]/a"));
-	    safeClick(driver, By.xpath("//div[2]/div[4]/div[2]/div/table/tbody/tr[2]/td[1]/a"));//select button of electricity
-	    
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[2]/div[3]/div/div[2]/span/div/img"));
-		safeClick(driver, By.xpath("//div[2]/div[3]/div/div[2]/span/div/img"));//down arrow-
-		
-		safeClick(driver, By.xpath("//div[2]/div[3]/div/div[2]/span/div[4]/div/a[8]"));//import level adjustments 
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 	}
 	
+	@DataProvider
+	public Object [ ][ ] users() {
+		return new Object [ ] [ ] {{"madhva","madhva"} };
+	}
 
+	@Test(dataProvider="users")
+	public void ethosSignin(String username, String password) throws Exception {
+		getApp(driver,cachedProperties.value("Ethos_url"),"ETHOS Login");
+	    ethosLogin(driver,username,password);
+	    
+		if(username.equals("madhva") || username.equals("sachin")){
+			waitTitle(driver, "ETHOS Main Page", 10);
+			elementPresent(driver, By.id("ctl00_btnLogout"), 10); 
+		}else{
+			textPresent(driver, "Your login attempt was not successful. Invalid User Name", 10);
+		}
+	}
+	
+	@DataProvider
+	public Object [ ][ ] EFA() {
+		return new Object [ ] [ ] {{ "System"}};
+	}
+	
 	@AfterClass
 	public void closeSelenium() throws Exception {
 		driver.close();
 		driver.quit();
 	}
-	
-	
-	
-	@Test//passed
-	public void clientMaintenance_VerifyProductGroupList() throws Exception  {
-		
-	    waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    /*String Valueofproduct= new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"))).toString();*/
-	    assertTrue(elementPresent(driver, By.xpath("//div[3]/div[3]/div/div[2]/span/div[2]/div/span"), 10));//assert >product group
-	    assertTrue(elementPresent(driver, By.xpath("//div[3]/div[3]/div/div[1]/span/div[2]/div/span"), 10));//assert client
+	@AfterMethod (alwaysRun = true)
+	public void takeScreenshot(ITestResult _result) throws Exception{
+		if(screenshot){
+			screenshot(_result, driver);
+		}
+		screenshot(_result, driver);
 	}
 	
-	/*@Test//Not passed
-	public void clientMaintenance_VerifyProductGroupListForProduct() throws Exception  {
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyProductGroupListInLevlesAdjustments(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product1 = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product1.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+	    waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+	    assertTrue("Product list is not there",elementPresent(driver, By.id("ctl00_cphParentContent_ClientGroupProductGroupHeader1_ClientGroupHeader1_Repeater1_ctl00_Label1"), 10));
 	    
-	    String Valueofproduct= new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"))).toString();
-	    assertTrue(elementVisible(driver,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[4]/td[2]/selectz" ), 10));//assert 
-	    
-	}*/
-	
-	
-	@Test//passed
-	public void clientMaintenance_VerifyUpdateLevelAsGroup() throws Exception  {
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_ProductOptionsForProductGroup(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product1 = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product1.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[3]/td[2]/table/tbody/tr[1]/td/input"));//group radio button
-	    waitTitle(driver, " ETHOS ", 10);
-	    /*String Valueofproduct= new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"))).toString();*/
-	    assertTrue(elementPresent(driver,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[7]/td/input" ), 10));//assert 
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlProductGroup"), "Gas");
+	    waitTitle(driver, "ETHOS", 10);
+	    safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlProduct"), "Gas Supply");
+	    assertTrue("Product drop down is not selected as per product group options",new Select(driver.findElement(By.id("ctl00_cphMainContent_ddlProduct"))).getFirstSelectedOption().getText().contains("Gas Supply"));
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyListLevelAndAdjustments(String item) throws Exception  {
+		
+		navigateToProductGroup(driver, "ELE", "Import Level Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_txtDateFrom"));
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateFrom"), "text");
+		waitTitle(driver, "ETHOS", 10);
+	    assertTrue("Level/Adjustment Type: is missing for the product group", elementPresent(driver, By.id("ctl00_cphMainContent_ddlLevAdjType"), 10));   
+
 	    
 	}
 	
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyUpdateLevelAsGroup(String item) throws Exception  {
+		
+
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Uplift Factor: Climate Change Levy");
+		waitTitle(driver, "ETHOS", 10);
+	    assertTrue("Level/Adjustment Type: is missing for the product group", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), 10));       
+	}
 	
-	@Test//passed
-	public void clientMaintenance_VerifyUpdateLevelAsCompany() throws Exception  {
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyUpdateLevelAsCompany(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product1 = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product1.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[3]/td[2]/table/tbody/tr[2]/td/input"));//group radio button
-	    waitTitle(driver, " ETHOS ", 10);
-	    /*String Valueofproduct= new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"))).toString();*/
-	    assertTrue(elementPresent(driver,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[7]/td/input" ), 10));//assert 
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		assertTrue("Comapny radio button is missing", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_1']"), 10));     
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_1']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Volume Adjustment Factor");
+		waitTitle(driver, "ETHOS", 10);
+	    assertTrue("Level/Adjustment Type: is missing for the product group", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), 10));     
 	    
 	}
-	@Test// passed
-	public void clientMaintenance_VerifyUpdateLevelAsSite() throws Exception  {
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyUpdateLevelAsSite(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product1 = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product1.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[3]/td[2]/table/tbody/tr[3]/td/input"));//group radio button
-	    waitTitle(driver, " ETHOS ", 10);
-	   assertTrue(elementPresent(driver,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[7]/td/input" ), 10));//assert 
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		assertTrue("site radio button is missing", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_2']"), 10));     
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_2']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Bill Adjustment");
+		waitTitle(driver, "ETHOS", 10);
+	    assertTrue("Level/Adjustment Type: is missing for the product group", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), 10));     
 	    
 	}
-	@Test//passed
-	public void clientMaintenance_VerifyUpdateLevelAsDeliveryPoint() throws Exception  {
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyUpdateLevelAsDeliveryPoint(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product1 = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product1.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[3]/td[2]/table/tbody/tr[4]/td/input"));//group radio button
-	    waitTitle(driver, " ETHOS ", 10);
-	   assertTrue(elementPresent(driver,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[7]/td/input" ), 10));//assert 
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		assertTrue("Delivery point radio button is missing", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"), 10));     
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Bill Adjustment");
+		waitTitle(driver, "ETHOS", 10);
+	    assertTrue("Level/Adjustment Type: is missing for the product group", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), 10));     
     
 	}
 	
-	@Test//passed
-	public void clientMaintenance_VerifyDeliveryPointAndLevelAdjustment() throws Exception  {
+	//
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyDefaultDateToCurrentDate(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product1 = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product1.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[3]/td[2]/table/tbody/tr[4]/td/input"));//group radio button
-	    waitTitle(driver, " ETHOS ", 10);
-	    org.openqa.selenium.support.ui.Select leveladjustnment = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[4]/td[2]/select")));
-	    leveladjustnment.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	   assertTrue(elementPresent(driver,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[7]/td/input" ), 10));//assert reset
-	    
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));	
+		// Other code here
+		/*String toDate=safeGetText(driver, By.xpath("//*[@id='ctl00_cphMainContent_txtDateFrom']"));
+	    System.out.println(toDate);*/
+		String toDate="04/04/2014";
+	    //toDate = "05/11/2010";
+
+	    // Value assigned to toDate somewhere in here
+
+	    DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+	    Calendar currDtCal = Calendar.getInstance();
+
+	    // Zero out the hour, minute, second, and millisecond
+	    currDtCal.set(Calendar.HOUR_OF_DAY, 0);
+	    currDtCal.set(Calendar.MINUTE, 0);
+	    currDtCal.set(Calendar.SECOND, 0);
+	    currDtCal.set(Calendar.MILLISECOND, 0);
+
+	    Date currDt = currDtCal.getTime();
+
+	    Date toDt;
+	    toDt = df.parse(toDate);
+
+	    if (currDt.equals(toDt)) {
+	    	System.out.println("same");
+	        // They're the same date
+	    }
+	    /*DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	    Date date = new Date();*/
+	    /*System.out.println(dateFormat.format(date));*/
+	   /* safeClick(driver,By.xpath("//*[@id='spanctl00_cphMainContent_txtDateFrom']/img"));
+	    String dat1=safeGetText(driver, By.xpath("//*[@id='CalendarControl']/table/tbody/tr[3]/td[6]/a"));
+	    System.out.println(dat1);
+	    String ethosdate=safeGetText(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"));
+	    System.out.println(ethosdate);*/
+        
 	}
 	
-	/*@Test//
-	public void clientMaintenance_VerifyResetButton() throws Exception  {
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyDefaultDateToOpenSelected(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-	    org.openqa.selenium.support.ui.Select product1 = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product1.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[3]/td[2]/table/tbody/tr[4]/td/input"));//delivery point
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[6]/td[2]/span/img"));//default date to 
-	    safeClick(driver, By.xpath("//div[2]/table/tbody/tr[7]/td[5]/a"));//select default date to
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[7]/td/input"));//
-	    waitTitle(driver, " ETHOS ", 10);
-	    String active="";
-	    assertEquals(active,safeGetText(driver,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[6]/td[2]/span/input")));    
-	}*/
-	
-	@Test//passed
-	public void clientMaintenance_VerifyImportFileErrorMessage() throws Exception  {
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));	    
+		assertTrue("Deafault date to Open selected is not there ", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_chkDateBox_txtDateTo']"), 10));     
+        
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyDefaultDateToOpenDiselected(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-		org.openqa.selenium.support.ui.Select product = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[2]/td[2]/select")));
-	    product.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-		
-		org.openqa.selenium.support.ui.Select level = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-		level.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10); 
-	    driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table[2]/tbody/tr/td[2]/div/input[1]")).sendKeys("Bharath");
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table[2]/tbody/tr/td[2]/div/input[3]"));//
-	    waitTitle(driver, " ETHOS ", 10);
-	    assertTrue(elementPresent(driver,By.xpath("//div[3]/div[4]/div[2]/table[2]/tbody/tr/td[2]/div/span" ), 10));//assert erroe message    
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));	
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_chkDateBox_txtDateTo']"));
+		assertTrue("Inbox is not displayed", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_txtDateTo']"), 10));     
+        
 	}
 	
-	@Test//passed
-	public void clientMaintenance_VerifyRemoveButton() throws Exception  {
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyResetButton(String item) throws Exception  {
 		
-		waitForPagetoLoad_Element(driver, 10,By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select"));
-		org.openqa.selenium.support.ui.Select product = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[1]/td[2]/select")));
-	    product.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		assertTrue("Delivery point radio button is missing", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"), 10));     
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Bill Adjustment");
+		waitTitle(driver, "ETHOS", 10);
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_btnResetFilter']"));
+		waitForPagetoLoad_Element(driver, 10, By.xpath("//*[@id='ctl00_cphMainContent_btnRemove']"));
+		assertTrue("Reset button didn't reset the values",new Select(driver.findElement(By.id("ctl00_cphMainContent_ddlProductGroup"))).getFirstSelectedOption().getText().contains("Select Product Group"));
 		
-		org.openqa.selenium.support.ui.Select level = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[2]/td[2]/select")));
-		level.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10); 
-	    org.openqa.selenium.support.ui.Select leveladjust = new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//div[3]/div[4]/div[2]/table/tbody/tr[4]/td[2]/select")));
-	    leveladjust.selectByIndex(1);
-	    waitTitle(driver, " ETHOS ", 10);
-	    safeClick(driver, By.xpath("//div[3]/div[4]/div[2]/table[2]/tbody/tr[5]/td[2]/input"));//remove buttton
-	    waitTitle(driver, " ETHOS ", 10);    
-	    assertTrue(elementPresent(driver,By.xpath("//div[3]/div[4]/div[2]/table[2]/tbody/tr[5]/td[2]/input" ), 10));//assert error message    
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyImportFile(String item) throws Exception  {
+		
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Gas");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProduct']"), "Gas Supply");
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_0']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "CLIENT_DESC");
+		waitTitle(driver, "ETHOS", 10);
+		String value="\\\\192.168.185.43\\Automation_import\\017_CLIENT_GRP.xls";
+		safeType(driver,By.id("ctl00_cphMainContent_txtFile"),value);
+		safeClick(driver,By.id("ctl00_cphMainContent_btnImport"));
+		waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent_btnImport"));
+		assertTrue("Import Levels/Adjustments - Review",driver.findElement(By.id("ctl00_lblTitle")).getText().contains("Import Levels/Adjustments - Review"));
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyCommit(String item) throws Exception  {
+		
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Gas");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProduct']"), "Gas Supply");
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_0']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "CLIENT_DESC");
+		waitTitle(driver, "ETHOS", 10);
+		String value="\\\\192.168.185.43\\Automation_import\\017_CLIENT_GRP.xls";
+		safeType(driver,By.id("ctl00_cphMainContent_txtFile"),value);
+		safeClick(driver,By.id("ctl00_cphMainContent_btnImport"));
+		waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent_btnImport"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnCommit"));
+		assertTrue("The data was not imported successfully.",driver.findElement(By.xpath("//*[@id='ctl00_cphMainContent_pnlSuccess']/span")).getText().contains("The data was imported successfully."));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnCommit"));
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyDataOverwrite(String item) throws Exception  {
+		
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Gas");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProduct']"), "Gas Supply");
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_0']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "CLIENT_DESC");
+		waitTitle(driver, "ETHOS", 10);
+		String value="\\\\192.168.185.43\\Automation_import\\017_CLIENT_GRP.xls";
+		safeType(driver,By.id("ctl00_cphMainContent_txtFile"),value);
+		safeClick(driver,By.id("ctl00_cphMainContent_btnImport"));
+		waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent_btnImport"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnCommit"));
+		assertTrue("Overwrite messgage is not there..",driver.findElement(By.id("ctl00_cphMainContent_pnlNoErrors")).getText().contains("The spreadsheet does not contain any errors. Click commit to save the data."));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnCommit"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnFinish"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnFinish"));
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyImportFileErrorMessage(String item) throws Exception  {
+		
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		assertTrue("Delivery point radio button is missing", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"), 10));     
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Bill Adjustment");
+		waitTitle(driver, "ETHOS", 10);
+		safeType(driver, By.xpath("//*[@id='ctl00_cphMainContent_txtFile']"), "file");
+		safeClick(driver,By.id("ctl00_cphMainContent_btnImport"));
+		waitTitle(driver, "ETHOS", 10);
+		assertTrue("Failure message is not there",elementPresent(driver, By.id("ctl00_cphMainContent_lblStatus"), 10));
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyExportLevelsadjustmentsTemplate(String item) throws Exception  {
+		
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		assertTrue("Delivery point radio button is missing", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"), 10));     
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Bill Adjustment");
+		waitTitle(driver, "ETHOS", 10);
+		cancelDownloader(driver, "ctl00_cphMainContent_btnExportTemplate");
+		
+	}
+	//passed
+	@Test(dataProvider = "EFA", dependsOnMethods = {"ethosSignin"})
+	public void clientMaintenance_VerifyRemoveButton(String item) throws Exception  {
+		
+		navigateToClientMaintenanceGroup(driver, "Import Levels & Adjustments");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProductGroup']"), "Electricity");
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlProduct']"), "Half Hourly Electricity");
+		waitTitle(driver, "ETHOS", 10);
+		assertTrue("Delivery point radio button is missing", elementPresent(driver, By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"), 10));     
+		safeClick(driver,By.xpath("//*[@id='ctl00_cphMainContent_radioUpdateLevel_3']"));
+		waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.xpath("//*[@id='ctl00_cphMainContent_ddlLevAdjType']"), "Bill Adjustment");
+		waitTitle(driver, "ETHOS", 10);
+		safeClick(driver, By.id("ctl00_cphMainContent_btnRemove"));
+		dismissAlert(driver, "Are you sure you want to remove all levels/adjustments that apply within the specified date range?");
+		
 	}
 
 	

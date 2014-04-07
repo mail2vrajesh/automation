@@ -18,7 +18,7 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
-		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
@@ -124,8 +124,8 @@ public class VolumeIntervalDataRemoval extends ETHOSDomainWraper{
 	}
 	@AfterClass
 	public void closeSelenium() throws Exception {
-		driver.close();
-		driver.quit();
+	//	driver.close();
+	//	driver.quit();
 		}
 	@AfterMethod (alwaysRun = true)
 	public void takeScreenshot(ITestResult _result) throws Exception{

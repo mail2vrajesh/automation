@@ -1,12 +1,8 @@
 package ethos.test;
 	
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -24,7 +20,7 @@ public class SystemAndSubCategories extends ETHOSDomainWraper {
 	
 		@BeforeClass
 		public void startSelenium() throws Exception {	
-			driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+			driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);		
 		}
@@ -360,111 +356,7 @@ public class SystemAndSubCategories extends ETHOSDomainWraper {
 					e.printStackTrace();
 					}
 			}
-		//passed
-		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
-		public void VerifyHeading_NHHConfigurationBands(String item) throws InterruptedException, ErrorPageException {
-					
-			try {
-				navigateToNHHConfigurationBrands(driver);
-				assertEquals(safeGetText(driver,By.id("ctl00_lblTitle")),"Non Half Hourly Meter Time Bands");
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					}
-			}
-		//passed
-		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
-		public void VerifySubHeading_NHHConfigurationBands(String item) throws InterruptedException, ErrorPageException {
-					
-			try {
-				navigateToNHHConfigurationBrands(driver);
-				String value=safeGetText(driver,By.id("maincontent"));
-				assertTrue(elementPresent(driver, By.id("maincontent"), 10));
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					}
-			}
-		//passed
-		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
-		public void VerifyTable_NHHConfigurationBands(String item) throws InterruptedException, ErrorPageException {
-					
-			try {
-				navigateToNHHConfigurationBrands(driver);
-				assertTrue(elementPresent(driver, By.id("ctl00_cphMainContent_gvDPConfigDetail"), 10));
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					}
-			}
-		//passed
-		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
-		public void VerifySelectLink_NHHConfigurationBands(String item) throws InterruptedException, ErrorPageException {
-					
-			try {
-				navigateToNHHConfigurationBrands(driver);
-				clickLink(driver, "Select");
-				waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent__btnToList"));
-				assertTrue(elementPresent(driver, By.id("ctl00_cphMainContent__btnToList"), 10));
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					}
-			}
-		//passed
-		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
-		public void VerifyDeleteLink_NHHConfigurationBands(String item) throws InterruptedException, ErrorPageException {
-					
-			try {
-				navigateToNHHConfigurationBrands(driver);
-				clickLink(driver, "Select");
-				waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent__btnToList"));
-				safeClick(driver, By.id("ctl00_cphMainContent__btnDelete"));
-				dismissAlert(driver, "Are you sure you want to delete this item?");
-				waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent__btnToList"));
-				assertTrue(elementPresent(driver, By.id("ctl00_cphMainContent__btnToList"), 10));
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					}
-			}
-		//passed
-		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
-		public void VerifyExportLink_NHHConfigurationBands(String item) throws InterruptedException, ErrorPageException {
-					
-			try {
-				navigateToNHHConfigurationBrands(driver);
-				waitForPagetoLoad_Element(driver, 10,By.id("ctl00_lblTitle"));
-				waitForPagetoLoad_Element(driver, 10,By.linkText("Export"));
-				safeClick(driver, By.linkText("Export"));
-				eDownloader(driver, ".grid-pager>a");
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					}
-			}
-		//passed
-		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
-		public void VerifyAddNew_NHHConfigurationBands(String item) throws InterruptedException, ErrorPageException {
-					
-			try {
-				navigateToNHHConfigurationBrands(driver);
-				waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent_btnAddNew"));
-				safeClick(driver, By.id("ctl00_cphMainContent_btnAddNew"));
-				waitForPagetoLoad_Element(driver, 10, By.id("ctl00_cphMainContent__btnSave"));
-				safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlRateType"), "BSUoS Charge");
-				waitTitle(driver, "Ethos", 10);
-				safeSelectByText(driver, By.xpath("//div[2]/div[5]/div[2]/div/table/tbody/tr[2]/td[2]/select"), "BSUoS Charge");
-				waitTitle(driver, "Ethos", 10);
-				driver.findElement(By.id("ctl00_cphMainContent_txtConsumptionFactor")).sendKeys("555");
-				driver.findElement(By.id("ctl00_cphMainContent_txtTimePatternRegimeCode")).sendKeys("55");
-				safeClick(driver, By.id("ctl00_cphMainContent__btnSave"));
-				assertEquals(safeGetText(driver, By.id("__lbl__lblctl00_cphMainContent_ddlRateType")), "BSUoS Charge");
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					}
-			}
+		
 		//passed
 		@Test(dataProvider = "Future", dependsOnMethods = {"ethosSignin"})
 		public void VerifyHeading_Currencies(String item) throws InterruptedException, ErrorPageException {

@@ -21,7 +21,7 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
-		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
@@ -166,10 +166,102 @@ public class VolumeIntervalDataSummarise extends ETHOSDomainWraper{
 		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
 	}
 	
+	
+	@Test
+	public void reportAggSiteWithMultiDPs() throws Exception
+	{	
+		selectElectricityProducts();
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+	
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateFrom"), "01-Dec-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateTo"), "01-Mar-2014");
+		
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSum_0"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioToFile_1"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		textPresent(driver, "Please configure how you want to sum the interval data", 7);
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
+	}
+	
+	@Test
+	public void reportAggSiteNoWithMultiDPs() throws Exception
+	{	
+		selectElectricityProducts();
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+	
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateFrom"), "01-Dec-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateTo"), "01-Mar-2014");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_1"));
+		
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSum_0"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioToFile_1"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		textPresent(driver, "Please configure how you want to sum the interval data", 7);
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
+	}
+	
+	@Test
+	public void reportOutPutFileYes() throws Exception
+	{	
+		selectElectricityProducts();
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+	
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateFrom"), "01-Dec-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateTo"), "01-Mar-2014");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_1"));
+		
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSum_0"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioToFile_0"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		textPresent(driver, "Please configure how you want to sum the interval data", 7);
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
+		assertTrue("Export link not available",elementVisible(driver, By.id("ctl00_cphMainContent_lnkExport"), 4));
+	}
+	
+	@Test
+	public void reportOutPutFileNo() throws Exception
+	{	
+		selectElectricityProducts();
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+	
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateFrom"), "01-Dec-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_txtDateTo"), "01-Mar-2014");
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSiteLevel_1"));
+		
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+		safeClick(driver, By.id("ctl00_cphMainContent_radioSum_0"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_radioToFile_1"));
+		
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		textPresent(driver, "Please configure how you want to sum the interval data", 7);
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue("Summary Results not shown",textPresent(driver, "Summarise Interval Data - Results", 8));
+	}
+	
 	@AfterClass
 	public void closeSelenium() throws Exception {
 		driver.close();
-		driver.quit();
+	driver.quit();
 		}
 	@AfterMethod (alwaysRun = true)
 	public void takeScreenshot(ITestResult _result) throws Exception{

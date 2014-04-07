@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.Select;
 import com.common.ErrorPageException;
 import com.common.FrameworkCommon;
 public class ETHOSDomainWraper extends FrameworkCommon {
+	public RemoteWebDriver driver;
 	 public HashMap < String, String > loc = Metrics_readValuesFromCSV();
 
 	public void ethosLogin(RemoteWebDriver driver,String username, String Password)
@@ -107,7 +108,9 @@ public class ETHOSDomainWraper extends FrameworkCommon {
 			throws InterruptedException, ErrorPageException, Exception {
 		
 			safeClick(driver, By.linkText("Client"));
+			waitForPagetoLoad_Element(driver, 3, By.cssSelector("#maincontent>ul>li:nth-child(2)>div>b>a"));
 			safeClick(driver, By.cssSelector("#maincontent>ul>li:nth-child(2)>div>b>a"));
+			waitForPagetoLoad_Element(driver, 3, By.cssSelector("#maincontent>ul>li:nth-child(1)>div>b>a"));
 			safeClick(driver, By.cssSelector("#maincontent>ul>li:nth-child(1)>div>b>a"));
 			
 	}
@@ -126,6 +129,7 @@ public class ETHOSDomainWraper extends FrameworkCommon {
 	/*bharath
 	 * 
 	 */
+	
 	public void navigateToSecurityRoles(RemoteWebDriver driver)
 			throws InterruptedException, ErrorPageException, Exception {
 	
@@ -163,7 +167,7 @@ public class ETHOSDomainWraper extends FrameworkCommon {
 			navigateToNHHConfiguration(driver);
 			waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphMainContent_btnAddNew"));
 			safeClick(driver, By.linkText("Select"));
-			waitForPagetoLoad_Element(driver, 10,By.id("ctl00_lblTitle"));
+			waitForPagetoLoad_Element(driver, 10,By.id("ctl00_cphParentContent_DPConfigHeader1_Repeater1_ctl00_btnOptions"));
 			safeClick(driver, By.id("ctl00_cphParentContent_DPConfigHeader1_Repeater1_ctl00_btnOptions"));
 			safeClick(driver, By.id("ctl00_cphParentContent_DPConfigHeader1_Repeater1_ctl00_lnkBands"));			
 	}
@@ -269,6 +273,25 @@ public class ETHOSDomainWraper extends FrameworkCommon {
 			waitForPagetoLoad_Element(driver, 10,By.linkText(linktext));
 			safeClick(driver, By.linkText(linktext));
 			
+	}
+	public void navigateToClientMaintenanceProductGroupSettings(RemoteWebDriver driver, String groupType)
+			throws InterruptedException, ErrorPageException, Exception {
+		
+			navigateToClientMaintenance(driver);
+			safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
+			safeClick(driver, By.id("ctl00_cphMainContent_btnApply"));
+			safeClick(driver, By.cssSelector("#ctl00_cphMainContent_gvClientGroup>tbody>tr:nth-child(2)>td:nth-child(1)>a"));
+			safeClick(driver, By.id("ctl00_cphParentContent_ClientGroupHeader1_Repeater1_ctl00_btnOptions"));
+			safeClick(driver,By.linkText("Levels & Adjustments"));
+			waitForPagetoLoad_Element(driver, 10, By.id("ctl00$cphMainContent$btnResetFilter"));
+			safeClick(driver, By.id("ctl00_cphParentContent_ClientGroupHeader1_Repeater1_ctl00_btnOptions"));
+			safeClick(driver,By.linkText(groupType));
+	}
+	public void navigateToLoadingIntervalData(RemoteWebDriver driver)
+			throws InterruptedException, ErrorPageException, Exception {
+		
+			navigateToScreen(driver,"Client","Volume");
+			navigateToScreen(driver,"Interval Data","Load");
 	}
 	
 	public void openUrl(String url) {
@@ -478,6 +501,14 @@ public void goToVolumeDataPage() throws Exception {
 			driver.findElement(locator).click();
 	
 	}
+	
+	public void safeCheck(RemoteWebDriver driver, By locator)
+	{
+		if(driver.findElement(locator).getAttribute("checked")==null)
+			driver.findElement(locator).click();
+	
+	}
+	
 	public void findDelPoint(String dp) throws Exception
 	{
 		safeType(driver, By.id("ctl00_cphMainContent_DPTreeControl1_txtFindDP"), dp);
@@ -493,8 +524,47 @@ public void goToVolumeDataPage() throws Exception {
 	
 	}
 	
+	public void safeUnCheck(RemoteWebDriver driver, By locator)
+	{
+		if(driver.findElement(locator).getAttribute("checked")!=null)
+			driver.findElement(locator).click();
+	
+	}
+	
+	public void navigateToRFQScreen(RemoteWebDriver driver, String rfq) throws Exception {
+		
+		navigateToScreen(driver, "Client","Event");
+		safeClick(driver, By.linkText("Events"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnApply"));
+		safeClick(driver, By.id("ctl00_cphMainContent_gvEventList_ctl02_lnkEventReference"));
+		safeClick(driver, By.id("ctl00_cphParentContent_EventHeader1_Repeater1_ctl00_btnOptions"));
+		safeClick(driver, By.linkText("RFQ Documents"));
+		safeClick(driver, By.linkText(rfq));
+	}
+	
+	public void navigateToCalculateTriad(RemoteWebDriver driver) throws Exception {
+		navigateToScreen(driver, "Data Management", "Triad Periods");
+		safeClick(driver, By.id("ctl00_cphMainContent_gvZoneTriadPeriod_ctl02_lnkSelect"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnCalculateTriadDemand"));
+		
+	}
+	
 	public void goToGenericLookupItems() throws Exception
 	{
 		goToPage(new String[]{"System","Generic Look Up Items"});
+	}
+	
+	public void navigateToFlexPurchase(RemoteWebDriver driver, String linkText) throws Exception {
+		navigateToScreen(driver,"Client","Contract");
+		
+		safeClick(driver, By.linkText("Contracts"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
+		safeSelectByText(driver, By.id("ctl00_cphMainContent_ddlProductGroup"),"Gas");
+		safeClick(driver, By.id("ctl00_cphMainContent_btnApply"));
+		safeClick(driver, By.id("ctl00_cphMainContent_gvContractList_ctl02_lbFullName"));
+		safeClick(driver, By.id("ctl00_cphParentContent_ContractHeader1_Repeater1_ctl00_btnOptions"));
+		safeClick(driver, By.linkText("Flex Purchasing"));
+		safeClick(driver, By.id("ctl00_cphParentContent_FlexPurchasingHeader1_btnOptions"));
+		safeClick(driver, By.linkText(linkText));
 	}
 }

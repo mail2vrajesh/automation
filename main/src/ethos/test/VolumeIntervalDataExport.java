@@ -20,7 +20,7 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 	
 	@BeforeClass
 	public void startBrowser() throws Exception {	
-		driver=(RemoteWebDriver) getDriver(cachedProperties.value("ethosbrowser"));
+		driver=(RemoteWebDriver) getDriver(driver, cachedProperties.value("ethosbrowser"));
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		openUrl(cachedProperties.value("Ethos_url"));
@@ -96,6 +96,64 @@ public class VolumeIntervalDataExport extends ETHOSDomainWraper{
 		assertTrue("Reset button didn't reset the values",driver.findElement(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox")).getAttribute("checked")==null);
 	}
 	
+	@Test
+	public void intervalDataExport() throws Exception
+	{
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeType(driver, By.id("ctl00_cphMainContent_dateFrom"), "01-Jan-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_dateTo"), "01-Mar-2014");
+		safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+
+		safeType(driver, By.id("ctl00_cphMainContent_txtExportPath"), "\\\\192.168.185.43\\EthosPublic\\Temp\\ETHOS\\");
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue(textPresent(driver, "Data successfully exported", 5));
+	}
+	
+	@Test
+	public void intervalDataExportRowColumn() throws Exception
+	{
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeType(driver, By.id("ctl00_cphMainContent_dateFrom"), "01-Jan-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_dateTo"), "01-Mar-2014");
+		safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+
+		safeType(driver, By.id("ctl00_cphMainContent_txtExportPath"), "\\\\192.168.185.43\\EthosPublic\\Temp\\ETHOS\\");
+		//Select row & column
+		safeClick(driver, By.id("ctl00_cphMainContent_radioFileFormat_0"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue(textPresent(driver, "Data successfully exported", 5));
+	}
+	
+	@Test
+	public void intervalDataExportSingleRow() throws Exception
+	{
+		selectDropDown(By.id("ctl00_cphMainContent_ddlProductGroup"), "Electricity");
+		waitForPageLoaded(driver);
+		
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeCheck(By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		
+		safeType(driver, By.id("ctl00_cphMainContent_dateFrom"), "01-Jan-2013");
+		safeType(driver, By.id("ctl00_cphMainContent_dateTo"), "01-Mar-2014");
+		safeSelectByText(driver,By.id("ctl00_cphMainContent_ddlTimeBasis"), "Base Time (e.g. GMT, UTC)");
+
+		safeType(driver, By.id("ctl00_cphMainContent_txtExportPath"), "\\\\192.168.185.43\\EthosPublic\\Temp\\ETHOS\\");
+		//Select row & column
+		safeClick(driver, By.id("ctl00_cphMainContent_radioFileFormat_1"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+		assertTrue(textPresent(driver, "Data successfully exported", 5));
+	}
+
 	@Test
 	public void chkInactive() throws Exception
 	{

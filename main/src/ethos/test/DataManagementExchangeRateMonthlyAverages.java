@@ -1,7 +1,5 @@
 package ethos.test;
 	
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
