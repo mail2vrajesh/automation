@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 
 import com.domain.ETHOSDomainWraper;
 
-public class VolumeDataTotals extends ETHOSDomainWraper{
+public class S12_VolumeDataTotals extends ETHOSDomainWraper{
 
 
 	@BeforeClass
@@ -38,7 +38,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyProductGrp() throws Exception
+	public void S12_1_verifyProductGrp() throws Exception
 	{
 		String[] productGrps={"Electricity","Gas","Oil"};
 		ArrayList<String> actProducts=getOptionsDropdown(By.id("ctl00_cphMainContent_ddlProductGroup"));
@@ -50,7 +50,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyProductInProdGrps() throws Exception
+	public void S12_2_verifyProductInProdGrps() throws Exception
 	{
 			HashMap<String, String[]> prdGrpProdMap=new HashMap<String, String[]>();
 			prdGrpProdMap.put("Electricity",new String[]{"Half Hourly Electricity","Non Half Hourly Electricity"});
@@ -67,7 +67,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyVolumeDataTotals() throws Exception
+	public void S12_3_verifyVolumeDataTotals() throws Exception
 	{
 		selectElectricityProducts();
 		safeUnCheck(By.id("ctl00_cphMainContent_chkBestAvailable"));
@@ -82,7 +82,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void verifyRegisteredAQData() throws Exception
+	public void S12_4_verifyRegisteredAQData() throws Exception
 	{
 		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
 		waitForPageLoaded(driver);
@@ -96,7 +96,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyMonthlyActualData() throws Exception
+	public void S12_5_verifyMonthlyActualData() throws Exception
 	{
 		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
 		waitForPageLoaded(driver);
@@ -112,7 +112,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyMonthlyTenderForecast() throws Exception
+	public void S12_6_verifyMonthlyTenderForecast() throws Exception
 	{
 		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
 		waitForPageLoaded(driver);
@@ -128,7 +128,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyBilledDataVolData() throws Exception
+	public void S12_7_verifyBilledDataVolData() throws Exception
 	{
 		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
 		waitForPageLoaded(driver);
@@ -145,7 +145,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	
 	
 	@Test
-	public void verifyEmptyVolumeDataTotals() throws Exception
+	public void S12_8_verifyEmptyVolumeDataTotals() throws Exception
 	{
 		selectElectricityProducts();
 		safeUnCheck(By.id("ctl00_cphMainContent_chkBestAvailable"));
@@ -162,7 +162,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyDataForMultipleSites() throws Exception
+	public void S12_9_verifyDataForMultipleSites() throws Exception
 	{
 		selectElectricityProducts();
 		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-14");
@@ -178,7 +178,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	
 	//Need site with monthly data
 	@Test
-	public void verifyVolDataWithSiteMonthlyData() throws Exception
+	public void S12_10_verifyVolDataWithSiteMonthlyData() throws Exception
 	{
 		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
 		waitForPageLoaded(driver);
@@ -197,7 +197,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	
 	//Need site with Daily interval data
 	@Test
-	public void verifyVolDataWithSiteDailyData() throws Exception
+	public void S12_11_verifyVolDataWithSiteDailyData() throws Exception
 	{
 		selectDropDown(By.xpath("//select[contains(@id,'ddlProductGroup')]"), "Gas");
 		waitForPageLoaded(driver);
@@ -216,7 +216,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	
 	//Need site with Daily interval data
 	@Test
-	public void verifyVolDataWithSiteHourlyData() throws Exception
+	public void S12_12_verifyVolDataWithSiteHourlyData() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -230,7 +230,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 		
 	@Test
-	public void verifyAggDataSiteLevel() throws Exception
+	public void S12_13_verifyAggDataSiteLevel() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -245,7 +245,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAggDataSiteLevelForSingleDP() throws Exception
+	public void S12_14_verifyAggDataSiteLevelForSingleDP() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -259,7 +259,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyAggDataSiteLevelForMultipleDP() throws Exception
+	public void S12_15_verifyAggDataSiteLevelForMultipleDP() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -273,7 +273,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyDpSelectionNotAllowed() throws Exception
+	public void S12_16_verifyDpSelectionNotAllowed() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -287,7 +287,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	
 	
 	@Test
-	public void verifyAggDataSiteLevelNo() throws Exception
+	public void S12_17_verifyAggDataSiteLevelNo() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -302,7 +302,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void verifyDpSelectionAllowed() throws Exception
+	public void S12_18_verifyDpSelectionAllowed() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -316,7 +316,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	
 	
 	@Test
-	public void findDeliveryPoint() throws Exception
+	public void S12_20_findDeliveryPoint() throws Exception
 	{
 		selectElectricityProducts();
 		findDelPoint("1620000714190");
@@ -325,7 +325,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkResetBtn() throws Exception
+	public void S12_22_chkResetBtn() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_btnResetFilter"));
@@ -334,7 +334,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void chkInactive() throws Exception
+	public void S12_23_chkInactive() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_chkShowInactive"));
@@ -349,7 +349,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 	
 	@Test
-	public void tickAllUntickAll() throws Exception
+	public void S12_24_tickAllUntickAll() throws Exception
 	{
 		selectElectricityProducts();
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
@@ -367,7 +367,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	
 
 	@Test
-	public void verifyUnitBasisList() throws Exception
+	public void S12_25_verifyUnitBasisList() throws Exception
 	{
 			HashMap<String, String[]> prdGrpUnitBaseMap=new HashMap<String, String[]>();
 			prdGrpUnitBaseMap.put("Electricity",new String[]{"Factor","kVA","kVArh","kW","kWh","MW","MWh","Percentage","YearMonth"});
@@ -383,24 +383,9 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 			}
 	}
 
-	@Test
-	public void verifyNoToOutputFile() throws Exception
-	{
-		selectElectricityProducts();
-		safeUnCheck(By.id("ctl00_cphMainContent_chkBestAvailable"));
-		safeCheck(By.id("ctl00_cphMainContent_chkDetailedVolume"));
-		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
-		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
-		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
-		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
-		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
-	
-		assertTrue(textPresent(driver, "There are no items to display", 5));
-		
-	}
 
 	@Test
-	public void verifyChangeInUnitBasis() throws Exception
+	public void S12_26_verifyChangeInUnitBasis() throws Exception
 	{
 		selectElectricityProducts();
 		
@@ -415,7 +400,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
 	}
 	@Test
-	public void verifyYesToOutputFile() throws Exception
+	public void S12_27_verifyYesToOutputFile() throws Exception
 	{
 		selectElectricityProducts();
 		safeUnCheck(By.id("ctl00_cphMainContent_chkBestAvailable"));
@@ -432,7 +417,24 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 	}
 
 	@Test
-	public void chkResetBtnSiteDP() throws Exception
+	public void S12_28_verifyNoToOutputFile() throws Exception
+	{
+		selectElectricityProducts();
+		safeUnCheck(By.id("ctl00_cphMainContent_chkBestAvailable"));
+		safeCheck(By.id("ctl00_cphMainContent_chkDetailedVolume"));
+		safeType(driver, By.id("ctl00_cphMainContent_ymFrom"), "Jan-13");
+		safeType(driver, By.id("ctl00_cphMainContent_ymTo"), "Jan-14");
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n0CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_DPTreeView1n1CheckBox"));
+		safeClick(driver, By.id("ctl00_cphMainContent_btnNext"));
+	
+		assertTrue(textPresent(driver, "There are no items to display", 5));
+		
+	}
+
+	
+	@Test
+	public void S12_29_chkResetBtnSiteDP() throws Exception
 	{
 		safeClick(driver, By.id("ctl00_cphMainContent_DPTreeControl1_btnTickAll"));
 		waitForPageLoaded(driver);
@@ -443,7 +445,7 @@ public class VolumeDataTotals extends ETHOSDomainWraper{
 
 	
 	@Test
-	public void verifyBackButton() throws Exception
+	public void S12_31_verifyBackButton() throws Exception
 	{
 		selectElectricityProducts();
 		safeUnCheck(By.id("ctl00_cphMainContent_chkBestAvailable"));
